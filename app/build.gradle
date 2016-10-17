@@ -31,4 +31,6 @@ dependencies {
     compile 'pro.alexzaitsev:freepager:1.0.1'
     compile 'me.relex:circleindicator:1.2.2@aar'
     compile 'com.jude:rollviewpager:1.4.5@aar'
+    compile 'info.hoang8f:fbutton:1.0.5'
+    compile 'com.sothree.slidinguppanel:library:3.3.1@aar'
 }
