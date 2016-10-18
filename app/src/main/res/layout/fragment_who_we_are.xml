@@ -7,23 +7,23 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/infoLayout"
         android:weightSum="1">
 
         <FrameLayout
             android:id="@+id/slidingPanelHeader"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="#eded1e32">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="מי אנחנו"
-                android:layout_gravity="right|center_vertical"
-                android:textSize="28dp"
-                android:id="@+id/textView4"
+                android:layout_gravity="center"
+                android:textSize="30dp"
+                android:id="@+id/txtHeader"
                 android:textColor="#ffffff"
                 android:textStyle="bold"
                 android:clickable="false"
@@ -34,7 +34,8 @@
                 android:textAlignment="gravity"
                 android:textIsSelectable="false"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp" />
+                android:paddingRight="20dp"
+                android:linksClickable="false" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -47,41 +48,83 @@
                 android:layout_gravity="left|center_vertical" />
         </FrameLayout>
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/whoweare"
-            android:id="@+id/textView9"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:textDirection="rtl"
-            android:textSize="20dp"
-            android:autoText="false"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="-20dp" />
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/imageView8"
-            android:layout_gravity="center"
-            android:src="@drawable/logo"
-            android:cropToPadding="false"
-            android:scaleType="centerInside" />
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:id="@+id/imageView8"
+                android:src="@drawable/navarrowleft"
+                android:scaleType="centerInside"
+                android:layout_gravity="right"
+                android:layout_column="0"
+                android:layout_row="0" />
 
-        <Button
-            android:id="@+id/button2"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/button"
-            android:layout_centerHorizontal="true"
-            android:text="אודות החברה"
-            android:textColor="#fb0505"
-            android:layout_gravity="center_horizontal|bottom"
-            android:textSize="18dp"
-            android:layout_marginTop="-25dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:weightSum="1"
+                android:layout_column="1"
+                android:layout_row="0"
+                android:layout_toStartOf="@+id/imageView13"
+            android:layout_toEndOf="@+id/imageView8"
+                android:id="@+id/linearLayout">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView11"
+                    android:src="@drawable/smallogo"
+                    android:cropToPadding="false"
+                    android:layout_marginRight="-10dp"
+                    android:layout_marginLeft="-10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitXY"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/whoweare"
+                    android:id="@+id/textView4"
+                    android:textDirection="rtl"
+                    android:textSize="20dp"
+                    android:autoText="false"
+                    android:layout_marginTop="10dp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:id="@+id/imageView13"
+                android:src="@drawable/navarrow"
+                android:scaleType="centerInside"
+                android:layout_column="2"
+                android:layout_row="0"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="אודות החברה"
+                android:textColor="#fb0505"
+                android:layout_gravity="center_horizontal|bottom"
+                android:textSize="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
 </FrameLayout>
+

@@ -1,12 +1,14 @@
 package nldr.spamoff;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -64,7 +66,12 @@ public class howLongFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_how_long, container, false);
+        View v = inflater.inflate(R.layout.fragment_how_long, container, false);
+
+        TextView txtHeader = (TextView)v.findViewById(R.id.txtHeader);
+        txtHeader.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "fonts/Alef-Regular.ttf"));
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

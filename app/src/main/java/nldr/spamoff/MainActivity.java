@@ -1,22 +1,43 @@
 package nldr.spamoff;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.os.CountDownTimer;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.content.DialogInterface;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.gc.materialdesign.views.CheckBox;
+import com.gc.materialdesign.widgets.SnackBar;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
+import java.util.Timer;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity {
 
-    final Context context = this;
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -47,7 +68,93 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        final android.widget.CheckBox chkAccept =
+                (android.widget.CheckBox)findViewById(R.id.chkAcceptTerms);
+
+        final Context context = this;
+
+        ImageButton btnStop = (ImageButton)findViewById(R.id.btnStop);
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+
+                if (chkAccept.isChecked()) {
+                    new MaterialDialog.Builder(context)
+                            .positiveText("OK")
+                            .negativeText("NOT OK")
+                            .content(R.string.explenationModal)
+                            .title("מה הולך לקרות?")
+                            .titleGravity(GravityEnum.END)
+                            .buttonsGravity(GravityEnum.END)
+                            .contentGravity(GravityEnum.END)
+                            .positiveText("המשך")
+                            .negativeText("לא תודה")
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                    Snackbar.make(v, "lol", Snackbar.LENGTH_SHORT).show();
+                                }
+                            }).show();
+                } else {
+                    Snackbar snc = Snackbar.make(v, "אנא אשר שקראת את הכתוב למעלה", Snackbar.LENGTH_LONG);
+                    snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+                    snc.setAction("אשר", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            chkAccept.setChecked(true);
+                        }
+                    });
+                    snc.show();
+                }
+            }
+        });
+
+        btnStop.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        ImageButton view = (ImageButton) v;
+                        //overlay is black with transparency of 0x77 (119)
+                        view.getDrawable().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+                        view.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL: {
+                        ImageButton view = (ImageButton) v;
+                        //clear the overlay
+                        view.getDrawable().clearColorFilter();
+                        view.invalidate();
+                        break;
+                    }
+                }
+
+                return false;
+            }
+        });
+
+
+        SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
+        slidingUpPanelLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(null, "LOLLLLL", Snackbar.LENGTH_SHORT).show();
+                ((SlidingUpPanelLayout) v).onDragEvent(null); //setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        });
+        slidingUpPanelLayout.setDragView(R.id.sliding_layout);
     }
+
+    private void slideUp() {
+        SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
+        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        slidingUpPanelLayout.setDragView(findViewById(R.id.btnStop));
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,1 +1,1 @@
-include ':app', ':indicatorlib', ':MaterialDesign'
+include ':app', ':indicatorlib', ':MaterialDesign', 'SweetAlertsLib'
