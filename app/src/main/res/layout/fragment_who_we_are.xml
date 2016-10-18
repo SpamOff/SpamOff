@@ -1,0 +1,87 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".whoWeAreFragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/infoLayout"
+        android:weightSum="1">
+
+        <FrameLayout
+            android:id="@+id/slidingPanelHeader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#eded1e32">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="מי אנחנו"
+                android:layout_gravity="right|center_vertical"
+                android:textSize="28dp"
+                android:id="@+id/textView4"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:clickable="false"
+                android:contextClickable="false"
+                android:gravity="center|center_horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textAlignment="gravity"
+                android:textIsSelectable="false"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView7"
+                android:cropToPadding="false"
+                android:scaleType="matrix"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/slideup"
+                android:layout_gravity="left|center_vertical" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/whoweare"
+            android:id="@+id/textView9"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textDirection="rtl"
+            android:textSize="20dp"
+            android:autoText="false"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="-20dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imageView8"
+            android:layout_gravity="center"
+            android:src="@drawable/logo"
+            android:cropToPadding="false"
+            android:scaleType="centerInside" />
+
+        <Button
+            android:id="@+id/button2"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button"
+            android:layout_centerHorizontal="true"
+            android:text="אודות החברה"
+            android:textColor="#fb0505"
+            android:layout_gravity="center_horizontal|bottom"
+            android:textSize="18dp"
+            android:layout_marginTop="-25dp" />
+
+    </LinearLayout>
+
+</FrameLayout>
