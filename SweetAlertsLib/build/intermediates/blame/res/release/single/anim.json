@@ -8,12 +8,12 @@
         "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\src\\main\\res\\anim\\error_x_in.xml"
     },
     {
-        "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\release\\anim\\abc_slide_out_top.xml",
-        "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\anim\\abc_slide_out_top.xml"
-    },
-    {
         "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\release\\anim\\abc_fade_in.xml",
         "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\anim\\abc_fade_in.xml"
+    },
+    {
+        "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\release\\anim\\abc_slide_out_top.xml",
+        "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\anim\\abc_slide_out_top.xml"
     },
     {
         "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\release\\anim\\success_mask_layout.xml",

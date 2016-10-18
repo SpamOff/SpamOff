@@ -6,7 +6,8 @@ android {
 
     defaultConfig {
         applicationId "nldr.spamoff"
-        minSdkVersion 22
+        //minSdkVersion 22
+        minSdkVersion 23
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
