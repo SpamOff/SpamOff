@@ -19,4 +19,8 @@
     <color name="indicator_2">#64A4A4</color>
     <color name="indicator_3">#66D7B9</color>
     <color name="indicator_4">#FDBC7D</color>
+
+    <color name="book_loading_background">@android:color/transparent</color>
+    <color name="book_loading_book">#ffffff</color>
+    <color name="book_loading_page">#1E88E5</color>
 </resources>
