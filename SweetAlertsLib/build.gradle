@@ -5,7 +5,8 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        minSdkVersion 22
+        //minSdkVersion 22
+        minSdkVersion 23
     }
 
     lintOptions {
