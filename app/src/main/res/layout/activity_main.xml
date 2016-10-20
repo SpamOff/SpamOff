@@ -83,7 +83,6 @@
             android:gravity="center_vertical"
             android:layout_above="@+id/btnSpamOff"
             android:layout_centerHorizontal="true"
-            android:stateListAnimator="@anim/button_state_"
             android:layout_marginBottom="-20dp">
 
             <ImageView
