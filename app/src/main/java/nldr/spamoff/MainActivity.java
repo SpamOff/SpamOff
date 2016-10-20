@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,13 +32,22 @@ import com.gc.materialdesign.views.CheckBox;
 import com.gc.materialdesign.widgets.SnackBar;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.io.IOException;
 import java.util.Timer;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AsyncDataHandler.asyncTaskUIMethods {
 
-
+    final AsyncDataHandler.asyncTaskUIMethods lala = this;
+    static View rootView;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -74,28 +84,13 @@ public class MainActivity extends AppCompatActivity {
 
         final Context context = this;
 
-        ImageButton btnStop = (ImageButton)findViewById(R.id.btnStop);
+        ImageButton btnStop = (ImageButton)findViewById(R.id.btnSpamOff);
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
 
                 if (chkAccept.isChecked()) {
-                    new MaterialDialog.Builder(context)
-                            .positiveText("OK")
-                            .negativeText("NOT OK")
-                            .content(R.string.explenationModal)
-                            .title("מה הולך לקרות?")
-                            .titleGravity(GravityEnum.END)
-                            .buttonsGravity(GravityEnum.END)
-                            .contentGravity(GravityEnum.END)
-                            .positiveText("המשך")
-                            .negativeText("לא תודה")
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(MaterialDialog dialog, DialogAction which) {
-                                    Snackbar.make(v, "lol", Snackbar.LENGTH_SHORT).show();
-                                }
-                            }).show();
+                    sendSmsDataToServer(context);
                 } else {
                     Snackbar snc = Snackbar.make(v, "אנא אשר שקראת את הכתוב למעלה", Snackbar.LENGTH_LONG);
                     snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -119,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN: {
                         ImageButton view = (ImageButton) v;
                         //overlay is black with transparency of 0x77 (119)
+                        view.setElevation(10);
                         view.getDrawable().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
                         view.invalidate();
                         break;
@@ -137,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
         slidingUpPanelLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,12 +144,34 @@ public class MainActivity extends AppCompatActivity {
         slidingUpPanelLayout.setDragView(R.id.sliding_layout);
     }
 
+    private void sendSmsDataToServer(Context cntx) {
+
+        final Context context = cntx;
+
+        new MaterialDialog.Builder(context)
+                .positiveText("OK")
+                .negativeText("NOT OK")
+                .content(R.string.explenationModal)
+                .title("מה הולך לקרות?")
+                .titleGravity(GravityEnum.END)
+                .buttonsGravity(GravityEnum.END)
+                .contentGravity(GravityEnum.END)
+                .positiveText("המשך")
+                .negativeText("לא תודה")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+
+                        AsyncDataHandler.runTaskInBackground(null, context, "", "");
+                    }
+                }).show();
+    }
+
     private void slideUp() {
         SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
         slidingUpPanelLayout.setDragView(findViewById(R.id.btnStop));
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -176,6 +193,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void updateUI(String results) {
+        Snackbar.make(rootView, results, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFetchingCancelled(String errorText, Throwable cause) {
+        //Snackbar.make(null, errorText, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void startingToCheck(String checkName) {
+        //Snackbar.make(null, checkName, Snackbar.LENGTH_SHORT).show();
     }
 
     /**
@@ -206,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;

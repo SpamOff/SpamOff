@@ -76,23 +76,36 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
 
-        <ImageView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView9"
-            android:src="@drawable/presshere"
-            android:scaleType="fitStart"
-            android:layout_above="@+id/imageView10"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="-30dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView10"
-            android:src="@drawable/downarrow"
+            android:gravity="center_vertical"
             android:layout_above="@+id/btnSpamOff"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:stateListAnimator="@anim/button_state_"
+            android:layout_marginBottom="-20dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView10"
+                android:src="@drawable/downarrow"
+                android:layout_alignBottom="@+id/imageView9"
+                android:layout_toStartOf="@+id/imageView9"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="-7dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView9"
+                android:src="@drawable/presshere"
+                android:scaleType="fitStart"
+                android:layout_above="@+id/btnSpamOff"
+                android:layout_centerHorizontal="true" />
+
+        </LinearLayout>
 
         <!--<ImageButton
             android:layout_width="wrap_content"
@@ -198,7 +211,7 @@
                             android:cropToPadding="false"
                             android:scaleType="matrix"
                             android:layout_alignParentStart="true"
-                            android:src="@drawable/slideup"
+                            android:src="@drawable/slidingwhiten"
                             android:layout_gravity="left|center_vertical" />
                     </FrameLayout>
 

@@ -88,15 +88,15 @@
         "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_action_bar_title_item.xml"
     },
     {
-        "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\debug\\layout\\abc_activity_chooser_view.xml",
-        "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_activity_chooser_view.xml"
+        "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_bar_up_container.xml",
+        "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_action_bar_up_container.xml"
     },
     {
         "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\debug\\layout\\abc_popup_menu_item_layout.xml",
         "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_popup_menu_item_layout.xml"
     },
     {
-        "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_bar_up_container.xml",
-        "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_action_bar_up_container.xml"
+        "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\debug\\layout\\abc_activity_chooser_view.xml",
+        "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_activity_chooser_view.xml"
     }
 ]

@@ -7,7 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/SweetAlertsLib/SweetAlertsLib.iml" filepath="$PROJECT_DIR$/SweetAlertsLib/SweetAlertsLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/indicatorlib/indicatorlib.iml" filepath="$PROJECT_DIR$/indicatorlib/indicatorlib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/indicatorlib/indicatorlib.iml" filepath="$PROJECT_DIR$/indicatorlib/indicatorlib.iml" />
     </modules>
   </component>
 </project>
