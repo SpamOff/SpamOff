@@ -68,10 +68,8 @@ public class howMuchFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_how_much, container, false);
 
-/*
         TextView txtHeader = (TextView)v.findViewById(R.id.txtHeader);
         txtHeader.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "fonts/Alef-Regular.ttf"));
-*/
 
         return v;
     }

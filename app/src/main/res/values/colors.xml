@@ -19,10 +19,16 @@
     <color name="indicator_2">#64A4A4</color>
     <color name="indicator_3">#66D7B9</color>
     <color name="indicator_4">#FDBC7D</color>
-
-    <color name="book_loading_background">@android:color/transparent</color>
-    <color name="book_loading_book">#ffffff</color>
-    <color name="book_loading_page">#1E88E5</color>
     <color name="material_red_500">#F44336</color>
+    <color name="ourServcieHeader">#eded1e32</color>
+    <color name="whoAreWeHeader">#edb60718</color>
+    <color name="whyHeader">#ed6b050f</color>
+    <color name="howLongHeader">#ed220205</color>
+    <color name="howMuchHeader">#ed040001</color>
 
+    <color name="ourServcieHeaderText">#FFFFFF</color>
+    <color name="whoAreWeHeaderText">#FFFFFF</color>
+    <color name="whyHeaderText">#FFFFFF</color>
+    <color name="howLongHeaderText">#FFFFFF</color>
+    <color name="howMuchHeaderText">#FFFFFF</color>
 </resources>

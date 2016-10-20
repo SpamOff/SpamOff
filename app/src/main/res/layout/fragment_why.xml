@@ -16,7 +16,7 @@
             android:id="@+id/slidingPanelHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/fbutton_color_nephritis">
+            android:background="@color/whyHeader">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
                 android:layout_gravity="center"
                 android:textSize="30dp"
                 android:id="@+id/txtHeader"
-                android:textColor="#ffffff"
+                android:textColor="@color/whyHeaderText"
                 android:textStyle="bold"
                 android:clickable="false"
                 android:contextClickable="false"
@@ -36,7 +36,8 @@
                 android:textIsSelectable="false"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:linksClickable="false" />
+                android:linksClickable="false"
+                android:autoText="false" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -45,7 +46,7 @@
                 android:cropToPadding="false"
                 android:scaleType="matrix"
                 android:layout_alignParentStart="true"
-                android:src="@drawable/slideup"
+                android:src="@drawable/slidingwhiten"
                 android:layout_gravity="left|center_vertical" />
         </FrameLayout>
 
