@@ -23,4 +23,6 @@
     <color name="book_loading_background">@android:color/transparent</color>
     <color name="book_loading_book">#ffffff</color>
     <color name="book_loading_page">#1E88E5</color>
+    <color name="material_red_500">#F44336</color>
+
 </resources>

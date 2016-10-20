@@ -1,5 +1,9 @@
 [
     {
+        "merged": "C:\\Users\\lior\\Desktop\\SpamOff5.01\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v11\\abc_screen_content_include.xml",
+        "source": "C:\\Users\\lior\\Desktop\\SpamOff5.01\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout-v11\\abc_screen_content_include.xml"
+    },
+    {
         "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout-v11\\abc_screen_content_include.xml",
         "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout-v11\\abc_screen_content_include.xml"
     }

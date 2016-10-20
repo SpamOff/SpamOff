@@ -8,6 +8,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/MaterialDesign" />
+            <option value="$PROJECT_DIR$/SweetAlertsLib" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/indicatorlib" />
           </set>
@@ -15,6 +17,8 @@
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/MaterialDesign" />
+            <option value="$PROJECT_DIR$/SweetAlertsLib" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/indicatorlib" />
           </set>

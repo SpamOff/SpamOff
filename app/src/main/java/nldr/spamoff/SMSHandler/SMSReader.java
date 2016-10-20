@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorJoiner;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.provider.Telephony;
 
 import java.util.ArrayList;
@@ -31,19 +32,19 @@ public class SMSReader {
         try{
             if(phoneSMSCursor.getCount() == 0) {
                 if(simSMSCursor.getCount() > 0) {
-                    moveCursorToArrayList(simSMSCursor, united, date);
+                    moveCursorToArrayList(context, simSMSCursor, united, date);
                 }
                 return united;
 
             }
             else if(simSMSCursor.getCount() == 0){
-                moveCursorToArrayList(phoneSMSCursor, united, date);
+                moveCursorToArrayList(context, phoneSMSCursor, united, date);
                 return united;
             }
         }
         catch(Exception e){
 
-        }
+    }
 
 
          CursorJoiner joiner = new CursorJoiner(phoneSMSCursor, phoneTemplate, simSMSCursor, simTemplate);
@@ -62,7 +63,7 @@ public class SMSReader {
                      break;
              }
              SMSDate = new Date(chosenCursor.getLong(4));
-             if(SMSDate.after(date)) {
+             if(SMSDate.after(date) && contactExists(context, chosenCursor.getString(2))) {
                  temp = new SMSMessage();
                  temp.setAddress(chosenCursor.getString(2));
                  temp.setBody(chosenCursor.getString(5));
@@ -73,7 +74,7 @@ public class SMSReader {
         return united;
     }
 
-    private static void moveCursorToArrayList(Cursor cursor, ArrayList<SMSMessage> list, Date date) {
+    private static void moveCursorToArrayList(Context context, Cursor cursor, ArrayList<SMSMessage> list, Date date) {
         cursor.moveToFirst();
         SMSMessage temp;
         Date SMSDate;
@@ -81,7 +82,7 @@ public class SMSReader {
 
         while(!cursor.isAfterLast()) {
             SMSDate = new Date(cursor.getLong(4));
-            if(SMSDate.after(date)) {
+            if(SMSDate.after(date) && !contactExists(context, cursor.getString(2))) {
                 temp = new SMSMessage();
                 temp.setAddress(cursor.getString(2));
                 temp.setBody(cursor.getString(5));
@@ -129,5 +130,23 @@ public class SMSReader {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
+    }
+
+
+    public static boolean contactExists(Context context, String number) {
+        Uri lookupUri = Uri.withAppendedPath(
+                ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
+                Uri.encode(number));
+        String[] mPhoneNumberProjection = { ContactsContract.PhoneLookup._ID, ContactsContract.PhoneLookup.NUMBER, ContactsContract.PhoneLookup.DISPLAY_NAME };
+        Cursor cur = context.getContentResolver().query(lookupUri,mPhoneNumberProjection, null, null, null);
+        try {
+            if (cur.moveToFirst()) {
+                return true;
+            }
+        } finally {
+            if (cur != null)
+                cur.close();
+        }
+        return false;
     }
 }

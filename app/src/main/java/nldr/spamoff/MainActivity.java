@@ -3,6 +3,8 @@ package nldr.spamoff;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.CountDownTimer;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -44,12 +47,16 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.Date;
 
 import info.hoang8f.widget.FButton;
 import nldr.spamoff.SMSHandler.SMSReader;
 import nldr.spamoff.SMSHandler.SMSToJson;
+
 import java.util.Timer;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -76,30 +83,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final Activity mainActivity = this;
+        final Context context = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ImageButton btn = (ImageButton)findViewById(R.id.btnSpamOff);
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.requestPermissions(mainActivity,
-                        new String[]{android.Manifest.permission.READ_SMS, android.Manifest.permission.READ_PHONE_STATE},
-                        0);
-
-                try {
-                    JSONObject jsonObject = SMSToJson.parseAll(context, SMSReader.read(context, new Date(82233213123L)));
-                    Log.v("check", jsonObject.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-                Intent intent = new Intent(MainActivity.this, ScanResultsActivity.class);
-                startActivity(intent);
-            }
-        });
 
         /*FButton btnMoreInfo = (FButton)findViewById(R.id.btnMoreInfo);
 
@@ -123,10 +112,8 @@ public class MainActivity extends AppCompatActivity {
         final android.widget.CheckBox chkAccept =
                 (android.widget.CheckBox)findViewById(R.id.chkAcceptTerms);
 
-        final Context context = this;
 
-        ImageButton btnStop = (ImageButton)findViewById(R.id.btnStop);
-        btnStop.setOnClickListener(new View.OnClickListener() {
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
 
@@ -145,7 +132,32 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(MaterialDialog dialog, DialogAction which) {
                                     Snackbar.make(v, "lol", Snackbar.LENGTH_SHORT).show();
-                                }
+
+                                    ////lior's code
+
+                                    checkPermission(mainActivity, android.Manifest.permission.READ_CONTACTS);
+                                    checkPermission(mainActivity, android.Manifest.permission.READ_SMS);
+
+                                            try {
+                                              /*  new MaterialDialog.Builder(context)
+                                                        .title("שנייה לפני שמתחילים")
+                                                        .content("זה אולי ישמע כאילו אנחנו מתחילים איתך.. אבל... מה מספר הפלאפון שלך?")
+                                                        .inputType(InputType.TYPE_CLASS_NUMBER)
+                                                        .inputRangeRes(10, 10, R.color.material_red_500)
+                                                        .input("מספר הפלאפון", "05", new MaterialDialog.InputCallback() {
+                                                            @Override
+                                                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                                                                Snackbar.make(v, "looal", Snackbar.LENGTH_SHORT).show();
+                                                            }
+                                                        }).show();*/
+                                                JSONObject jsonObject = SMSToJson.parseAll(context, SMSReader.read(context, new Date(82233213123L)));
+
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
                             }).show();
                 } else {
                     Snackbar snc = Snackbar.make(v, "אנא אשר שקראת את הכתוב למעלה", Snackbar.LENGTH_LONG);
@@ -158,11 +170,13 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     snc.show();
+
+
                 }
             }
         });
 
-        btnStop.setOnTouchListener(new View.OnTouchListener() {
+      /*  btnStop.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -186,7 +200,11 @@ public class MainActivity extends AppCompatActivity {
 
                 return false;
             }
-        });
+        });*/
+
+
+
+
 
 
         SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
@@ -227,6 +245,35 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void checkPermission(Activity activity, String permission)
+    {
+        if (ContextCompat.checkSelfPermission(activity,
+                permission)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    permission)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{permission},
+                        0);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
     }
 
     /**
