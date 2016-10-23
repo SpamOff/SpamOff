@@ -1,13 +1,11 @@
-﻿package nldr.spamoff;
+package nldr.spamoff;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,60 +13,32 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
-import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.content.DialogInterface;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gc.materialdesign.views.CheckBox;
-import com.gc.materialdesign.widgets.SnackBar;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.security.acl.Permission;
-import java.util.ArrayList;
 import java.util.Date;
 
-import info.hoang8f.widget.FButton;
+import nldr.spamoff.AndroidStorageIO.LastScanIO;
 import nldr.spamoff.SMSHandler.SMSReader;
 import nldr.spamoff.SMSHandler.SMSToJson;
-
-import java.io.IOException;
-import java.util.Timer;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import nldr.spamoff.AndroidStorageIO.DateStorageIO;
 
 public class MainActivity extends AppCompatActivity implements AsyncDataHandler.asyncTaskUIMethods {
 
@@ -94,21 +64,57 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
     protected void onCreate(Bundle savedInstanceState) {
         final Activity mainActivity = this;
         final Context context = this;
+        final boolean isLastScanned;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageButton btn = (ImageButton)findViewById(R.id.btnSpamOff);
+        final ImageButton btnLastScan = (ImageButton)findViewById(R.id.lastScan);
+        ImageButton btnSpamOff = (ImageButton)findViewById(R.id.btnSpamOff);
 
+        isLastScanned = LastScanIO.read(context);
 
-        /*FButton btnMoreInfo = (FButton)findViewById(R.id.btnMoreInfo);
+        if(isLastScanned) {
+            btnLastScan.setOnTouchListener(new View.OnTouchListener() {
 
-        btnMoreInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, OurServiceActivity.class);
-                startActivity(intent);
-            }
-        });*/
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN: {
+                            ImageButton view = (ImageButton) v;
+                            //overlay is black with transparency of 0x77 (119)
+                            view.getDrawable().setColorFilter(0x55FFFFFF, PorterDuff.Mode.SRC_ATOP);
+                            view.invalidate();
+                            break;
+                        }
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_CANCEL: {
+                            ImageButton view = (ImageButton) v;
+                            //clear the overlay
+                            view.getDrawable().clearColorFilter();
+                            view.invalidate();
+                            break;
+                        }
+                    }
+
+                    return false;
+                }
+            });
+
+            setLastScanButtonOnClickListener(context, btnLastScan);
+
+        } else {
+            btnLastScan.getDrawable().setColorFilter(0xBBFFFFFF, PorterDuff.Mode.SRC_ATOP);
+            btnLastScan.invalidate();
+            btnLastScan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    Snackbar snc = Snackbar.make(v, "לא ביצעת סריקה בעבר", Snackbar.LENGTH_LONG);
+                    snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+                    snc.show();
+                }
+            });
+        }
+
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -122,62 +128,34 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         final android.widget.CheckBox chkAccept =
                 (android.widget.CheckBox)findViewById(R.id.chkAcceptTerms);
 
-        ImageButton btnSpamOff = (ImageButton)findViewById(R.id.btnSpamOff);
+        chkAccept.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    checkPermission(mainActivity, android.Manifest.permission.READ_CONTACTS);
+                    checkPermission(mainActivity, android.Manifest.permission.READ_SMS);
+                }
+            }
+        });
+
+
+
         btnSpamOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
 
                 if (chkAccept.isChecked()) {
-                    new MaterialDialog.Builder(context)
-                            .positiveText("OK")
-                            .negativeText("NOT OK")
-                            .content(R.string.explenationModal)
-                            .title("מה הולך לקרות?")
-                            .titleGravity(GravityEnum.END)
-                            .buttonsGravity(GravityEnum.END)
-                            .contentGravity(GravityEnum.END)
-                            .positiveText("המשך")
-                            .negativeText("לא תודה")
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(MaterialDialog dialog, DialogAction which) {
-                                    Snackbar.make(v, "lol", Snackbar.LENGTH_SHORT).show();
+                    showInfromativeDialog(v, context, isLastScanned, btnLastScan);
 
-                                    ////lior's code
-
-                                    checkPermission(mainActivity, android.Manifest.permission.READ_CONTACTS);
-                                    checkPermission(mainActivity, android.Manifest.permission.READ_SMS);
-
-                                            try {
-                                              /*  new MaterialDialog.Builder(context)
-                                                        .title("שנייה לפני שמתחילים")
-                                                        .content("זה אולי ישמע כאילו אנחנו מתחילים איתך.. אבל... מה מספר הפלאפון שלך?")
-                                                        .inputType(InputType.TYPE_CLASS_NUMBER)
-                                                        .inputRangeRes(10, 10, R.color.material_red_500)
-                                                        .input("מספר הפלאפון", "05", new MaterialDialog.InputCallback() {
-                                                            @Override
-                                                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                                                Snackbar.make(v, "looal", Snackbar.LENGTH_SHORT).show();
-                                                            }
-                                                        }).show();*/
-                                                JSONObject jsonObject = SMSToJson.parseAll(context, SMSReader.read(context, new Date(82233213123L)));
-
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                            }).show();
-                    sendSmsDataToServer(context);
                 } else {
                     Snackbar snc = Snackbar.make(v, "אנא אשר שקראת את הכתוב למעלה", Snackbar.LENGTH_LONG);
                     snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
                     snc.setAction("אשר", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
                             chkAccept.setChecked(true);
+                            showInfromativeDialog(v, context, isLastScanned, btnLastScan);
                         }
                     });
                     snc.show();
@@ -186,37 +164,6 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                 }
             }
         });
-
-      /*  btnStop.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN: {
-                        ImageButton view = (ImageButton) v;
-                        //overlay is black with transparency of 0x77 (119)
-                        view.setElevation(10);
-                        view.getDrawable().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
-                        view.invalidate();
-                        break;
-                    }
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL: {
-                        ImageButton view = (ImageButton) v;
-                        //clear the overlay
-                        view.getDrawable().clearColorFilter();
-                        view.invalidate();
-                        break;
-                    }
-                }
-
-                return false;
-            }
-        });*/
-
-
-
-
 
         SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
         slidingUpPanelLayout.setOnClickListener(new View.OnClickListener() {
@@ -229,9 +176,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         slidingUpPanelLayout.setDragView(R.id.sliding_layout);
     }
 
-    private void sendSmsDataToServer(Context cntx) {
-
-        final Context context = cntx;
+    private void showInfromativeDialog(final View v, final Context context, final boolean isLastScanned, final ImageButton btnLastScan){
 
         new MaterialDialog.Builder(context)
                 .positiveText("OK")
@@ -243,14 +188,63 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                 .contentGravity(GravityEnum.END)
                 .positiveText("המשך")
                 .negativeText("לא תודה")
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        DateStorageIO.write(context, 978300000000L);
+                        setLastScanButtonOnClickListener(context, btnLastScan);
+                    }
+                })
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(MaterialDialog dialog, DialogAction which) {
+                        try {
 
-                        AsyncDataHandler.runTaskInBackground(null, context, "", "");
+                            final long lastScanDate = DateStorageIO.read(context);
+                            runAsync(context, lastScanDate);
+
+                            DateStorageIO.write(context, System.currentTimeMillis());
+
+                            if (!isLastScanned) {
+                                LastScanIO.write(context, true);
+                                btnLastScan.getDrawable().clearColorFilter();
+                                btnLastScan.invalidate();
+
+                                setLastScanButtonOnClickListener(context, btnLastScan);
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }).show();
+
+
+
     }
+
+    private void runAsync(final Context context, long lastScanDate){
+        try {
+            JSONObject jsonObject = SMSToJson.parseAll(context, SMSReader.read(context, new Date(lastScanDate)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // AsyncDataHandler.runTaskInBackground(null, context, jsonObject.toString(), "");
+    }
+
+    private void setLastScanButtonOnClickListener(final Context context, ImageButton btnLastScan){
+        btnLastScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Intent intent = new Intent(context, lastScanActivity.class);
+                intent.putExtra("date", DateStorageIO.read(context));
+                intent.putExtra("money", 8000);
+                startActivity(intent);
+            }
+        });
+
+    }
+
 
     private void slideUp() {
         SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
@@ -280,8 +274,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         return super.onOptionsItemSelected(item);
     }
 
-    public void checkPermission(Activity activity, String permission)
-    {
+    public void checkPermission(Activity activity, String permission) {
         if (ContextCompat.checkSelfPermission(activity,
                 permission)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -307,6 +300,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                 // result of the request.
             }
         }
+    }
     @Override
     public void updateUI(String results) {
         Snackbar.make(rootView, results, Snackbar.LENGTH_SHORT).show();
