@@ -1,1 +1,2 @@
-include ':app', ':indicatorlib', 'SweetAlertsLib', 'MaterialDesign'
+include ':app', ':indicatorlib', 'SweetAlertsLib', 'MaterialDesign', ':GoogleProgress'
+project(':GoogleProgress').projectDir = new File('GoogleProgressBar/library')

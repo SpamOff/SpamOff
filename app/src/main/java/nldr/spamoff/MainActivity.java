@@ -1,10 +1,11 @@
 package nldr.spamoff;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
-import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,37 +13,32 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.DragEvent;
+import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.content.DialogInterface;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gc.materialdesign.views.CheckBox;
-import com.gc.materialdesign.widgets.SnackBar;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import java.io.IOException;
-import java.util.Timer;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import java.util.Date;
+
+import nldr.spamoff.AndroidStorageIO.LastScanIO;
+import nldr.spamoff.SMSHandler.SMSReader;
+import nldr.spamoff.SMSHandler.SMSToJson;
+import nldr.spamoff.AndroidStorageIO.DateStorageIO;
 
 public class MainActivity extends AppCompatActivity implements AsyncDataHandler.asyncTaskUIMethods {
 
@@ -66,8 +62,58 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final Activity mainActivity = this;
+        final Context context = this;
+        final boolean isLastScanned;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final ImageButton btnLastScan = (ImageButton)findViewById(R.id.lastScan);
+        ImageButton btnSpamOff = (ImageButton)findViewById(R.id.btnSpamOff);
+
+        isLastScanned = LastScanIO.read(context);
+
+        if(isLastScanned) {
+            btnLastScan.setOnTouchListener(new View.OnTouchListener() {
+
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN: {
+                            ImageButton view = (ImageButton) v;
+                            //overlay is black with transparency of 0x77 (119)
+                            view.getDrawable().setColorFilter(0x55FFFFFF, PorterDuff.Mode.SRC_ATOP);
+                            view.invalidate();
+                            break;
+                        }
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_CANCEL: {
+                            ImageButton view = (ImageButton) v;
+                            //clear the overlay
+                            view.getDrawable().clearColorFilter();
+                            view.invalidate();
+                            break;
+                        }
+                    }
+
+                    return false;
+                }
+            });
+
+            setLastScanButtonOnClickListener(context, btnLastScan);
+
+        } else {
+            btnLastScan.getDrawable().setColorFilter(0xBBFFFFFF, PorterDuff.Mode.SRC_ATOP);
+            btnLastScan.invalidate();
+            btnLastScan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    Snackbar snc = Snackbar.make(v, "לא ביצעת סריקה בעבר", Snackbar.LENGTH_LONG);
+                    snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+                    snc.show();
+                }
+            });
+        }
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
@@ -82,54 +128,40 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         final android.widget.CheckBox chkAccept =
                 (android.widget.CheckBox)findViewById(R.id.chkAcceptTerms);
 
-        final Context context = this;
+        chkAccept.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    checkPermission(mainActivity, android.Manifest.permission.READ_CONTACTS);
+                    checkPermission(mainActivity, android.Manifest.permission.READ_SMS);
+                }
+            }
+        });
 
-        ImageButton btnStop = (ImageButton)findViewById(R.id.btnSpamOff);
-        btnStop.setOnClickListener(new View.OnClickListener() {
+
+
+        btnSpamOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
 
                 if (chkAccept.isChecked()) {
-                    sendSmsDataToServer(context);
+                    showInfromativeDialog(v, context, isLastScanned, btnLastScan);
+
                 } else {
                     Snackbar snc = Snackbar.make(v, "אנא אשר שקראת את הכתוב למעלה", Snackbar.LENGTH_LONG);
                     snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
                     snc.setAction("אשר", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
                             chkAccept.setChecked(true);
+                            showInfromativeDialog(v, context, isLastScanned, btnLastScan);
                         }
                     });
                     snc.show();
+
+
                 }
-            }
-        });
-
-        btnStop.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN: {
-                        ImageButton view = (ImageButton) v;
-                        //overlay is black with transparency of 0x77 (119)
-                        view.setElevation(10);
-                        view.getDrawable().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
-                        view.invalidate();
-                        break;
-                    }
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL: {
-                        ImageButton view = (ImageButton) v;
-                        //clear the overlay
-                        view.getDrawable().clearColorFilter();
-                        view.invalidate();
-                        break;
-                    }
-                }
-
-                return false;
             }
         });
 
@@ -144,9 +176,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         slidingUpPanelLayout.setDragView(R.id.sliding_layout);
     }
 
-    private void sendSmsDataToServer(Context cntx) {
-
-        final Context context = cntx;
+    private void showInfromativeDialog(final View v, final Context context, final boolean isLastScanned, final ImageButton btnLastScan){
 
         new MaterialDialog.Builder(context)
                 .positiveText("OK")
@@ -158,14 +188,63 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                 .contentGravity(GravityEnum.END)
                 .positiveText("המשך")
                 .negativeText("לא תודה")
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        DateStorageIO.write(context, 978300000000L);
+                        setLastScanButtonOnClickListener(context, btnLastScan);
+                    }
+                })
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(MaterialDialog dialog, DialogAction which) {
+                        try {
 
-                        AsyncDataHandler.runTaskInBackground(null, context, "", "");
+                            final long lastScanDate = DateStorageIO.read(context);
+                            runAsync(context, lastScanDate);
+
+                            DateStorageIO.write(context, System.currentTimeMillis());
+
+                            if (!isLastScanned) {
+                                LastScanIO.write(context, true);
+                                btnLastScan.getDrawable().clearColorFilter();
+                                btnLastScan.invalidate();
+
+                                setLastScanButtonOnClickListener(context, btnLastScan);
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }).show();
+
+
+
     }
+
+    private void runAsync(final Context context, long lastScanDate){
+        try {
+            JSONObject jsonObject = SMSToJson.parseAll(context, SMSReader.read(context, new Date(lastScanDate)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // AsyncDataHandler.runTaskInBackground(null, context, jsonObject.toString(), "");
+    }
+
+    private void setLastScanButtonOnClickListener(final Context context, ImageButton btnLastScan){
+        btnLastScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                Intent intent = new Intent(context, lastScanActivity.class);
+                intent.putExtra("date", DateStorageIO.read(context));
+                intent.putExtra("money", 8000);
+                startActivity(intent);
+            }
+        });
+
+    }
+
 
     private void slideUp() {
         SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
@@ -195,6 +274,33 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         return super.onOptionsItemSelected(item);
     }
 
+    public void checkPermission(Activity activity, String permission) {
+        if (ContextCompat.checkSelfPermission(activity,
+                permission)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    permission)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{permission},
+                        0);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+    }
     @Override
     public void updateUI(String results) {
         Snackbar.make(rootView, results, Snackbar.LENGTH_SHORT).show();
