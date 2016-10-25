@@ -15,6 +15,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,6 +39,7 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
+import me.relex.circleindicator.CircleIndicator;
 import nldr.spamoff.AndroidStorageIO.LastScanIO;
 import nldr.spamoff.SMSHandler.SMSReader;
 import nldr.spamoff.SMSHandler.SMSToJson;
@@ -62,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
      */
     private ViewPager mViewPager;
 
+    private boolean bHasScanned = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final Activity mainActivity = this;
@@ -69,13 +73,13 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         final int MAX_SLIDE_VALUE = 152;
         final int MIN_SLIDE_VALUE = 51;
         final int TIME_INTERVAL = 500;
-        final boolean isLastScanned;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         final SeekBar slider = (SeekBar)findViewById(R.id.seekBar);
         slider.setProgress(MAX_SLIDE_VALUE);
-        final ImageButton btnLastScan = (ImageButton)findViewById(R.id.lastScan);
+
+        final Button btnLastScan = (Button)findViewById(R.id.btnLastScan);
        // ImageButton btnSpamOff = (ImageButton)findViewById(R.id.btnSpamOff);
 
         AnimationDrawable animationTop = new AnimationDrawable();
@@ -89,14 +93,9 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         animationTop.addFrame(getDrawable(R.drawable.arrows8), TIME_INTERVAL);
         animationTop.addFrame(getDrawable(R.drawable.arrows9), TIME_INTERVAL);
         animationTop.addFrame(getDrawable(R.drawable.arrows10), TIME_INTERVAL);
-
         animationTop.setOneShot(false);
-
         final ImageView arrowsTop = (ImageView) findViewById(R.id.arrowsTop);
-
-
         arrowsTop.setImageDrawable(animationTop);
-
         animationTop.start();
 
         AnimationDrawable animationBot = new AnimationDrawable();
@@ -110,35 +109,31 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         animationBot.addFrame(getDrawable(R.drawable.arrows8), TIME_INTERVAL);
         animationBot.addFrame(getDrawable(R.drawable.arrows9), TIME_INTERVAL);
         animationBot.addFrame(getDrawable(R.drawable.arrows10), TIME_INTERVAL);
-
         animationBot.setOneShot(false);
 
         final ImageView arrowsBot = (ImageView) findViewById(R.id.arrowsBot);
-
-
         arrowsBot.setImageDrawable(animationBot);
-
         animationBot.start();
-        
 
      
-        isLastScanned = LastScanIO.read(context);
+        bHasScanned = LastScanIO.read(context);
 
-        if(isLastScanned) {
-            setLastScanButtonOnClickListener(context, btnLastScan);
+        btnLastScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
 
-        } else {
-            btnLastScan.getDrawable().setColorFilter(0xBBFFFFFF, PorterDuff.Mode.SRC_ATOP);
-            btnLastScan.invalidate();
-            btnLastScan.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
+                if (bHasScanned) {
+                    Intent intent = new Intent(context, lastScanActivity.class);
+                    intent.putExtra("date", DateStorageIO.read(context));
+                    intent.putExtra("money", 8000);
+                    startActivity(intent);
+                } else {
                     Snackbar snc = Snackbar.make(v, "לא ביצעת סריקה בעבר", Snackbar.LENGTH_LONG);
                     snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
                     snc.show();
                 }
-            });
-        }
+            }
+        });
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -146,71 +141,54 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        CircleIndicator indicator = (CircleIndicator)findViewById(R.id.indicator);
+        indicator.setViewPager(mViewPager);
+
         final android.widget.CheckBox chkAccept =
                 (android.widget.CheckBox)findViewById(R.id.chkAcceptTerms);
 
-        chkAccept.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    askPermission(mainActivity, android.Manifest.permission.READ_CONTACTS);
-                    askPermission(mainActivity, android.Manifest.permission.READ_SMS);
-                }
-            }
-        });
-
-
         slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if(progress > MAX_SLIDE_VALUE){
-                    seekBar.setProgress(MAX_SLIDE_VALUE);
-                }
-                if(progress < MIN_SLIDE_VALUE){
-                    seekBar.setProgress(MIN_SLIDE_VALUE);
-                }
-            }
+              @Override
+              public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                  if (progress > MAX_SLIDE_VALUE) {
+                      seekBar.setProgress(MAX_SLIDE_VALUE);
+                  }
+                  if (progress < MIN_SLIDE_VALUE) {
+                      seekBar.setProgress(MIN_SLIDE_VALUE);
+                  }
+              }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
+              @Override
+              public void onStartTrackingTouch(SeekBar seekBar) {
+              }
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                if (seekBar.getProgress() >= MIN_SLIDE_VALUE && seekBar.getProgress() < MAX_SLIDE_VALUE) {
-                    if (seekBar.getProgress() == MIN_SLIDE_VALUE) {
-                        onMinExceeded(seekBar, context, isLastScanned, chkAccept, btnLastScan);
-                    }
-                }
-                    seekBar.setProgress(MAX_SLIDE_VALUE);
-            }
-        });
+              @Override
+              public void onStopTrackingTouch(SeekBar seekBar) {
+                  if (seekBar.getProgress() >= MIN_SLIDE_VALUE && seekBar.getProgress() < MAX_SLIDE_VALUE) {
+                      if (seekBar.getProgress() == MIN_SLIDE_VALUE) {
+                          onMinExceeded(seekBar, context, bHasScanned, chkAccept);
+                      }
+                  }
+              }
+          });
 
         SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
-        slidingUpPanelLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Snackbar.make(null, "LOLLLLL", Snackbar.LENGTH_SHORT).show();
-                ((SlidingUpPanelLayout) v).onDragEvent(null); //setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-            }
-        });
         slidingUpPanelLayout.setDragView(R.id.sliding_layout);
     }
 
-    private void onMinExceeded(final View v, final Context context, final boolean isLastScanned, final android.widget.CheckBox chkAccept, final ImageButton btnLastScan){
+    private void onMinExceeded(final View v, final Context context, final boolean isLastScanned, final android.widget.CheckBox chkAccept){
         if (chkAccept.isChecked()) {
             if(ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED ||
                     ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED){
                 Snackbar snc = Snackbar.make(v, "לא נוכל להמשיך בלי הרשאות לקריאת ההודעות ואנשי הקשר אנא החלק שוב לאחר שאישרת", Snackbar.LENGTH_LONG);
                 snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
                 snc.show();
-                askPermission(MainActivity.this, android.Manifest.permission.READ_CONTACTS);
-                askPermission(MainActivity.this, android.Manifest.permission.READ_SMS);
+                /*askPermission(MainActivity.this, android.Manifest.permission.READ_CONTACTS);
+                askPermission(MainActivity.this, android.Manifest.permission.READ_SMS);*/
                 return;
             }
 
-            showInfromativeDialog(v, context, isLastScanned, btnLastScan);
+            showInfromativeDialog(v, context, isLastScanned);
 
         } else {
             Snackbar snc = Snackbar.make(v, "אנא אשר שקראת את הכתוב למעלה", Snackbar.LENGTH_LONG);
@@ -219,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                 @Override
                 public void onClick(View v) {
                     chkAccept.setChecked(true);
-                    showInfromativeDialog(v, context, isLastScanned, btnLastScan);
+                    showInfromativeDialog(v, context, isLastScanned);
                 }
             });
             snc.show();
@@ -228,11 +206,9 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         }
     }
 
-    private void showInfromativeDialog(final View v, final Context context, final boolean isLastScanned, final ImageButton btnLastScan){
+    private void showInfromativeDialog(final View v, final Context context, final boolean bHasScanned){
 
         new MaterialDialog.Builder(context)
-                .positiveText("OK")
-                .negativeText("NOT OK")
                 .content(R.string.explenationModal)
                 .title("מה הולך לקרות?")
                 .titleGravity(GravityEnum.END)
@@ -244,25 +220,33 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         DateStorageIO.write(context, 978300000000L);
-                        setLastScanButtonOnClickListener(context, btnLastScan);
                     }
                 })
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(MaterialDialog dialog, DialogAction which) {
                         try {
+                            boolean bHasContactsPermissions = checkPermission(MainActivity.this, android.Manifest.permission.READ_CONTACTS);
+                            boolean bHasSMSPermissions = checkPermission(MainActivity.this, android.Manifest.permission.READ_SMS);
 
-                            final long lastScanDate = DateStorageIO.read(context);
-                            runAsync(context, lastScanDate);
+                            if (bHasContactsPermissions && bHasSMSPermissions) {
+                                long lastScanDate = DateStorageIO.read(context);
+                                runAsync(context, lastScanDate);
 
-                            DateStorageIO.write(context, System.currentTimeMillis());
+                                DateStorageIO.write(context, System.currentTimeMillis());
 
-                            if (!isLastScanned) {
-                                LastScanIO.write(context, true);
-                                btnLastScan.getDrawable().clearColorFilter();
-                                btnLastScan.invalidate();
-
-                                setLastScanButtonOnClickListener(context, btnLastScan);
+                                if (!bHasScanned) {
+                                    LastScanIO.write(context, true);
+                                }
+                            } else {
+                                new MaterialDialog.Builder(context)
+                                        .content("כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.")
+                                        .title("לא נמצאו האישורים המתאימים לביצוע הסריקה")
+                                        .titleGravity(GravityEnum.END)
+                                        .buttonsGravity(GravityEnum.END)
+                                        .contentGravity(GravityEnum.END)
+                                        .positiveText("אוקי")
+                                        .negativeText("לא תודה").show();
                             }
 
                         } catch (Exception e) {
@@ -270,9 +254,6 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                         }
                     }
                 }).show();
-
-
-
     }
 
     private void runAsync(final Context context, long lastScanDate){
@@ -283,46 +264,6 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         }
         // AsyncDataHandler.runTaskInBackground(null, context, jsonObject.toString(), "");
     }
-
-    private void setLastScanButtonOnClickListener(final Context context, ImageButton btnLastScan){
-        btnLastScan.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN: {
-                        ImageButton view = (ImageButton) v;
-                        //overlay is black with transparency of 0x77 (119)
-                        view.getDrawable().setColorFilter(0x55000000, PorterDuff.Mode.SRC_ATOP);
-                        view.invalidate();
-                        break;
-                    }
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL: {
-                        ImageButton view = (ImageButton) v;
-                        //clear the overlay
-                        view.getDrawable().clearColorFilter();
-                        view.invalidate();
-                        break;
-                    }
-                }
-
-                return false;
-            }
-        });
-
-        btnLastScan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                Intent intent = new Intent(context, lastScanActivity.class);
-                intent.putExtra("date", DateStorageIO.read(context));
-                intent.putExtra("money", 8000);
-                startActivity(intent);
-            }
-        });
-
-    }
-
 
     private void slideUp() {
         SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
@@ -352,34 +293,32 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         return super.onOptionsItemSelected(item);
     }
 
-    public void askPermission(Activity activity, String permission) {
-        if (ContextCompat.checkSelfPermission(activity,
-                permission)
-                != PackageManager.PERMISSION_GRANTED) {
 
+    public boolean checkPermission(Activity activity, String permission) {
+
+        if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
             // Should we show an explanation?
-           /* if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                    permission)) {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{permission},
+                    0);
 
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-            } else {
-
-                // No explanation needed, we can request the permission.
-*/
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{permission},
-                        0);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-  //          }
         }
 
+        return (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        boolean bAcceptedAll = true;
+
+        for (int grantResult : grantResults) {
+            if (grantResult != PackageManager.PERMISSION_GRANTED)
+                bAcceptedAll = false;
+        }
+    }
+
     @Override
     public void updateUI(String results) {
         Snackbar.make(rootView, results, Snackbar.LENGTH_SHORT).show();
@@ -429,21 +368,6 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
             return rootView;
         }
     }
-
-    public class PositionHandler{
-        int position = 1;
-        int getPosition(){return position;}
-        void setPosition(){
-            if(position == 9){
-                position = 1;
-            }
-            else{
-                position++;
-            }
-        }
-    }
-
-
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
