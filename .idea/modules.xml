@@ -4,10 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GoogleProgressBar/library/GoogleProgress.iml" filepath="$PROJECT_DIR$/GoogleProgressBar/library/GoogleProgress.iml" />
       <module fileurl="file://$PROJECT_DIR$/MaterialDesign/MaterialDesign.iml" filepath="$PROJECT_DIR$/MaterialDesign/MaterialDesign.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SpamOff5.01.iml" filepath="$PROJECT_DIR$/SpamOff5.01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Roee.iml" filepath="$PROJECT_DIR$/Roee.iml" />
       <module fileurl="file://$PROJECT_DIR$/SweetAlertsLib/SweetAlertsLib.iml" filepath="$PROJECT_DIR$/SweetAlertsLib/SweetAlertsLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/indicatorlib/indicatorlib.iml" filepath="$PROJECT_DIR$/indicatorlib/indicatorlib.iml" />
     </modules>
   </component>
 </project>

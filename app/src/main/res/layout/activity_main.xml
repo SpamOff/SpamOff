@@ -64,9 +64,8 @@
             android:scaleType="fitCenter"
             android:background="@android:color/transparent"
             android:clickable="false"
-            android:layout_alignParentTop="false"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
+            android:layout_below="@+id/linearLayout2"
             android:layout_centerHorizontal="true" />
 
         <LinearLayout
@@ -74,9 +73,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:layout_above="@+id/btnSpamOff"
+            android:id="@+id/linearLayout2"
+            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="-20dp">
+            android:layout_marginTop="111dp">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -99,16 +99,16 @@
 
         </LinearLayout>
 
-        <ImageButton
+        <Button
             android:layout_width="wrap_content"
-
-            android:id="@+id/lastScan"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/lastscan"
-            android:layout_marginTop="40dp"
-            android:layout_alignParentTop="true"
+            android:text="לצפיה בתוצאות הסריקה האחרונות"
+            android:id="@+id/btnLastScan"
+            android:background="#e42828"
+            android:textColor="#ffffff"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_below="@+id/btnSpamOff"
             android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
@@ -134,9 +134,15 @@
         <nldr.spamoff.NestingViewPager
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/indicator"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"/>
 
         </LinearLayout>
 

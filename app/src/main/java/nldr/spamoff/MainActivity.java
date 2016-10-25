@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
+import me.relex.circleindicator.CircleIndicator;
 import nldr.spamoff.AndroidStorageIO.LastScanIO;
 import nldr.spamoff.SMSHandler.SMSReader;
 import nldr.spamoff.SMSHandler.SMSToJson;
@@ -60,60 +62,36 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
      */
     private ViewPager mViewPager;
 
+    private boolean bHasScanned = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final Activity mainActivity = this;
         final Context context = this;
-        final boolean isLastScanned;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ImageButton btnLastScan = (ImageButton)findViewById(R.id.lastScan);
+        final Button btnLastScan = (Button)findViewById(R.id.btnLastScan);
         ImageButton btnSpamOff = (ImageButton)findViewById(R.id.btnSpamOff);
 
-        isLastScanned = LastScanIO.read(context);
+        bHasScanned = LastScanIO.read(context);
 
-        if(isLastScanned) {
-            btnLastScan.setOnTouchListener(new View.OnTouchListener() {
+        btnLastScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
 
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN: {
-                            ImageButton view = (ImageButton) v;
-                            //overlay is black with transparency of 0x77 (119)
-                            view.getDrawable().setColorFilter(0x55FFFFFF, PorterDuff.Mode.SRC_ATOP);
-                            view.invalidate();
-                            break;
-                        }
-                        case MotionEvent.ACTION_UP:
-                        case MotionEvent.ACTION_CANCEL: {
-                            ImageButton view = (ImageButton) v;
-                            //clear the overlay
-                            view.getDrawable().clearColorFilter();
-                            view.invalidate();
-                            break;
-                        }
-                    }
-
-                    return false;
-                }
-            });
-
-            setLastScanButtonOnClickListener(context, btnLastScan);
-
-        } else {
-            btnLastScan.getDrawable().setColorFilter(0xBBFFFFFF, PorterDuff.Mode.SRC_ATOP);
-            btnLastScan.invalidate();
-            btnLastScan.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
+                if (bHasScanned) {
+                    Intent intent = new Intent(context, lastScanActivity.class);
+                    intent.putExtra("date", DateStorageIO.read(context));
+                    intent.putExtra("money", 8000);
+                    startActivity(intent);
+                } else {
                     Snackbar snc = Snackbar.make(v, "לא ביצעת סריקה בעבר", Snackbar.LENGTH_LONG);
                     snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
                     snc.show();
                 }
-            });
-        }
+            }
+        });
 
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
@@ -125,29 +103,28 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        CircleIndicator indicator = (CircleIndicator)findViewById(R.id.indicator);
+        indicator.setViewPager(mViewPager);
+
         final android.widget.CheckBox chkAccept =
                 (android.widget.CheckBox)findViewById(R.id.chkAcceptTerms);
 
         chkAccept.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    checkPermission(mainActivity, android.Manifest.permission.READ_CONTACTS);
-                    checkPermission(mainActivity, android.Manifest.permission.READ_SMS);
+                if(isChecked) {
+                    //checkPermission(mainActivity, android.Manifest.permission.READ_CONTACTS);
+                    //checkPermission(mainActivity, android.Manifest.permission.READ_SMS);
                 }
             }
         });
-
-
 
         btnSpamOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
 
                 if (chkAccept.isChecked()) {
-                    showInfromativeDialog(v, context, isLastScanned, btnLastScan);
-
+                    showInfromativeDialog(v, context, bHasScanned);
                 } else {
                     Snackbar snc = Snackbar.make(v, "אנא אשר שקראת את הכתוב למעלה", Snackbar.LENGTH_LONG);
                     snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -155,12 +132,10 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                         @Override
                         public void onClick(View v) {
                             chkAccept.setChecked(true);
-                            showInfromativeDialog(v, context, isLastScanned, btnLastScan);
+                            showInfromativeDialog(v, context, bHasScanned);
                         }
                     });
                     snc.show();
-
-
                 }
             }
         });
@@ -176,11 +151,9 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         slidingUpPanelLayout.setDragView(R.id.sliding_layout);
     }
 
-    private void showInfromativeDialog(final View v, final Context context, final boolean isLastScanned, final ImageButton btnLastScan){
+    private void showInfromativeDialog(final View v, final Context context, final boolean bHasScanned){
 
         new MaterialDialog.Builder(context)
-                .positiveText("OK")
-                .negativeText("NOT OK")
                 .content(R.string.explenationModal)
                 .title("מה הולך לקרות?")
                 .titleGravity(GravityEnum.END)
@@ -192,25 +165,33 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         DateStorageIO.write(context, 978300000000L);
-                        setLastScanButtonOnClickListener(context, btnLastScan);
                     }
                 })
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(MaterialDialog dialog, DialogAction which) {
                         try {
+                            boolean bHasContactsPermissions = checkPermission(MainActivity.this, android.Manifest.permission.READ_CONTACTS);
+                            boolean bHasSMSPermissions = checkPermission(MainActivity.this, android.Manifest.permission.READ_SMS);
 
-                            final long lastScanDate = DateStorageIO.read(context);
-                            runAsync(context, lastScanDate);
+                            if (bHasContactsPermissions && bHasSMSPermissions) {
+                                long lastScanDate = DateStorageIO.read(context);
+                                runAsync(context, lastScanDate);
 
-                            DateStorageIO.write(context, System.currentTimeMillis());
+                                DateStorageIO.write(context, System.currentTimeMillis());
 
-                            if (!isLastScanned) {
-                                LastScanIO.write(context, true);
-                                btnLastScan.getDrawable().clearColorFilter();
-                                btnLastScan.invalidate();
-
-                                setLastScanButtonOnClickListener(context, btnLastScan);
+                                if (!bHasScanned) {
+                                    LastScanIO.write(context, true);
+                                }
+                            } else {
+                                new MaterialDialog.Builder(context)
+                                        .content("כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.")
+                                        .title("לא נמצאו האישורים המתאימים לביצוע הסריקה")
+                                        .titleGravity(GravityEnum.END)
+                                        .buttonsGravity(GravityEnum.END)
+                                        .contentGravity(GravityEnum.END)
+                                        .positiveText("אוקי")
+                                        .negativeText("לא תודה").show();
                             }
 
                         } catch (Exception e) {
@@ -231,20 +212,6 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         }
         // AsyncDataHandler.runTaskInBackground(null, context, jsonObject.toString(), "");
     }
-
-    private void setLastScanButtonOnClickListener(final Context context, ImageButton btnLastScan){
-        btnLastScan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                Intent intent = new Intent(context, lastScanActivity.class);
-                intent.putExtra("date", DateStorageIO.read(context));
-                intent.putExtra("money", 8000);
-                startActivity(intent);
-            }
-        });
-
-    }
-
 
     private void slideUp() {
         SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
@@ -274,14 +241,11 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         return super.onOptionsItemSelected(item);
     }
 
-    public void checkPermission(Activity activity, String permission) {
-        if (ContextCompat.checkSelfPermission(activity,
-                permission)
-                != PackageManager.PERMISSION_GRANTED) {
+    public boolean checkPermission(Activity activity, String permission) {
 
+        if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                    permission)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
 
                 // Show an expanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
@@ -300,7 +264,22 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                 // result of the request.
             }
         }
+
+        return (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        boolean bAcceptedAll = true;
+
+        for (int grantResult : grantResults) {
+            if (grantResult != PackageManager.PERMISSION_GRANTED)
+                bAcceptedAll = false;
+        }
+    }
+
     @Override
     public void updateUI(String results) {
         Snackbar.make(rootView, results, Snackbar.LENGTH_SHORT).show();
