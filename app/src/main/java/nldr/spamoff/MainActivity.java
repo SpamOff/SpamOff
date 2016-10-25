@@ -1,5 +1,6 @@
 package nldr.spamoff;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -37,7 +38,10 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 import nldr.spamoff.AndroidStorageIO.LastScanIO;
@@ -47,24 +51,17 @@ import nldr.spamoff.AndroidStorageIO.DateStorageIO;
 
 public class MainActivity extends AppCompatActivity implements AsyncDataHandler.asyncTaskUIMethods {
 
-    final AsyncDataHandler.asyncTaskUIMethods lala = this;
-    static View rootView;
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+    private static View rootView;
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
+    private android.widget.CheckBox chkAccept;
 
     private boolean bHasScanned = false;
+    private String[] permissionsArray =
+            new String[] {
+                android.Manifest.permission.READ_CONTACTS,
+                android.Manifest.permission.READ_SMS
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +69,11 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         final Context context = this;
         final int MAX_SLIDE_VALUE = 152;
         final int MIN_SLIDE_VALUE = 51;
-        final int TIME_INTERVAL = 500;
+        final int TIME_INTERVAL = 250;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final SeekBar slider = (SeekBar)findViewById(R.id.seekBar);
+        final SeekBar slider = (SeekBar)findViewById(R.id.seekBarSpamOff);
         slider.setProgress(MAX_SLIDE_VALUE);
 
         final Button btnLastScan = (Button)findViewById(R.id.btnLastScan);
@@ -115,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         arrowsBot.setImageDrawable(animationBot);
         animationBot.start();
 
-     
         bHasScanned = LastScanIO.read(context);
 
         btnLastScan.setOnClickListener(new View.OnClickListener() {
@@ -144,8 +140,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         CircleIndicator indicator = (CircleIndicator)findViewById(R.id.indicator);
         indicator.setViewPager(mViewPager);
 
-        final android.widget.CheckBox chkAccept =
-                (android.widget.CheckBox)findViewById(R.id.chkAcceptTerms);
+        chkAccept = (android.widget.CheckBox)findViewById(R.id.chkAcceptTerms);
 
         slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
               @Override
@@ -166,8 +161,11 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
               public void onStopTrackingTouch(SeekBar seekBar) {
                   if (seekBar.getProgress() >= MIN_SLIDE_VALUE && seekBar.getProgress() < MAX_SLIDE_VALUE) {
                       if (seekBar.getProgress() == MIN_SLIDE_VALUE) {
-                          onMinExceeded(seekBar, context, bHasScanned, chkAccept);
+                          stopTheSpamm(seekBar, context);
                       }
+
+                      seekBar.setProgress(MAX_SLIDE_VALUE);
+                      seekBar.setr
                   }
               }
           });
@@ -176,20 +174,14 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         slidingUpPanelLayout.setDragView(R.id.sliding_layout);
     }
 
-    private void onMinExceeded(final View v, final Context context, final boolean isLastScanned, final android.widget.CheckBox chkAccept){
+    private void stopTheSpamm(View v, final Context context){
+
         if (chkAccept.isChecked()) {
-            if(ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED ||
-                    ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED){
-                Snackbar snc = Snackbar.make(v, "לא נוכל להמשיך בלי הרשאות לקריאת ההודעות ואנשי הקשר אנא החלק שוב לאחר שאישרת", Snackbar.LENGTH_LONG);
-                snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-                snc.show();
-                /*askPermission(MainActivity.this, android.Manifest.permission.READ_CONTACTS);
-                askPermission(MainActivity.this, android.Manifest.permission.READ_SMS);*/
-                return;
+            if (checkAllPermissions()) {
+                showInfromativeDialog(v, context);
+            } else {
+                getNeededPermissions();
             }
-
-            showInfromativeDialog(v, context, isLastScanned);
-
         } else {
             Snackbar snc = Snackbar.make(v, "אנא אשר שקראת את הכתוב למעלה", Snackbar.LENGTH_LONG);
             snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -197,72 +189,68 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                 @Override
                 public void onClick(View v) {
                     chkAccept.setChecked(true);
-                    showInfromativeDialog(v, context, isLastScanned);
+                    showInfromativeDialog(v, context);
                 }
             });
             snc.show();
-
-
         }
     }
 
-    private void showInfromativeDialog(final View v, final Context context, final boolean bHasScanned){
+    private void showInfromativeDialog(View v, final Context context) {
 
         new MaterialDialog.Builder(context)
-                .content(R.string.explenationModal)
-                .title("מה הולך לקרות?")
-                .titleGravity(GravityEnum.END)
-                .buttonsGravity(GravityEnum.END)
-                .contentGravity(GravityEnum.END)
-                .positiveText("המשך")
-                .negativeText("לא תודה")
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        DateStorageIO.write(context, 978300000000L);
-                    }
-                })
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(MaterialDialog dialog, DialogAction which) {
-                        try {
-                            boolean bHasContactsPermissions = checkPermission(MainActivity.this, android.Manifest.permission.READ_CONTACTS);
-                            boolean bHasSMSPermissions = checkPermission(MainActivity.this, android.Manifest.permission.READ_SMS);
-
-                            if (bHasContactsPermissions && bHasSMSPermissions) {
-                                long lastScanDate = DateStorageIO.read(context);
-                                runAsync(context, lastScanDate);
-
-                                DateStorageIO.write(context, System.currentTimeMillis());
-
-                                if (!bHasScanned) {
-                                    LastScanIO.write(context, true);
-                                }
-                            } else {
-                                new MaterialDialog.Builder(context)
-                                        .content("כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.")
-                                        .title("לא נמצאו האישורים המתאימים לביצוע הסריקה")
-                                        .titleGravity(GravityEnum.END)
-                                        .buttonsGravity(GravityEnum.END)
-                                        .contentGravity(GravityEnum.END)
-                                        .positiveText("אוקי")
-                                        .negativeText("לא תודה").show();
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).show();
+            .content(R.string.explenationModal)
+            .title("מה הולך לקרות?")
+            .titleGravity(GravityEnum.END)
+            .buttonsGravity(GravityEnum.END)
+            .contentGravity(GravityEnum.END)
+            .positiveText("המשך")
+            .negativeText("לא תודה")
+            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    DateStorageIO.write(context, 978300000000L);
+                }
+            })
+            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(MaterialDialog dialog, DialogAction which) {
+                    getNeededPermissions();
+                }
+            }).show();
     }
 
-    private void runAsync(final Context context, long lastScanDate){
+    private void getNeededPermissions() {
+
+        List<String> deniededPermissions = new ArrayList<String>();
+
+        for (String curr : permissionsArray) {
+            if (ContextCompat.checkSelfPermission(MainActivity.this, curr) != PackageManager.PERMISSION_GRANTED) {
+
+                deniededPermissions.add(curr);
+            }
+        }
+
+        if (deniededPermissions.size() > 0)
+            ActivityCompat.requestPermissions(MainActivity.this,
+                deniededPermissions.toArray(new String[deniededPermissions.size()]), 0);
+    }
+
+    private void fetchWithPermissions() {
+        long lastScanDate = DateStorageIO.read(this);
+
+        // TODO : DO THIS ASYNC
         try {
-            JSONObject jsonObject = SMSToJson.parseAll(context, SMSReader.read(context, new Date(lastScanDate)));
+            JSONObject jsonObject = SMSToJson.parseAll(this, SMSReader.read(this, new Date(lastScanDate)));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        // AsyncDataHandler.runTaskInBackground(null, context, jsonObject.toString(), "");
+
+        DateStorageIO.write(this, System.currentTimeMillis());
+
+        if (!bHasScanned) {
+            LastScanIO.write(this, true);
+        }
     }
 
     private void slideUp() {
@@ -293,29 +281,43 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         return super.onOptionsItemSelected(item);
     }
 
-
-    public boolean checkPermission(Activity activity, String permission) {
-
-        if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
-            // Should we show an explanation?
-            ActivityCompat.requestPermissions(activity,
-                    new String[]{permission},
-                    0);
-
+    /**
+     * @returns true if all the permissions granted and false if not
+     */
+    private boolean checkAllPermissions() {
+        for (String curr : permissionsArray) {
+            if (ContextCompat.checkSelfPermission(MainActivity.this, curr) != PackageManager.PERMISSION_GRANTED) {
+                // Should we show an explanation?
+                return false;
+            }
         }
 
-        return (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_GRANTED);
+        return true;
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         boolean bAcceptedAll = true;
 
-        for (int grantResult : grantResults) {
-            if (grantResult != PackageManager.PERMISSION_GRANTED)
+        // Goes on each result and checks if it is granted
+        for (int result : grantResults) {
+            if (result != PackageManager.PERMISSION_GRANTED)
                 bAcceptedAll = false;
+        }
+
+        if (!bAcceptedAll) {
+            new MaterialDialog.Builder(this)
+                    .content("כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.")
+                    .title("לא נמצאו האישורים המתאימים לביצוע הסריקה")
+                    .titleGravity(GravityEnum.END)
+                    .buttonsGravity(GravityEnum.END)
+                    .contentGravity(GravityEnum.END)
+                    .positiveText("אוקי")
+                    .negativeText("לא תודה").show();
+        } else {
+            this.fetchWithPermissions();
         }
     }
 
