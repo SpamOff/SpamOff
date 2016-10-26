@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.gc.materialdesign.widgets.ProgressDialog;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.json.JSONException;
@@ -165,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                       }
 
                       seekBar.setProgress(MAX_SLIDE_VALUE);
-                      seekBar.setr
                   }
               }
           });
@@ -231,26 +231,47 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
             }
         }
 
-        if (deniededPermissions.size() > 0)
+        if (deniededPermissions.size() > 0) {
             ActivityCompat.requestPermissions(MainActivity.this,
-                deniededPermissions.toArray(new String[deniededPermissions.size()]), 0);
+                    deniededPermissions.toArray(new String[deniededPermissions.size()]), 0);
+        } else {
+            onRequestPermissionsResult(0, null, null);
+        }
     }
 
     private void fetchWithPermissions() {
-        long lastScanDate = DateStorageIO.read(this);
 
-        // TODO : DO THIS ASYNC
-        try {
-            JSONObject jsonObject = SMSToJson.parseAll(this, SMSReader.read(this, new Date(lastScanDate)));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        final ProgressDialog progressDialog = new ProgressDialog(this, "Loading");
+        progressDialog.show();
 
-        DateStorageIO.write(this, System.currentTimeMillis());
+        final Context context = this;
 
-        if (!bHasScanned) {
-            LastScanIO.write(this, true);
-        }
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                long lastScanDate = DateStorageIO.read(context);
+
+                try {
+                    JSONObject jsonObject = SMSToJson.parseAll(context, SMSReader.read(context, new Date(lastScanDate)));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                DateStorageIO.write(context, System.currentTimeMillis());
+
+                if (!bHasScanned) {
+                    LastScanIO.write(context, true);
+                }
+            }
+
+            @Override
+            protected void finalize() throws Throwable {
+                super.finalize();
+                progressDialog.dismiss();
+            }
+        };
+
+        r.run();
     }
 
     private void slideUp() {
@@ -301,13 +322,19 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
 
         boolean bAcceptedAll = true;
 
-        // Goes on each result and checks if it is granted
-        for (int result : grantResults) {
-            if (result != PackageManager.PERMISSION_GRANTED)
-                bAcceptedAll = false;
+        // IT if it null - there are already permissions
+        if (permissions != null && grantResults != null) {
+
+            // Goes on each result and checks if it is granted
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED)
+                    bAcceptedAll = false;
+            }
         }
 
-        if (!bAcceptedAll) {
+        if (bAcceptedAll) {
+            this.fetchWithPermissions();
+        } else {
             new MaterialDialog.Builder(this)
                     .content("כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.")
                     .title("לא נמצאו האישורים המתאימים לביצוע הסריקה")
@@ -316,8 +343,6 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                     .contentGravity(GravityEnum.END)
                     .positiveText("אוקי")
                     .negativeText("לא תודה").show();
-        } else {
-            this.fetchWithPermissions();
         }
     }
 
