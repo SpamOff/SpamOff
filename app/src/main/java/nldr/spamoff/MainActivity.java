@@ -241,7 +241,8 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
 
     private void fetchWithPermissions() {
 
-        final ProgressDialog progressDialog = new ProgressDialog(this, "Loading");
+        final ProgressDialog progressDialog = new ProgressDialog(this, "טוען את ההודעות החדשות...");
+        progressDialog.getTitleTextView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         progressDialog.show();
 
         final Context context = this;
