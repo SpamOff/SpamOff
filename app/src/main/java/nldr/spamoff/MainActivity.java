@@ -247,21 +247,17 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
 
         final Context context = this;
 
-        Runnable r = new Runnable() {
+        Runnable smsCollector = new Runnable() {
             @Override
             public void run() {
-                long lastScanDate = CookiesHandler.getLastScanDate(context);
-
                 try {
+                    long lastScanDate = CookiesHandler.getLastScanDate(context);
                     JSONObject jsonObject = SMSToJson.parseAll(context, SMSReader.read(context, new Date(lastScanDate)));
+                    CookiesHandler.setLastScanMessagesCount(context, jsonObject.length());
+                    CookiesHandler.setLastScanDate(context, System.currentTimeMillis());
+                    CookiesHandler.setIfAlreadyScannedBefore(context, true);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
-
-                CookiesHandler.setLastScanDate(context, System.currentTimeMillis());
-
-                if (!bHasScanned) {
-                    CookiesHandler.setIfAlreadyScannedBefore(context, true);
                 }
             }
 
@@ -272,7 +268,9 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
             }
         };
 
-        r.run();
+        smsCollector.run();
+
+        // TODO : Runnable for sending the data to the server but checks before how many messages sent last time and if there is no diff it doesnt send (diff - delete and get new one?)
     }
 
     private void slideUp() {

@@ -36,4 +36,17 @@ public class CookiesHandler {
         SOPrefsEditor.commit();
         // }
     }
+
+    private static final String LAST_SCAN_MESSAGES_COUNT_NAME = "SOLastScanMessagesCount";
+
+    public static long getLastScanMessagesCount(Context context){
+        SharedPreferences SOPrefs = context.getSharedPreferences(SPAM_OFF_PREFS, Context.MODE_PRIVATE);
+        return SOPrefs.getLong(LAST_SCAN_MESSAGES_COUNT_NAME, 978300000000L);//default 01/01/2001
+    }
+    public static void setLastScanMessagesCount(Context context, int count){
+        SharedPreferences SOPrefs = context.getSharedPreferences(SPAM_OFF_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor SOPrefsEditor = SOPrefs.edit();
+        SOPrefsEditor.putLong(LAST_SCAN_MESSAGES_COUNT_NAME, count);
+        SOPrefsEditor.commit();
+    }
 }
