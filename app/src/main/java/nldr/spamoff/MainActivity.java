@@ -44,7 +44,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import cz.msebera.android.httpclient.cookie.Cookie;
 import me.relex.circleindicator.CircleIndicator;
+import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 import nldr.spamoff.AndroidStorageIO.LastScanIO;
 import nldr.spamoff.SMSHandler.SMSReader;
 import nldr.spamoff.SMSHandler.SMSToJson;
@@ -113,7 +115,8 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         arrowsBot.setImageDrawable(animationBot);
         animationBot.start();
 
-        bHasScanned = LastScanIO.read(context);
+        bHasScanned = CookiesHandler.getIfAlreadyScannedBefore(context);
+        //bHasScanned = LastScanIO.read(context);
 
         btnLastScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
 
                 if (bHasScanned) {
                     Intent intent = new Intent(context, lastScanActivity.class);
-                    intent.putExtra("date", DateStorageIO.read(context));
+                    intent.putExtra("date", CookiesHandler.getLastScanDate(context));
                     intent.putExtra("money", 8000);
                     startActivity(intent);
                 } else {
@@ -177,11 +180,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
     private void stopTheSpamm(View v, final Context context){
 
         if (chkAccept.isChecked()) {
-            if (checkAllPermissions()) {
-                showInfromativeDialog(v, context);
-            } else {
-                getNeededPermissions();
-            }
+            showInfromativeDialog(v, context);
         } else {
             Snackbar snc = Snackbar.make(v, "אנא אשר שקראת את הכתוב למעלה", Snackbar.LENGTH_LONG);
             snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -209,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
             .onNegative(new MaterialDialog.SingleButtonCallback() {
                 @Override
                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    DateStorageIO.write(context, 978300000000L);
+                    CookiesHandler.setLastScanDate(context, 978300000000L);
                 }
             })
             .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -218,6 +217,8 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                     getNeededPermissions();
                 }
             }).show();
+
+
     }
 
     private void getNeededPermissions() {
@@ -242,7 +243,6 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
     private void fetchWithPermissions() {
 
         final ProgressDialog progressDialog = new ProgressDialog(this, "טוען את ההודעות החדשות...");
-        progressDialog.getTitleTextView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         progressDialog.show();
 
         final Context context = this;
@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         Runnable r = new Runnable() {
             @Override
             public void run() {
-                long lastScanDate = DateStorageIO.read(context);
+                long lastScanDate = CookiesHandler.getLastScanDate(context);
 
                 try {
                     JSONObject jsonObject = SMSToJson.parseAll(context, SMSReader.read(context, new Date(lastScanDate)));
@@ -258,10 +258,10 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                     e.printStackTrace();
                 }
 
-                DateStorageIO.write(context, System.currentTimeMillis());
+                CookiesHandler.setLastScanDate(context, System.currentTimeMillis());
 
                 if (!bHasScanned) {
-                    LastScanIO.write(context, true);
+                    CookiesHandler.setIfAlreadyScannedBefore(context, true);
                 }
             }
 
@@ -342,8 +342,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                     .titleGravity(GravityEnum.END)
                     .buttonsGravity(GravityEnum.END)
                     .contentGravity(GravityEnum.END)
-                    .positiveText("אוקי")
-                    .negativeText("לא תודה").show();
+                    .positiveText("אוקי").show();
         }
     }
 
