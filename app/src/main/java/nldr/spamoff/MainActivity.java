@@ -141,8 +141,10 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        CircleIndicator indicator = (CircleIndicator)findViewById(R.id.indicator);
-        indicator.setViewPager(mViewPager);
+//        CircleIndicator indicator = (CircleIndicator)findViewById(R.id.indicator);
+//        indicator.setViewPager(mViewPager);
+
+
 
         chkAccept = (android.widget.CheckBox)findViewById(R.id.chkAcceptTerms);
 

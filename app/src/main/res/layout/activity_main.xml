@@ -130,25 +130,34 @@
         tools:context="nldr.spamoff.MainActivity"
         android:padding="0dp">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <!--<LinearLayout-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
 
-        <nldr.spamoff.NestingViewPager
+            <!--<me.relex.circleindicator.CircleIndicator-->
+                <!--android:id="@+id/indicator"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="48dp"/>-->
+
+            <nldr.spamoff.NestingViewPager
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-        <me.relex.circleindicator.CircleIndicator
-            android:id="@+id/indicator"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"/>
 
-        </LinearLayout>
+        <!--<com.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/circlePageIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:fillColor="@color/colorPrimary"
+            app:strokeColor="@color/lightGrey"/>-->
+
+
+        <!--</LinearLayout>-->
 
     </RelativeLayout>
 
