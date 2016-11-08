@@ -13,14 +13,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import okhttp3.Call;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.Callback;
-
 
 /**
  * Created by Roee on 15/10/2016.
@@ -162,41 +154,41 @@ public class AsyncDataHandler extends AsyncTask<String, String, String> {
                     return "Nothing was sent because the sms json is empty";
                 }
 
-                final MediaType JSON
-                        = MediaType.parse("application/json; charset=utf-8");
-
-                OkHttpClient client = new OkHttpClient();
-                OkHttpClient.Builder builder = new OkHttpClient.Builder();
-                builder.connectTimeout(15, TimeUnit.SECONDS)
-                        .writeTimeout(15, TimeUnit.SECONDS)
-                        .readTimeout(15, TimeUnit.SECONDS);
-
-                RequestBody body = RequestBody.create(JSON, "");
-                Request request = new Request.Builder()
-                        .url(url)
-                        .post(body)
-                        .build();
-
-                Response r;
-                Call call = client.newCall(request);
-
-                try {
-                     r = call.execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                client.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        Log.e("TAG", e.getMessage());
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response resp) throws IOException {
-                        response[0] = resp.body().string();
-                    }
-                });
+//                final MediaType JSON
+//                        = MediaType.parse("application/json; charset=utf-8");
+//
+//                OkHttpClient client = new OkHttpClient();
+//                OkHttpClient.Builder builder = new OkHttpClient.Builder();
+//                builder.connectTimeout(15, TimeUnit.SECONDS)
+//                        .writeTimeout(15, TimeUnit.SECONDS)
+//                        .readTimeout(15, TimeUnit.SECONDS);
+//
+//                RequestBody body = RequestBody.create(JSON, "");
+//                Request request = new Request.Builder()
+//                        .url(url)
+//                        .post(body)
+//                        .build();
+//
+//                Response r;
+//                Call call = client.newCall(request);
+//
+//                try {
+//                     r = call.execute();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                client.newCall(request).enqueue(new Callback() {
+//                    @Override
+//                    public void onFailure(Call call, IOException e) {
+//                        Log.e("TAG", e.getMessage());
+//                    }
+//
+//                    @Override
+//                    public void onResponse(Call call, Response resp) throws IOException {
+//                        response[0] = resp.body().string();
+//                    }
+//                });
             }
 
             if (response[0] == null) {

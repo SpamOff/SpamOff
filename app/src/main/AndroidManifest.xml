@@ -30,14 +30,14 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ScanResultsActivity" />
         <activity
             android:name=".lastScanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Holo.Dialog.NoActionBar.Transparent" />
-        <activity android:name=".LoadingActivity"
+        <activity
+            android:name=".LoadingActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,6 +45,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".IntroActivity"
+            android:label="@string/title_activity_intro"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

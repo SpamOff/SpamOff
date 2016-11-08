@@ -44,7 +44,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import cz.msebera.android.httpclient.cookie.Cookie;
 import me.relex.circleindicator.CircleIndicator;
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 import nldr.spamoff.AndroidStorageIO.LastScanIO;
@@ -82,33 +81,35 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         final Button btnLastScan = (Button)findViewById(R.id.btnLastScan);
        // ImageButton btnSpamOff = (ImageButton)findViewById(R.id.btnSpamOff);
 
+
+
         AnimationDrawable animationTop = new AnimationDrawable();
-        animationTop.addFrame(getDrawable(R.drawable.arrows1), TIME_INTERVAL);
-        animationTop.addFrame(getDrawable(R.drawable.arrows2), TIME_INTERVAL);
-        animationTop.addFrame(getDrawable(R.drawable.arrows3), TIME_INTERVAL);
-        animationTop.addFrame(getDrawable(R.drawable.arrows4), TIME_INTERVAL);
-        animationTop.addFrame(getDrawable(R.drawable.arrows5), TIME_INTERVAL);
-        animationTop.addFrame(getDrawable(R.drawable.arrows6), TIME_INTERVAL);
-        animationTop.addFrame(getDrawable(R.drawable.arrows7), TIME_INTERVAL);
-        animationTop.addFrame(getDrawable(R.drawable.arrows8), TIME_INTERVAL);
-        animationTop.addFrame(getDrawable(R.drawable.arrows9), TIME_INTERVAL);
-        animationTop.addFrame(getDrawable(R.drawable.arrows10), TIME_INTERVAL);
+        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows1), TIME_INTERVAL);
+        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows2), TIME_INTERVAL);
+        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows3), TIME_INTERVAL);
+        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows4), TIME_INTERVAL);
+        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows5), TIME_INTERVAL);
+        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows6), TIME_INTERVAL);
+        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows7), TIME_INTERVAL);
+        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows8), TIME_INTERVAL);
+        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows9), TIME_INTERVAL);
+        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows10), TIME_INTERVAL);
         animationTop.setOneShot(false);
         final ImageView arrowsTop = (ImageView) findViewById(R.id.arrowsTop);
         arrowsTop.setImageDrawable(animationTop);
         animationTop.start();
 
         AnimationDrawable animationBot = new AnimationDrawable();
-        animationBot.addFrame(getDrawable(R.drawable.arrows1), TIME_INTERVAL);
-        animationBot.addFrame(getDrawable(R.drawable.arrows2), TIME_INTERVAL);
-        animationBot.addFrame(getDrawable(R.drawable.arrows3), TIME_INTERVAL);
-        animationBot.addFrame(getDrawable(R.drawable.arrows4), TIME_INTERVAL);
-        animationBot.addFrame(getDrawable(R.drawable.arrows5), TIME_INTERVAL);
-        animationBot.addFrame(getDrawable(R.drawable.arrows6), TIME_INTERVAL);
-        animationBot.addFrame(getDrawable(R.drawable.arrows7), TIME_INTERVAL);
-        animationBot.addFrame(getDrawable(R.drawable.arrows8), TIME_INTERVAL);
-        animationBot.addFrame(getDrawable(R.drawable.arrows9), TIME_INTERVAL);
-        animationBot.addFrame(getDrawable(R.drawable.arrows10), TIME_INTERVAL);
+        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows1), TIME_INTERVAL);
+        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows2), TIME_INTERVAL);
+        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows3), TIME_INTERVAL);
+        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows4), TIME_INTERVAL);
+        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows5), TIME_INTERVAL);
+        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows6), TIME_INTERVAL);
+        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows7), TIME_INTERVAL);
+        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows8), TIME_INTERVAL);
+        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows9), TIME_INTERVAL);
+        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows10), TIME_INTERVAL);
         animationBot.setOneShot(false);
 
         final ImageView arrowsBot = (ImageView) findViewById(R.id.arrowsBot);

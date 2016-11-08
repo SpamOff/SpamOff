@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "nldr.spamoff"
         //minSdkVersion 22
-        minSdkVersion 23
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -34,7 +34,6 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.github.chenupt.android:springindicator:1.0.2@aar'
     compile 'com.github.chenupt.android:multiplemodel:1.1.0@aar'
-    compile 'me.itangqi.waveloadingview:library:0.3.2@aar'
     compile 'com.android.support:support-v4:23.1.1'
     compile 'pro.alexzaitsev:freepager:1.0.1'
     compile 'me.relex:circleindicator:1.2.2@aar'
@@ -42,8 +41,5 @@ dependencies {
     compile 'info.hoang8f:fbutton:1.0.5'
     compile 'com.sothree.slidinguppanel:library:3.3.1@aar'
     compile 'com.afollestad.material-dialogs:core:0.8.5.9@aar'
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile "cz.msebera.android:httpclient:4.4.1.2"
     compile 'me.relex:circleindicator:1.2.2@aar'
-    //compile 'com.viewpagerindicator:library:2.4.1@aar'
 }
