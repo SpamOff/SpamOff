@@ -55,9 +55,6 @@ import nldr.spamoff.AndroidStorageIO.DateStorageIO;
 public class MainActivity extends AppCompatActivity implements AsyncDataHandler.asyncTaskUIMethods {
 
     private static View rootView;
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
-    private android.widget.CheckBox chkAccept;
 
     private boolean bHasScanned = false;
     private String[] permissionsArray =
@@ -70,82 +67,17 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
     protected void onCreate(Bundle savedInstanceState) {
         final Activity mainActivity = this;
         final Context context = this;
-        final int MAX_SLIDE_VALUE = 152;
-        final int MIN_SLIDE_VALUE = 51;
-        final int TIME_INTERVAL = 250;
+        final int MAX_SLIDE_VALUE = 162;
+        final int MIN_SLIDE_VALUE = 38;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final SeekBar slider = (SeekBar)findViewById(R.id.seekBarSpamOff);
-        slider.setProgress(MAX_SLIDE_VALUE);
-
-        final Button btnLastScan = (Button)findViewById(R.id.btnLastScan);
-
-        AnimationDrawable animationTop = new AnimationDrawable();
-        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows1), TIME_INTERVAL);
-        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows2), TIME_INTERVAL);
-        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows3), TIME_INTERVAL);
-        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows4), TIME_INTERVAL);
-        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows5), TIME_INTERVAL);
-        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows6), TIME_INTERVAL);
-        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows7), TIME_INTERVAL);
-        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows8), TIME_INTERVAL);
-        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows9), TIME_INTERVAL);
-        animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows10), TIME_INTERVAL);
-        animationTop.setOneShot(false);
-        final ImageView arrowsTop = (ImageView) findViewById(R.id.arrowsTop);
-        arrowsTop.setImageDrawable(animationTop);
-        animationTop.start();
-
-        AnimationDrawable animationBot = new AnimationDrawable();
-        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows1), TIME_INTERVAL);
-        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows2), TIME_INTERVAL);
-        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows3), TIME_INTERVAL);
-        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows4), TIME_INTERVAL);
-        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows5), TIME_INTERVAL);
-        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows6), TIME_INTERVAL);
-        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows7), TIME_INTERVAL);
-        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows8), TIME_INTERVAL);
-        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows9), TIME_INTERVAL);
-        animationBot.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows10), TIME_INTERVAL);
-        animationBot.setOneShot(false);
-
-        final ImageView arrowsBot = (ImageView) findViewById(R.id.arrowsBot);
-        arrowsBot.setImageDrawable(animationBot);
-        animationBot.start();
+        final SeekBar slider = (SeekBar) findViewById(R.id.seekBarSpamOff);
+        slider.setProgress(MIN_SLIDE_VALUE);
 
         bHasScanned = CookiesHandler.getIfAlreadyScannedBefore(context);
         //bHasScanned = LastScanIO.read(context);
-
-        btnLastScan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-
-                if (bHasScanned) {
-                    Intent intent = new Intent(context, lastScanActivity.class);
-                    intent.putExtra("date", CookiesHandler.getLastScanDate(context));
-                    intent.putExtra("money", 8000);
-                    startActivity(intent);
-                } else {
-                    Snackbar snc = Snackbar.make(v, "לא ביצעת סריקה בעבר", Snackbar.LENGTH_LONG);
-                    snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-                    snc.show();
-                }
-            }
-        });
-
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-//        CircleIndicator indicator = (CircleIndicator)findViewById(R.id.indicator);
-//        indicator.setViewPager(mViewPager);
-
-
-
-        chkAccept = (android.widget.CheckBox)findViewById(R.id.chkAcceptTerms);
 
         slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -164,41 +96,15 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                if (seekBar.getProgress() >= MIN_SLIDE_VALUE && seekBar.getProgress() < MAX_SLIDE_VALUE) {
-                    if (seekBar.getProgress() == MIN_SLIDE_VALUE) {
-                        stopTheSpamm(seekBar, context);
+                if (seekBar.getProgress() > MIN_SLIDE_VALUE && seekBar.getProgress() <= MAX_SLIDE_VALUE) {
+                    if (seekBar.getProgress() == MAX_SLIDE_VALUE) {
+                        showInfromativeDialog(seekBar, context);
                     }
 
-                    seekBar.setProgress(MAX_SLIDE_VALUE);
+                    seekBar.setProgress(MIN_SLIDE_VALUE);
                 }
             }
         });
-
-        SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
-        slidingUpPanelLayout.setDragView(R.id.sliding_layout);
-
-//        Dialog dialog = new Dialog(this);
-//        dialog.setCancelable(false);
-//        dialog.setContentView(R.layout.activity_intro);
-//        dialog.show();
-    }
-
-    private void stopTheSpamm(View v, final Context context){
-
-        if (chkAccept.isChecked()) {
-            showInfromativeDialog(v, context);
-        } else {
-            Snackbar snc = Snackbar.make(v, "אנא אשר שקראת את הכתוב למעלה", Snackbar.LENGTH_LONG);
-            snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-            snc.setAction("אשר", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    chkAccept.setChecked(true);
-                    showInfromativeDialog(v, context);
-                }
-            });
-            snc.show();
-        }
     }
 
     private void showInfromativeDialog(View v, final Context context) {

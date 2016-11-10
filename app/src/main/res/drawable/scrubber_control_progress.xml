@@ -1,14 +1,17 @@
 <layer-list
     xmlns:android="http://schemas.android.com/apk/res/android" >
-   <item
-        android:id="@android:id/background"
-        android:drawable="@drawable/bar"/>
+   <item android:id="@android:id/background">
+       <nine-patch
+           android:src="@mipmap/slidergrid"
+       android:gravity="center"
+           android:dither="true"/>
+   </item>
     <item
         android:id="@android:id/secondaryProgress">
-            <scale android:drawable="@drawable/bar"/>
+            <scale android:drawable="@mipmap/slidergrid"/>
     </item>
     <item android:id="@android:id/progress">
-      <scale android:drawable="@drawable/bar"/>
+      <scale android:drawable="@mipmap/slidergrid"/>
     </item>
 
 </layer-list>
