@@ -2,6 +2,7 @@ package nldr.spamoff;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -79,9 +80,6 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         slider.setProgress(MAX_SLIDE_VALUE);
 
         final Button btnLastScan = (Button)findViewById(R.id.btnLastScan);
-       // ImageButton btnSpamOff = (ImageButton)findViewById(R.id.btnSpamOff);
-
-
 
         AnimationDrawable animationTop = new AnimationDrawable();
         animationTop.addFrame(ContextCompat.getDrawable(context, R.drawable.arrows1), TIME_INTERVAL);
@@ -150,34 +148,39 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         chkAccept = (android.widget.CheckBox)findViewById(R.id.chkAcceptTerms);
 
         slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-              @Override
-              public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                  if (progress > MAX_SLIDE_VALUE) {
-                      seekBar.setProgress(MAX_SLIDE_VALUE);
-                  }
-                  if (progress < MIN_SLIDE_VALUE) {
-                      seekBar.setProgress(MIN_SLIDE_VALUE);
-                  }
-              }
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (progress > MAX_SLIDE_VALUE) {
+                    seekBar.setProgress(MAX_SLIDE_VALUE);
+                }
+                if (progress < MIN_SLIDE_VALUE) {
+                    seekBar.setProgress(MIN_SLIDE_VALUE);
+                }
+            }
 
-              @Override
-              public void onStartTrackingTouch(SeekBar seekBar) {
-              }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
-              @Override
-              public void onStopTrackingTouch(SeekBar seekBar) {
-                  if (seekBar.getProgress() >= MIN_SLIDE_VALUE && seekBar.getProgress() < MAX_SLIDE_VALUE) {
-                      if (seekBar.getProgress() == MIN_SLIDE_VALUE) {
-                          stopTheSpamm(seekBar, context);
-                      }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if (seekBar.getProgress() >= MIN_SLIDE_VALUE && seekBar.getProgress() < MAX_SLIDE_VALUE) {
+                    if (seekBar.getProgress() == MIN_SLIDE_VALUE) {
+                        stopTheSpamm(seekBar, context);
+                    }
 
-                      seekBar.setProgress(MAX_SLIDE_VALUE);
-                  }
-              }
-          });
+                    seekBar.setProgress(MAX_SLIDE_VALUE);
+                }
+            }
+        });
 
         SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
         slidingUpPanelLayout.setDragView(R.id.sliding_layout);
+
+//        Dialog dialog = new Dialog(this);
+//        dialog.setCancelable(false);
+//        dialog.setContentView(R.layout.activity_intro);
+//        dialog.show();
     }
 
     private void stopTheSpamm(View v, final Context context){
