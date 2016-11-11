@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.telecom.Call;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -141,19 +142,19 @@ public class AsyncDataHandler extends AsyncTask<String, String, String> {
 
 
 
-        final Boolean[] bHasInternet = {false};
-
-        bHasInternet[0] = hasInternetAccess();
-
-        // Checks if the device has internet
-        if (!bHasInternet[0])
-            callCancel("No internet connection", null);
-        else {
-            if (!isCancelled()) {
-                if (params[0] == null) {
-                    return "Nothing was sent because the sms json is empty";
-                }
-
+//        final Boolean[] bHasInternet = {false};
+//
+//        bHasInternet[0] = hasInternetAccess();
+//
+//        // Checks if the device has internet
+//        if (!bHasInternet[0])
+//            callCancel("No internet connection", null);
+//        else {
+//            if (!isCancelled()) {
+//                if (params[0] == null) {
+//                    return "Nothing was sent because the sms json is empty";
+//                }
+//
 //                final MediaType JSON
 //                        = MediaType.parse("application/json; charset=utf-8");
 //
@@ -189,14 +190,9 @@ public class AsyncDataHandler extends AsyncTask<String, String, String> {
 //                        response[0] = resp.body().string();
 //                    }
 //                });
-            }
+//            }
 
-            if (response[0] == null) {
-                callCancel("Oops.. Couldn't connect to the server.", null);
-                return "An error occurred";
-            }
-        }
-
+//            if (response[0] == null) {
         return (response[0]);
     }
 

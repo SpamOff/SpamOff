@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -34,9 +35,15 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.gc.materialdesign.widgets.ProgressDialog;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +55,8 @@ import java.util.List;
 import me.relex.circleindicator.CircleIndicator;
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 import nldr.spamoff.AndroidStorageIO.LastScanIO;
+import nldr.spamoff.Networking.MyRequestQueue;
+import nldr.spamoff.Networking.NetworkManager;
 import nldr.spamoff.SMSHandler.SMSReader;
 import nldr.spamoff.SMSHandler.SMSToJson;
 import nldr.spamoff.AndroidStorageIO.DateStorageIO;
@@ -223,8 +232,6 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                     getNeededPermissions();
                 }
             }).show();
-
-
     }
 
     private void getNeededPermissions() {
@@ -252,14 +259,17 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         progressDialog.show();
 
         final Context context = this;
+        final JSONArray[] finalJsonObject = new JSONArray[] {new JSONArray()};
 
         Runnable smsCollector = new Runnable() {
             @Override
             public void run() {
                 try {
-                    long lastScanDate = CookiesHandler.getLastScanDate(context);
-                    JSONObject jsonObject = SMSToJson.parseAll(context, SMSReader.read(context, new Date(lastScanDate)));
-                    CookiesHandler.setLastScanMessagesCount(context, jsonObject.length());
+                    Date lastScanDate = new Date(CookiesHandler.getLastScanDate(context));
+                    //JSONObject jsonObject = SMSToJson.parseAll(context, SMSReader.read(context, lastScanDate));
+                    JSONArray jsonArray = SMSToJson.parseAllToArray(context, SMSReader.read(context, lastScanDate));
+                    finalJsonObject[0] = jsonArray;
+                    CookiesHandler.setLastScanMessagesCount(context, jsonArray.length());
                     CookiesHandler.setLastScanDate(context, System.currentTimeMillis());
                     CookiesHandler.setIfAlreadyScannedBefore(context, true);
                 } catch (JSONException e) {
@@ -270,11 +280,24 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
             @Override
             protected void finalize() throws Throwable {
                 super.finalize();
-                progressDialog.dismiss();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                    }
+                });
+
+                if (NetworkManager.sendJsonToServer(context, finalJsonObject[0])) {
+                    Log.d("Good", "Sent to the server");
+                } else {
+                    Log.d("Problem", "Problem");
+                }
             }
         };
 
-        smsCollector.run();
+        runOnUiThread(smsCollector);
+        //smsCollector.run();
 
         // TODO : Runnable for sending the data to the server but checks before how many messages sent last time and if there is no diff it doesnt send (diff - delete and get new one?)
     }

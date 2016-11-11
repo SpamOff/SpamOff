@@ -42,4 +42,5 @@ dependencies {
     compile 'com.sothree.slidinguppanel:library:3.3.1@aar'
     compile 'com.afollestad.material-dialogs:core:0.8.5.9@aar'
     compile 'me.relex:circleindicator:1.2.2@aar'
+    compile 'com.android.volley:volley:1.0.0'
 }
