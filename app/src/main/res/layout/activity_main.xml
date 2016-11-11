@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/scrollInfoImage"
             android:layout_gravity="center_horizontal"
+            android:paddingBottom="10dp"
             android:src="@mipmap/sliderinfo" />
 
         <SeekBar

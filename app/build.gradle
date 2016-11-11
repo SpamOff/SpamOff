@@ -34,16 +34,16 @@ dependencies {
     compile project(':GoogleProgress')
 */
     compile files('libs/org.apache.http.legacy.jar')
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+    compile 'me.relex:circleindicator:1.2.2@aar'
+    compile 'me.relex:circleindicator:1.2.2@aar'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:design:23.4.0'
     compile 'com.github.chenupt.android:springindicator:1.0.2@aar'
     compile 'com.github.chenupt.android:multiplemodel:1.1.0@aar'
-    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:support-v4:23.4.0'
     compile 'pro.alexzaitsev:freepager:1.0.1'
-    compile 'me.relex:circleindicator:1.2.2@aar'
     compile 'com.jude:rollviewpager:1.4.5@aar'
     compile 'info.hoang8f:fbutton:1.0.5'
     compile 'com.sothree.slidinguppanel:library:3.3.1@aar'
     compile 'com.afollestad.material-dialogs:core:0.8.5.9@aar'
-    compile 'me.relex:circleindicator:1.2.2@aar'
 }

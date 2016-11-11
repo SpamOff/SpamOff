@@ -55,13 +55,18 @@ import nldr.spamoff.AndroidStorageIO.DateStorageIO;
 public class MainActivity extends AppCompatActivity implements AsyncDataHandler.asyncTaskUIMethods {
 
     private static View rootView;
-
     private boolean bHasScanned = false;
     private String[] permissionsArray =
             new String[] {
                 android.Manifest.permission.READ_CONTACTS,
                 android.Manifest.permission.READ_SMS
             };
+
+    @Override
+    public void onBackPressed() {
+
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +78,15 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if(!CookiesHandler.getIfTermsApproved(context)) {
+            Intent intent = new Intent(context, FloatingTerms.class);
+            startActivity(intent);
+        }
+
         final SeekBar slider = (SeekBar) findViewById(R.id.seekBarSpamOff);
         slider.setProgress(MIN_SLIDE_VALUE);
 
         bHasScanned = CookiesHandler.getIfAlreadyScannedBefore(context);
-        //bHasScanned = LastScanIO.read(context);
 
         slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -121,12 +130,12 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                 @Override
                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                     CookiesHandler.setLastScanDate(context, 978300000000L);
+                    CookiesHandler.setIfTermsApproved(context, false);
                 }
             })
             .onPositive(new MaterialDialog.SingleButtonCallback() {
                 @Override
                 public void onClick(MaterialDialog dialog, DialogAction which) {
-                    getNeededPermissions();
                 }
             }).show();
 
@@ -183,12 +192,6 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         smsCollector.run();
 
         // TODO : Runnable for sending the data to the server but checks before how many messages sent last time and if there is no diff it doesnt send (diff - delete and get new one?)
-    }
-
-    private void slideUp() {
-        SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout)findViewById(R.id.sliding_layout);
-        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-        slidingUpPanelLayout.setDragView(findViewById(R.id.btnStop));
     }
 
     @Override

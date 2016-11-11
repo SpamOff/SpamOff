@@ -38,6 +38,7 @@
             android:theme="@style/Theme.Holo.Dialog.NoActionBar.Transparent" />
         <activity
             android:name=".LoadingActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,6 +46,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".FloatingTermsOfUseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Holo.Dialog.NoActionBar.Rounded" />
+        <activity
+            android:name=".FloatingTerms"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Holo.Dialog.NoActionBar.Rounded"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,70 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="nldr.spamoff.MessageScanningFragment">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:textAlignment="center"
+            android:textDirection="rtl"
+            android:textStyle="bold"
+            android:text="סריקת ההודעות"
+            android:id="@+id/title"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:lineSpacingExtra="1dp"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textAlignment="center"
+            android:textDirection="rtl"
+            android:layout_below="@+id/title"
+            android:id="@+id/text_1"
+            android:text="בעזרת האפליקציה של SpamOff ניתן להעביר את כל הודעות הספאם שבמכשירך לבדיקה בהחלקה אחת. כל ההודעות החשודות כהודעות ספאם ישלחו לבדיקת המערכת ולאחר מכן תקבל התייחסות פרטנית לגבי כל ההודעות שזוהו וכיצד ניתן להתקדם.\n"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:lineSpacingExtra="1dp"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textAlignment="center"
+            android:textDirection="rtl"
+            android:textStyle="bold"
+            android:layout_below="@+id/text_1"
+            android:id="@+id/text_2"
+            android:layout_marginTop="-18dp"
+            android:text="אל דאגה, אנחנו לא מושכים הודעות שנשלחו מאנשי הקשר שלך."
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:lineSpacingExtra="1dp"
+            android:textColor="@color/black"
+            android:textSize="14dp"
+            android:textAlignment="center"
+            android:textDirection="rtl"
+            android:layout_below="@+id/text_2"
+            android:text="כמו כן, שום הודעה לא תיקרא או תועבר לידי צד שלישי, אנחנו רק משווים את ההודעות שלך להודעות המוכרות כספאם אצלנו על מנת לזהות את הספאמים שלך.
+    "
+            />
+    </RelativeLayout>
+</FrameLayout>
