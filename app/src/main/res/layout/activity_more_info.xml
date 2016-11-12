@@ -41,20 +41,10 @@
                 android:layout_gravity="bottom"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
-                app:ci_drawable="@drawable/indicator_checked"
+                app:ci_drawable="@drawable/indicator_checked_green"
                 app:ci_drawable_unselected="@drawable/indicator_unchecked"
                 android:background="@color/greenPrimary"
                 android:clickable="true" />
-
-            <!--<com.flyco.pageindicator.indicator.FlycoPageIndicaor-->
-                <!--android:id="@+id/indicator"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="48dp"-->
-                <!--android:layout_gravity="bottom"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_alignParentStart="true"-->
-                <!--app:fpi_selectRes="@drawable/indicator_checked">-->
-            <!--</com.flyco.pageindicator.indicator.FlycoPageIndicaor>-->
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/container"

@@ -129,7 +129,7 @@ public class MoreInfo extends AppCompatActivity {
                 case 1:
                     return (new moreInfo5Fragment());
                 case 0:
-                    return (new moreInfo5Fragment());
+                    return (new moreInfo6Fragment());
                 default:
                     return null;
             }
