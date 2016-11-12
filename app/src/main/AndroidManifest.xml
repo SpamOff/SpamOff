@@ -21,7 +21,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".OurServiceActivity"
             android:label="@string/title_activity_our_service"
@@ -30,21 +30,30 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ScanResultsActivity" />
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".ScanResultsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".lastScanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Holo.Dialog.NoActionBar.Transparent" />
         <activity
             android:name=".LoadingActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MoreInfo"
+            android:label="@string/title_activity_more_info"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ScanFinished"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
-
 </manifest>

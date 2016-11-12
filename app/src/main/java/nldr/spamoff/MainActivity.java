@@ -285,6 +285,9 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
                     @Override
                     public void run() {
                         progressDialog.dismiss();
+
+                        Intent intent = new Intent(context, ScanFinished.class);
+                        startActivity(intent);
                     }
                 });
 

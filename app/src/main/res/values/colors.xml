@@ -2,6 +2,8 @@
 <resources>
     <color name="colorPrimary">#29343d</color>
     <color name="colorPrimaryDark">#1c242a</color>
+    <color name="greenPrimary">#a5cb8e</color>
+    <color name="greenPrimaryDark">#72ac4d</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="si_default_text_color">#FF0000</color>

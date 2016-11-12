@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".moreInfo4Fragment"
+    android:background="@color/greenPrimary">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="מי אנחנו"
+            android:id="@+id/textView13"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textSize="30dp"
+            android:layout_marginBottom="10dp"
+            android:textAlignment="center" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView14"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/moreinfo7"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="הודעות ספאם מטרידות ומעצבנות את כולנו. הן תמיד מגיעות בזמן הלא מתאים וחודרות לפרטיות שלנו במטרה לדחוף לנו פרסומות שלרוב איננו מעוניינים בהן."
+            android:id="@+id/textView14"
+            android:layout_gravity="center_horizontal"
+            android:textSize="22dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:autoText="false"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="אנחנו רוצים לעצור את תופעת הספאם הלא חוקי על ידי סיוע טכני בהגשת תביעות לפיצוי כספי, במטרה להקל על תהליך הגשת &quot;תביעות ספאם&quot;. ככל שיוגשו יותר תביעות, הספאמרים יחוייבו לשלם יותר פיצויים. רק לחץ כלכלי יגרום להם להפסיק להטריד אותנו."
+            android:id="@+id/textView15"
+            android:layout_gravity="center_horizontal"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp" />
+
+    </LinearLayout>
+</RelativeLayout>
