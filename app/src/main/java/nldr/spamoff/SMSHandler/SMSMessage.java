@@ -8,40 +8,41 @@ import java.util.Date;
 public class SMSMessage {
 
     public String getAddress() {
-        return _address;
+        return this._address;
     }
 
-    public void setAddress(String _address) {
-        this._address = _address;
-    }
-
-    public String getTimeStamp() {
-        return _timeStamp;
-    }
-
-    public void setTimeStamp(String _timeStamp) {
-        this._timeStamp = _timeStamp;
+    public void setAddress(String address) {
+        this._address = address;
     }
 
     public String getBody() {
-        return _body;
+        return this._body;
     }
 
-    public void setBody(String _body) {
-        this._body = _body;
+    public void setBody(String body) {
+        this._body = body;
+    }
+
+    public String getTimeStamp() {
+        return this._timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this._timeStamp = timeStamp;
     }
 
     private String _address;
-    private String _timeStamp;
     private String _body;
+    private String _timeStamp;
 
     public SMSMessage(){
 
     }
-    public SMSMessage(String _address,String _timeStamp, String _body) {
-        this._address = _address;
-        this._timeStamp = _timeStamp;
-        this._body = _body;
 
+    public SMSMessage(String address, String body, String timeStamp) {
+
+        this._address = address;
+        this._body = body;
+        this._timeStamp = timeStamp;
     }
 }

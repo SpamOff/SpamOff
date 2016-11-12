@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -34,9 +35,15 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.gc.materialdesign.widgets.ProgressDialog;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +55,8 @@ import java.util.List;
 import me.relex.circleindicator.CircleIndicator;
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 import nldr.spamoff.AndroidStorageIO.LastScanIO;
+import nldr.spamoff.Networking.MyRequestQueue;
+import nldr.spamoff.Networking.NetworkManager;
 import nldr.spamoff.SMSHandler.SMSReader;
 import nldr.spamoff.SMSHandler.SMSToJson;
 import nldr.spamoff.AndroidStorageIO.DateStorageIO;
@@ -142,14 +151,17 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         progressDialog.show();
 
         final Context context = this;
+        final JSONArray[] finalJsonObject = new JSONArray[] {new JSONArray()};
 
         Runnable smsCollector = new Runnable() {
             @Override
             public void run() {
                 try {
-                    long lastScanDate = CookiesHandler.getLastScanDate(context);
-                    JSONObject jsonObject = SMSToJson.parseAll(context, SMSReader.read(context, new Date(lastScanDate)));
-                    CookiesHandler.setLastScanMessagesCount(context, jsonObject.length());
+                    Date lastScanDate = new Date(CookiesHandler.getLastScanDate(context));
+                    //JSONObject jsonObject = SMSToJson.parseAll(context, SMSReader.read(context, lastScanDate));
+                    JSONArray jsonArray = SMSToJson.parseAllToArray(context, SMSReader.read(context, lastScanDate));
+                    finalJsonObject[0] = jsonArray;
+                    CookiesHandler.setLastScanMessagesCount(context, jsonArray.length());
                     CookiesHandler.setLastScanDate(context, System.currentTimeMillis());
                     CookiesHandler.setIfAlreadyScannedBefore(context, true);
                 } catch (JSONException e) {
@@ -160,11 +172,27 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
             @Override
             protected void finalize() throws Throwable {
                 super.finalize();
-                progressDialog.dismiss();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+
+                        Intent intent = new Intent(context, ScanFinished.class);
+                        startActivity(intent);
+                    }
+                });
+
+                if (NetworkManager.sendJsonToServer(context, finalJsonObject[0])) {
+                    Log.d("Good", "Sent to the server");
+                } else {
+                    Log.d("Problem", "Problem");
+                }
             }
         };
 
-        smsCollector.run();
+        runOnUiThread(smsCollector);
+        //smsCollector.run();
 
         // TODO : Runnable for sending the data to the server but checks before how many messages sent last time and if there is no diff it doesnt send (diff - delete and get new one?)
     }
@@ -249,99 +277,4 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         //Snackbar.make(null, checkName, Snackbar.LENGTH_SHORT).show();
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-
-            switch (position) {
-                case 0:
-                    ourServiceFragment tab1 = new ourServiceFragment();
-                    return tab1;
-                case 1:
-                    whoWeAreFragment tab2 = new whoWeAreFragment();
-                    return tab2;
-                case 2:
-                    whyFragment tab3 = new whyFragment();
-                    return tab3;
-                case 3:
-                    howLongFragment tab4 = new howLongFragment();
-                    return tab4;
-                case 4:
-                    howMuchFragment tab5 = new howMuchFragment();
-                    return tab5;
-                default:
-                    return null;
-            }
-
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            //return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            return 5;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "";
-                case 1:
-                    return " ";
-                case 2:
-                    return "3";
-                case 3:
-                    return " ";
-                case 4:
-                    return " ";
-            }
-            return null;
-        }
-    }
 }

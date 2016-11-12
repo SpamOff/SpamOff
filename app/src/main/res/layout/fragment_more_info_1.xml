@@ -1,0 +1,87 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".moreInfo1Fragment"
+    android:background="@color/greenPrimary">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="מה עליך לעשות?"
+            android:id="@+id/textView13"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textSize="30dp"
+            android:layout_marginBottom="10dp"
+            android:textAlignment="center" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView14"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/moreinfo1"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="סורקים את ההודעות"
+            android:id="@+id/textView14"
+            android:layout_gravity="center_horizontal"
+            android:textSize="22dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="ניתן להעביר לבדיקה את כל ההודעות בטלפון בלחיצת כפתור אחת! אל דאגה, אנחנו מקפידים לשמור על הפרטיות ולכן אנחנו לא סורקים את ההודעות שנשלחו מאנשי הקשר שלך אלא רק הודעות ממקור לא מוכר."
+            android:id="@+id/textView15"
+            android:layout_gravity="center_horizontal"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView15"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/moreinfo2"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="מגיעים למשפט או לפשרה"
+            android:id="@+id/textView16"
+            android:layout_gravity="center_horizontal"
+            android:textSize="22dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="עליך יהיה להגיע לדיון בבית המשפט לתביעות קטנות במועד עתידי שייקבע עבורך, אלא אם הושגה פשרה בין הצדדים לפני כן."
+            android:id="@+id/textView17"
+            android:layout_gravity="center_horizontal"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp" />
+    </LinearLayout>
+</RelativeLayout>

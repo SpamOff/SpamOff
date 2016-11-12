@@ -14,15 +14,10 @@ import java.util.ArrayList;
  */
 public class SMSToJson {
 
-    static public JSONObject parseAll(Context context, ArrayList<SMSMessage> smsMesssages) throws JSONException {
+    public static JSONObject parseAll(Context context, ArrayList<SMSMessage> smsMesssages) throws JSONException {
         JSONObject jsonObject = new JSONObject();
         JSONArray messagesArray = new JSONArray();
 
-
-        TelephonyManager tm = (TelephonyManager)context.getSystemService(context.TELEPHONY_SERVICE);
-        String number = tm.getLine1Number();
-
-        jsonObject.put("phoneNumber", number);
         for (SMSMessage smsMessage : smsMesssages) {
             messagesArray.put(parse(smsMessage));
         }
@@ -31,7 +26,17 @@ public class SMSToJson {
         return jsonObject;
     }
 
-    static private JSONObject parse(SMSMessage smsMessage) throws JSONException {
+    public static JSONArray parseAllToArray(Context context, ArrayList<SMSMessage> smsMesssages) throws JSONException {
+        JSONArray messagesArray = new JSONArray();
+
+        for (SMSMessage smsMessage : smsMesssages) {
+            messagesArray.put(parse(smsMessage));
+        }
+
+        return messagesArray;
+    }
+
+    private static JSONObject parse(SMSMessage smsMessage) throws JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("sender", smsMessage.getAddress());
         jsonObject.put("date", smsMessage.getTimeStamp());

@@ -28,14 +28,13 @@ public class SMSReader {
         String[] simTemplate = new String[] { "_id", "thread_id", "address", "person", "date", "body" };
         SMSMessage temp;
 
-
         try{
-            if(phoneSMSCursor.getCount() == 0) {
-                if(simSMSCursor.getCount() > 0) {
+            if (phoneSMSCursor.getCount() == 0) {
+                if (simSMSCursor.getCount() > 0) {
                     moveCursorToArrayList(context, simSMSCursor, united, date);
                 }
-                return united;
 
+                return united;
             }
             else if(simSMSCursor.getCount() == 0){
                 moveCursorToArrayList(context, phoneSMSCursor, united, date);
@@ -43,11 +42,9 @@ public class SMSReader {
             }
         }
         catch(Exception e){
+        }
 
-    }
-
-
-         CursorJoiner joiner = new CursorJoiner(phoneSMSCursor, phoneTemplate, simSMSCursor, simTemplate);
+        CursorJoiner joiner = new CursorJoiner(phoneSMSCursor, phoneTemplate, simSMSCursor, simTemplate);
          Date SMSDate;
 
          for (CursorJoiner.Result result : joiner) {
@@ -64,11 +61,7 @@ public class SMSReader {
              }
              SMSDate = new Date(chosenCursor.getLong(4));
              if(SMSDate.after(date) && contactExists(context, chosenCursor.getString(2))) {
-                 temp = new SMSMessage();
-                 temp.setAddress(chosenCursor.getString(2));
-                 temp.setBody(chosenCursor.getString(5));
-                 temp.setTimeStamp(getDate(chosenCursor.getLong(4), "dd/MM/yyyy hh:mm"));
-                 united.add(temp);
+                 united.add(new SMSMessage(chosenCursor.getString(2), chosenCursor.getString(5), getDate(chosenCursor.getLong(4), "dd/MM/yyyy hh:mm")));
              }
          }
         return united;
@@ -79,18 +72,17 @@ public class SMSReader {
         SMSMessage temp;
         Date SMSDate;
 
-
         while(!cursor.isAfterLast()) {
+
             SMSDate = new Date(cursor.getLong(4));
+
             if(SMSDate.after(date) && !contactExists(context, cursor.getString(2))) {
-                temp = new SMSMessage();
-                temp.setAddress(cursor.getString(2));
-                temp.setBody(cursor.getString(5));
-                temp.setTimeStamp(getDate(cursor.getLong(4), "dd/MM/yyyy hh:mm"));
-                list.add(temp);
+                list.add(new SMSMessage(cursor.getString(2), cursor.getString(5), getDate(cursor.getLong(4), "dd/MM/yyyy hh:mm")));
             }
+
             cursor.moveToNext();
         }
+
         cursor.close();
     }
 

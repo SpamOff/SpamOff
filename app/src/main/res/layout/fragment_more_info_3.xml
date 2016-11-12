@@ -1,0 +1,87 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".moreInfo3Fragment"
+    android:background="@color/greenPrimary">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="מה SpamOff עושים עבורך?"
+            android:id="@+id/textView13"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textSize="27dp"
+            android:layout_marginBottom="10dp"
+            android:textAlignment="center" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView14"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/moreinfo5"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="הגשת התביעה"
+            android:id="@+id/textView14"
+            android:layout_gravity="center_horizontal"
+            android:textSize="22dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="לאחר אישור כתב התביעה, תביעתך תוגש לבית המשפט לתביעות קטנות."
+            android:id="@+id/textView15"
+            android:layout_gravity="center_horizontal"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView15"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/moreinfo6"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="מעקב שוטף אחר התביעה"
+            android:id="@+id/textView16"
+            android:layout_gravity="center_horizontal"
+            android:textSize="22dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="אנחנו עוקבים באופן קבוע אחר תביעתך ונעדכן אותך בכל התפתחות ומידע חדש."
+            android:id="@+id/textView17"
+            android:layout_gravity="center_horizontal"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp" />
+    </LinearLayout>
+</RelativeLayout>

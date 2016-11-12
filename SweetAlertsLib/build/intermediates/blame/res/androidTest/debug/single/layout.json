@@ -48,12 +48,12 @@
         "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_list_menu_item_radio.xml"
     },
     {
-        "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_search_view.xml",
-        "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_search_view.xml"
-    },
-    {
         "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\alert_dialog.xml",
         "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\bundles\\debug\\res\\layout\\alert_dialog.xml"
+    },
+    {
+        "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_search_view.xml",
+        "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_search_view.xml"
     },
     {
         "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_action_bar_title_item.xml",
@@ -76,12 +76,12 @@
         "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
     },
     {
-        "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_screen_content_include.xml",
-        "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_screen_content_include.xml"
-    },
-    {
         "merged": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_screen_simple.xml",
         "source": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_screen_simple.xml"
+    },
+    {
+        "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_screen_content_include.xml",
+        "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_screen_content_include.xml"
     },
     {
         "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_activity_chooser_view_include.xml",
@@ -96,12 +96,12 @@
         "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_action_menu_item_layout.xml"
     },
     {
-        "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_list_menu_item_layout.xml",
-        "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_list_menu_item_layout.xml"
-    },
-    {
         "merged": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\support_simple_spinner_dropdown_item.xml",
         "source": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\support_simple_spinner_dropdown_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_list_menu_item_layout.xml",
+        "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_list_menu_item_layout.xml"
     },
     {
         "merged": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_screen_content_include.xml",
@@ -120,12 +120,12 @@
         "source": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_search_dropdown_item_icons_2line.xml"
     },
     {
-        "merged": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_screen_simple_overlay_action_mode.xml",
-        "source": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
-    },
-    {
         "merged": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_list_menu_item_layout.xml",
         "source": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_list_menu_item_layout.xml"
+    },
+    {
+        "merged": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_screen_simple_overlay_action_mode.xml",
+        "source": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
     },
     {
         "merged": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_simple_dropdown_hint.xml",
@@ -172,16 +172,16 @@
         "source": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_list_menu_item_radio.xml"
     },
     {
-        "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_action_mode_close_item_material.xml",
-        "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_action_mode_close_item_material.xml"
-    },
-    {
         "merged": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_screen_toolbar.xml",
         "source": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_screen_toolbar.xml"
     },
     {
         "merged": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_action_mode_bar.xml",
         "source": "C:\\Users\\Lior\\Desktop\\Archive\\dev\\Spamoff\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_action_mode_bar.xml"
+    },
+    {
+        "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_action_mode_close_item_material.xml",
+        "source": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\21.0.0\\res\\layout\\abc_action_mode_close_item_material.xml"
     },
     {
         "merged": "C:\\Users\\Roee\\Development\\Android Projects\\Roee\\SweetAlertsLib\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\abc_list_menu_item_checkbox.xml",

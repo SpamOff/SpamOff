@@ -29,12 +29,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile project(':MaterialDesign')
-    compile project(':SweetAlertsLib')
-/*
-    compile project(':GoogleProgress')
-*/
     compile files('libs/org.apache.http.legacy.jar')
-    compile 'me.relex:circleindicator:1.2.2@aar'
     compile 'me.relex:circleindicator:1.2.2@aar'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
@@ -46,4 +41,6 @@ dependencies {
     compile 'info.hoang8f:fbutton:1.0.5'
     compile 'com.sothree.slidinguppanel:library:3.3.1@aar'
     compile 'com.afollestad.material-dialogs:core:0.8.5.9@aar'
+    compile 'com.android.volley:volley:1.0.0'
+    compile 'com.nineoldandroids:library:2.4.0'
 }
