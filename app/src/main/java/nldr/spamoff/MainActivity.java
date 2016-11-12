@@ -1,65 +1,35 @@
 package nldr.spamoff;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.AnimationDrawable;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.ViewGroup;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.gc.materialdesign.widgets.ProgressDialog;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import me.relex.circleindicator.CircleIndicator;
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
-import nldr.spamoff.AndroidStorageIO.LastScanIO;
-import nldr.spamoff.Networking.MyRequestQueue;
 import nldr.spamoff.Networking.NetworkManager;
 import nldr.spamoff.SMSHandler.SMSReader;
 import nldr.spamoff.SMSHandler.SMSToJson;
-import nldr.spamoff.AndroidStorageIO.DateStorageIO;
 
 public class MainActivity extends AppCompatActivity implements AsyncDataHandler.asyncTaskUIMethods {
 
@@ -116,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
             public void onStopTrackingTouch(SeekBar seekBar) {
                 if (seekBar.getProgress() > MIN_SLIDE_VALUE && seekBar.getProgress() <= MAX_SLIDE_VALUE) {
                     if (seekBar.getProgress() == MAX_SLIDE_VALUE) {
-                        showInfromativeDialog(seekBar, context);
+                        fetchIfPermitted();
                     }
 
                     seekBar.setProgress(MIN_SLIDE_VALUE);
@@ -125,31 +95,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         });
     }
 
-    private void showInfromativeDialog(View v, final Context context) {
-
-        new MaterialDialog.Builder(context)
-            .content(R.string.explenationModal)
-            .title("מה הולך לקרות?")
-            .titleGravity(GravityEnum.END)
-            .buttonsGravity(GravityEnum.END)
-            .contentGravity(GravityEnum.END)
-            .positiveText("המשך")
-            .negativeText("לא תודה")
-            .onNegative(new MaterialDialog.SingleButtonCallback() {
-                @Override
-                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    CookiesHandler.setLastScanDate(context, 978300000000L);
-                    CookiesHandler.setIfTermsApproved(context, false);
-                }
-            })
-            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                @Override
-                public void onClick(MaterialDialog dialog, DialogAction which) {
-                }
-            }).show();
-    }
-
-    private void getNeededPermissions() {
+    private void fetchIfPermitted() {
 
         List<String> deniededPermissions = new ArrayList<String>();
 
@@ -300,99 +246,4 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         //Snackbar.make(null, checkName, Snackbar.LENGTH_SHORT).show();
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-
-            switch (position) {
-                case 0:
-                    ourServiceFragment tab1 = new ourServiceFragment();
-                    return tab1;
-                case 1:
-                    whoWeAreFragment tab2 = new whoWeAreFragment();
-                    return tab2;
-                case 2:
-                    whyFragment tab3 = new whyFragment();
-                    return tab3;
-                case 3:
-                    howLongFragment tab4 = new howLongFragment();
-                    return tab4;
-                case 4:
-                    howMuchFragment tab5 = new howMuchFragment();
-                    return tab5;
-                default:
-                    return null;
-            }
-
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            //return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            return 5;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "";
-                case 1:
-                    return " ";
-                case 2:
-                    return "3";
-                case 3:
-                    return " ";
-                case 4:
-                    return " ";
-            }
-            return null;
-        }
-    }
 }

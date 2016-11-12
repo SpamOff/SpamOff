@@ -33,16 +33,12 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+
 
         <activity
             android:name=".ScanResultsActivity"
             android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".lastScanActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Holo.Dialog.NoActionBar.Transparent" />
 
         <activity
             android:name=".LoadingActivity"
@@ -67,6 +63,6 @@
         <activity
             android:name=".FloatingTerms"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Holo.Dialog.NoActionBar.Rounded"></activity>
+            android:theme="@style/Theme.Holo.Dialog.NoActionBar.Rounded" />
     </application>
 </manifest>
