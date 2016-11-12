@@ -1,7 +1,6 @@
 package nldr.spamoff;
 
 import android.support.v7.app.AppCompatActivity;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -13,9 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.flyco.pageindicator.indicator.FlycoPageIndicaor;
-
 import me.relex.circleindicator.CircleIndicator;
 
 public class MoreInfo extends AppCompatActivity {
@@ -46,13 +42,7 @@ public class MoreInfo extends AppCompatActivity {
         indicator.setViewPager(viewpager);
         indicator.setScaleX(2.5f);
         indicator.setScaleY(2.5f);
-        //indicator.setContextClickable(true);
         indicator.setSoundEffectsEnabled(true);
-
-//        FlycoPageIndicaor flycoPageIndicaor = (FlycoPageIndicaor)findViewById(R.id.indicator);
-//        flycoPageIndicaor.setViewPager(viewpager);
-//        flycoPageIndicaor.setIsSnap(false);
-//        flycoPageIndicaor.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
     }
 
 

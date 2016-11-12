@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import nldr.spamoff.AndroidStorageIO.CookiesHandler;
+
 public class LoadingActivity extends AppCompatActivity {
 
     @Override
@@ -20,7 +22,6 @@ public class LoadingActivity extends AppCompatActivity {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-
                 Intent intent = new Intent(context, MainActivity.class);
                 startActivity(intent);
                 finish();

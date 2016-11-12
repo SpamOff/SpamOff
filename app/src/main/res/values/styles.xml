@@ -17,6 +17,10 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <style name="Theme.Holo.Dialog.NoActionBar.Rounded" parent="android:Theme.Holo.Dialog.NoActionBar">
+        <item name="android:windowBackground">@drawable/rounded_corners</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
