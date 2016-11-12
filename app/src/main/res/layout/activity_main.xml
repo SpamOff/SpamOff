@@ -14,39 +14,48 @@
         android:background="@color/colorPrimary"
         android:padding="0dp">
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center|center_vertical|center_horizontal">
 
-        <ImageView
-            android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollInfoImage"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="10dp"
+        android:src="@mipmap/sliderinfo"
+        android:layout_above="@+id/seekBarSpamOff"
+        android:layout_centerHorizontal="true" />
+
+
+
+    <SeekBar
+            android:id="@+id/seekBarSpamOff"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:id="@+id/scrollInfoImage"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="10dp"
-            android:src="@mipmap/sliderinfo" />
+            android:cropToPadding="false"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:max="200"
+            android:progressDrawable="@drawable/scrubber_control_progress"
+            android:thumb="@drawable/scrubber_control"
+            android:splitTrack="false"
+            android:background="@android:color/transparent"
+            android:clickable="false"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
 
-        <SeekBar
-                android:id="@+id/seekBarSpamOff"
-                android:layout_width="320dp"
-                android:layout_height="wrap_content"
-                android:cropToPadding="false"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:layout_alignParentTop="false"
-                android:layout_centerVertical="true"
-                android:max="200"
-                android:progressDrawable="@drawable/scrubber_control_progress"
-                android:thumb="@drawable/scrubber_control"
-                android:splitTrack="false"
-                android:background="@android:color/transparent"
-                android:clickable="false"
-                android:layout_alignParentStart="true"
-                android:layout_centerHorizontal="true" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/spam"
+        android:layout_centerVertical="true"
+        android:layout_alignTop="@+id/seekBarSpamOff"
+        android:layout_alignBottom="@+id/seekBarSpamOff"
+        android:layout_alignLeft="@+id/seekBarSpamOff"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="50dp"
+        android:id="@+id/spam" />
 
-        </LinearLayout>
+
 
 </RelativeLayout>
 
