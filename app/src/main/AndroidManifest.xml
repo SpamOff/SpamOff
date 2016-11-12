@@ -31,7 +31,6 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ScanResultsActivity" />
         <activity
             android:name=".lastScanActivity"
             android:screenOrientation="portrait"
@@ -53,7 +52,8 @@
         <activity
             android:name=".FloatingTerms"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Holo.Dialog.NoActionBar.Rounded"></activity>
+            android:theme="@style/Theme.Holo.Dialog.NoActionBar.Rounded" />
+        <activity android:name=".ScanResultsActivity"></activity>
     </application>
 
 </manifest>

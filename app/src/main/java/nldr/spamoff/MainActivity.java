@@ -107,39 +107,14 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
             public void onStopTrackingTouch(SeekBar seekBar) {
                 if (seekBar.getProgress() > MIN_SLIDE_VALUE && seekBar.getProgress() <= MAX_SLIDE_VALUE) {
                     if (seekBar.getProgress() == MAX_SLIDE_VALUE) {
-                        showInfromativeDialog(seekBar, context);
+                        getNeededPermissions();
+                        fetchWithPermissions();
                     }
 
                     seekBar.setProgress(MIN_SLIDE_VALUE);
                 }
             }
         });
-    }
-
-    private void showInfromativeDialog(View v, final Context context) {
-
-        new MaterialDialog.Builder(context)
-            .content(R.string.explenationModal)
-            .title("מה הולך לקרות?")
-            .titleGravity(GravityEnum.END)
-            .buttonsGravity(GravityEnum.END)
-            .contentGravity(GravityEnum.END)
-            .positiveText("המשך")
-            .negativeText("לא תודה")
-            .onNegative(new MaterialDialog.SingleButtonCallback() {
-                @Override
-                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                    CookiesHandler.setLastScanDate(context, 978300000000L);
-                    CookiesHandler.setIfTermsApproved(context, false);
-                }
-            })
-            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                @Override
-                public void onClick(MaterialDialog dialog, DialogAction which) {
-                }
-            }).show();
-
-
     }
 
     private void getNeededPermissions() {

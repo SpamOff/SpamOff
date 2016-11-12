@@ -30,6 +30,7 @@
             android:background="@android:color/transparent"
             android:id="@+id/skipButton"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_gravity="center_horizontal"
             android:layout_below="@+id/container"/>
@@ -37,7 +38,9 @@
         <me.relex.circleindicator.CircleIndicator
             android:id="@+id/indicator"
             android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
             android:layout_height="48dp"
+            android:layout_marginBottom="-10dp"
             android:layout_below="@+id/skipButton"
             android:layout_alignParentStart="true" />
 
