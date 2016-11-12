@@ -77,9 +77,10 @@ public class FloatingTerms extends FragmentActivity {
             }
         });
 
-
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(mViewPager);
+        indicator.setScaleX(2.5f);
+        indicator.setScaleY(2.5f);
 
        // this.setFinishOnTouchOutside(false);
 
@@ -104,7 +105,6 @@ public class FloatingTerms extends FragmentActivity {
             mViewPager.setCurrentItem(currItem + 1, true);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -159,7 +159,6 @@ public class FloatingTerms extends FragmentActivity {
             View rootView = inflater.inflate(R.layout.fragment_floating_terms, container, false);
             return rootView;
         }
-
     }
 
     /**
@@ -185,15 +184,11 @@ public class FloatingTerms extends FragmentActivity {
                     return new ApproveTermsFragment();
                 default:
                     return null;
-
             }
         }
 
         @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 3;
-        }
+        public int getCount() { return 3; }
 
         @Override
         public CharSequence getPageTitle(int position) {

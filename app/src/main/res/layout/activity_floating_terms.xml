@@ -39,7 +39,9 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_below="@+id/skipButton"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            app:ci_drawable="@drawable/indicator_checked_red"
+            app:ci_drawable_unselected="@drawable/indicator_unchecked"/>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/container"
