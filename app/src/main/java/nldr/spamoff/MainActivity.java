@@ -1,65 +1,35 @@
 package nldr.spamoff;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.AnimationDrawable;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.ViewGroup;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.gc.materialdesign.widgets.ProgressDialog;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import me.relex.circleindicator.CircleIndicator;
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
-import nldr.spamoff.AndroidStorageIO.LastScanIO;
-import nldr.spamoff.Networking.MyRequestQueue;
 import nldr.spamoff.Networking.NetworkManager;
 import nldr.spamoff.SMSHandler.SMSReader;
 import nldr.spamoff.SMSHandler.SMSToJson;
-import nldr.spamoff.AndroidStorageIO.DateStorageIO;
 
 public class MainActivity extends AppCompatActivity implements AsyncDataHandler.asyncTaskUIMethods {
 
@@ -116,8 +86,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
             public void onStopTrackingTouch(SeekBar seekBar) {
                 if (seekBar.getProgress() > MIN_SLIDE_VALUE && seekBar.getProgress() <= MAX_SLIDE_VALUE) {
                     if (seekBar.getProgress() == MAX_SLIDE_VALUE) {
-                        getNeededPermissions();
-                        fetchWithPermissions();
+                        fetchIfPermitted();
                     }
 
                     seekBar.setProgress(MIN_SLIDE_VALUE);
@@ -126,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements AsyncDataHandler.
         });
     }
 
-    private void getNeededPermissions() {
+    private void fetchIfPermitted() {
 
         List<String> deniededPermissions = new ArrayList<String>();
 
