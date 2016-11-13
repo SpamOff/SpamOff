@@ -16,20 +16,32 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView16"
         android:src="@drawable/term"
-        android:layout_above="@+id/imgbtnMoreInfo"
-        android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_above="@+id/btnMoreInfo"
+        android:layout_centerHorizontal="true" />
 
-    <ImageButton
+    <!--<ImageButton-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/imgbtnMoreInfo"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:src="@drawable/more_info_text"-->
+        <!--android:background="#72ac4d"-->
+        <!--android:layout_alignParentEnd="false"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:visibility="gone" />-->
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/imgbtnMoreInfo"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/more_info_text"
-        android:background="#72ac4d"
-        android:layout_alignParentEnd="false"
-        android:layout_centerHorizontal="true" />
+        android:text="מידע נוסף"
+        android:id="@+id/btnMoreInfo"
+        android:background="@color/greenPrimaryDark"
+        android:textColor="#ffffff"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -43,8 +55,8 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:scaleType="fitStart"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -70,4 +82,5 @@
         android:layout_below="@+id/imageView10"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="31dp" />
+
 </RelativeLayout>

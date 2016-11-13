@@ -91,6 +91,7 @@ public class SMSReader {
             //TODO:
 
         }
+
         return readSMS(context, "content://sms/icc");
     }
     private static Cursor readFromPhone(Context context){
@@ -99,6 +100,7 @@ public class SMSReader {
     private static boolean isDualSim(){
         return false;
     }
+
     private static Cursor readSMS(Context context, String path){
         Cursor cursor = null;
         String WHERE_CONDITION = null;

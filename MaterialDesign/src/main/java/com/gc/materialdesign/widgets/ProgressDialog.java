@@ -48,12 +48,12 @@ public class ProgressDialog extends android.app.Dialog{
 		view = (RelativeLayout)findViewById(R.id.contentDialog);
 		backView = (RelativeLayout)findViewById(R.id.dialog_rootView);
 		backView.setOnTouchListener(new OnTouchListener() {
-			
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getX() < view.getLeft() 
+				if (event.getX() < view.getLeft()
 						|| event.getX() >view.getRight()
-						|| event.getY() > view.getBottom() 
+						|| event.getY() > view.getBottom()
 						|| event.getY() < view.getTop()) {
 					dismiss();
 				}
@@ -133,7 +133,7 @@ public class ProgressDialog extends android.app.Dialog{
 		view.startAnimation(anim);
 		backView.startAnimation(backAnim);
 	}
-	
-	
+
+
 
 }

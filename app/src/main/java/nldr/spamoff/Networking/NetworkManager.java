@@ -1,6 +1,8 @@
 package nldr.spamoff.Networking;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiConfiguration;
 import android.telecom.StatusHints;
 import android.util.Log;
@@ -20,7 +22,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 /**
@@ -30,6 +35,40 @@ public class NetworkManager {
 
     public static String serverUrl = "https://spamofftestserver.herokuapp.com/lol";
     // "http://spamoff.co.il/uploadClient/uploadTxts"
+
+
+    public static boolean isNetworkAvailable(Context context) {
+
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activityNetwork = cm.getActiveNetworkInfo();
+
+        //boolean isWifi = activityNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+        return ((activityNetwork != null) &&
+                (activityNetwork.isConnected()));
+    }
+
+    public static boolean hasInternetAccess(Context context) {
+
+        if (isNetworkAvailable(context)) {
+            try {
+                HttpURLConnection urlc =
+                        (HttpURLConnection)(new URL("http://clients3.google.com/generate_204")
+                                .openConnection());
+                urlc.setRequestProperty("User-Agent", "Android");
+                urlc.setRequestProperty("Connection", "close");
+                urlc.setConnectTimeout(1500);
+                urlc.connect();
+
+                return ((urlc.getResponseCode() == 204) && (urlc.getContentLength() == 0));
+            } catch (IOException e) {
+                Log.e("Internet_Checking_Tak", "Error checking internet connection", e);
+            }
+        } else {
+            Log.d("Internet_Checking_Tak", "No network available!");
+        }
+
+        return false;
+    }
 
     public static boolean sendJsonToServer(Context context, JSONArray jsonToSend) {
 
@@ -42,13 +81,11 @@ public class NetworkManager {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        Log.d("Response from server : ", "lol");
                     }
                 }, new Response.ErrorListener() {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("Error", error.getMessage());
                         bWasSentSuccessfully[0] = false;
                     }
                 }) {
@@ -73,7 +110,5 @@ public class NetworkManager {
         queue.add(jsObjRequest);
 
         return bWasSentSuccessfully[0];
-
-
     }
 }

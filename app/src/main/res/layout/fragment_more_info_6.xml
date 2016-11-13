@@ -19,7 +19,7 @@
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
             android:layout_marginTop="20dp"
-            android:textSize="20dp"
+            android:textSize="25dp"
             android:layout_marginBottom="10dp"
             android:textAlignment="center"
             android:layout_marginLeft="20dp"
@@ -32,7 +32,7 @@
             android:text="זמן ההמתנה לדיון משתנה ותלוי בלוחות הזמנים של בתי המשפט ולוקח בממוצע כחצי שנה. \n מקרים רבים מסתיימים בפשרה לפני הדיון. בתקופת ההמתנה לדיון אנו נעקוב אחר תביעתך ונעדכן אותך בכל ההתפתחות."
             android:id="@+id/textView15"
             android:layout_gravity="center_horizontal"
-            android:textSize="20dp"
+            android:textSize="16dp"
             android:textAlignment="center"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp" />
@@ -46,7 +46,7 @@
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
             android:layout_marginTop="20dp"
-            android:textSize="20dp"
+            android:textSize="25dp"
             android:layout_marginBottom="10dp"
             android:textAlignment="center"
             android:layout_marginLeft="20dp"
@@ -59,10 +59,11 @@
             android:text="SpamOff גובה דמי טיפול רק במקרה של זכייה. \n לא זכית - לא שילמת! \n דמי הטיפול הם בגובה של 20% + מע&quot;מ מסכום הפיצוי או מינימום של 100ש&quot;ח (הגבוה מביניהם). \n בית המשפט לתביעות קטנות גובה אגרה של 50 ש&quot;ח או 1% מסכום התביעה עבור הגשת התביעה. \n אגרת בית המשפט תוחזר ל - SpamOff מיד לאחר הגשת התביעה. דמי הטיפול ישולמו לאחר קבלת פסק הדין בבית המשפט או חתימת הסכם הפשרה."
             android:id="@+id/textView19"
             android:layout_gravity="center_horizontal"
-            android:textSize="20dp"
+            android:textSize="16dp"
             android:textAlignment="center"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp" />
+            android:layout_marginRight="20dp"
+            android:textDirection="rtl" />
 
     </LinearLayout>
 </RelativeLayout>

@@ -32,7 +32,24 @@
             android:textStyle="bold"
             android:textColor="#ffffff"
             android:textSize="30dp"
-                android:background="@color/greenPrimaryDark" />
+                android:background="@color/greenPrimaryDark"
+                android:layout_weight="1.5" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="סגור"
+                android:id="@+id/btnClose"
+                android:layout_alignParentStart="false"
+                android:background="@color/fbutton_color_transparent"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp" />
 
             <me.relex.circleindicator.CircleIndicator
                 android:id="@+id/indicator"
@@ -55,6 +72,7 @@
                 android:layout_above="@+id/indicator"
                 android:layout_alignParentEnd="false"
                 android:layout_alignParentStart="false" />
+
         </RelativeLayout>
 
     </LinearLayout>

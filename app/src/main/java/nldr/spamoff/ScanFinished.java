@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 public class ScanFinished extends AppCompatActivity {
@@ -16,11 +17,20 @@ public class ScanFinished extends AppCompatActivity {
 
         final Context context = this;
 
-        ImageButton imgBtnMoreInfo = (ImageButton)findViewById(R.id.imgbtnMoreInfo);
-        imgBtnMoreInfo.setOnClickListener(new View.OnClickListener() {
+//        ImageButton imgBtnMoreInfo = (ImageButton)findViewById(R.id.imgbtnMoreInfo);
+//        imgBtnMoreInfo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Intent intent = new Intent(context, MoreInfo.class);
+//                startActivity(intent);
+//            }
+//        });
+
+        Button btnMoreInfo = (Button)findViewById(R.id.btnMoreInfo);
+        btnMoreInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(context, MoreInfo.class);
                 startActivity(intent);
             }

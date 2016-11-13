@@ -29,6 +29,5 @@ public class LoadingActivity extends AppCompatActivity {
         };
 
         handler.postDelayed(runnable, 2200);
-        handler.postDelayed(runnable, 2200);
     }
 }
