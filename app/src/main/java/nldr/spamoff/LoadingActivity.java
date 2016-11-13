@@ -22,8 +22,18 @@ public class LoadingActivity extends AppCompatActivity {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(context, MainActivity.class);
-                startActivity(intent);
+                Intent intent;
+                if (CookiesHandler.getIfWaitingForServer(context)) {
+                    intent = new Intent(context, ScanFinished.class);
+                } else if (CookiesHandler.getIfAlreadyScannedBefore(context)) {
+                    intent = new Intent(context, ScanResultsActivity.class);
+                } else {
+                    intent = new Intent(context, MainActivity.class);
+                }
+
+                startActivity(new Intent(context, MainActivity.class));
+                // TODO : Remove
+                //startActivity(intent);
                 finish();
             }
         };

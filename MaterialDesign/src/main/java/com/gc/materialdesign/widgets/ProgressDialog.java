@@ -134,6 +134,4 @@ public class ProgressDialog extends android.app.Dialog{
 		backView.startAnimation(backAnim);
 	}
 
-
-
 }

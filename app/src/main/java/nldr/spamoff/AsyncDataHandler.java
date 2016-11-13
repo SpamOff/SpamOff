@@ -5,45 +5,44 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
-
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 import nldr.spamoff.Networking.NetworkManager;
 import nldr.spamoff.SMSHandler.SMSMessage;
 import nldr.spamoff.SMSHandler.SMSReader;
 import nldr.spamoff.SMSHandler.SMSToJson;
 
+import static nldr.spamoff.AsyncStatus.*;
+
 /**
  * Created by Roee on 15/10/2016.
  */
-public class AsyncDataHandler extends AsyncTask<String, String, Boolean> {
+public class AsyncDataHandler extends AsyncTask<String, String, AsyncStatus> {
 
     public static AsyncDataHandler communicator;
-
     private static Context _context;
+    private usingAsyncFetcher _callback;
 
-    private usingInternetChecker _callback;
-
-    public interface usingInternetChecker {
-        void noInternet();
-        void progressDone(Boolean bHasInternet);
+    public interface usingAsyncFetcher {
+        void finished();
+        void cancelled();
         void updateProgress(String prg);
+        void noNewMessages();
+        void error(String errorMessage);
     }
 
-    public static void checkInternet(Context context, usingInternetChecker callback) {
+    public static void performInBackground(Context context, usingAsyncFetcher callback) {
         communicator = new AsyncDataHandler(context, callback);
-        communicator.fetch();
+        communicator.execute();
     }
 
-    public AsyncDataHandler(Context context, usingInternetChecker callback) {
+    public AsyncDataHandler(Context context, usingAsyncFetcher callback) {
         this._context = context;
         this._callback = callback;
     }
@@ -56,32 +55,23 @@ public class AsyncDataHandler extends AsyncTask<String, String, Boolean> {
         this._context = context;
     }
 
-    public usingInternetChecker getCallback() {
+    public usingAsyncFetcher getCallback() {
         return this._callback;
     }
 
-    public void setCallback(usingInternetChecker callback) {
+    public void setCallback(usingAsyncFetcher callback) {
         this._callback = callback;
     }
 
-    private void fetch() {
+    protected AsyncStatus doInBackground(String... params) {
 
-        this.execute();
-    }
-
-//    protected Boolean doInBackground(Boolean... params) {
-//        return (hasInternetAccess());
-//    }
-
-    boolean bHasInternet = true;
-
-    protected Boolean doInBackground(String... params) {
+        AsyncStatus result = finished;
 
         publishProgress("בודק את מצב הרשת...");
-        bHasInternet = hasInternetAccess();
-        boolean bStatus = false;
 
-        if (bHasInternet) {
+        if (!hasInternetAccess()) {
+            result = noInternet;
+        } else {
             Date lastScanDate = new Date(CookiesHandler.getLastScanDate(getContext()));
 
             JSONArray jsonArray = null;
@@ -92,6 +82,7 @@ public class AsyncDataHandler extends AsyncTask<String, String, Boolean> {
                 publishProgress("מחפש הודעות ספאם...");
                 jsonArray = SMSToJson.parseAllToArray(getContext(), arr);
             } catch (JSONException e) {
+                result = smsReadingError;
                 e.printStackTrace();
             }
 
@@ -99,24 +90,44 @@ public class AsyncDataHandler extends AsyncTask<String, String, Boolean> {
             CookiesHandler.setLastScanDate(getContext(), System.currentTimeMillis());
             CookiesHandler.setIfAlreadyScannedBefore(getContext(), true);
 
-            publishProgress("נמצאו " + jsonArray.length() + " הודעות חשודות, שולח לשרת...");
-
-            bStatus = NetworkManager.sendJsonToServer(this.getContext(), jsonArray);
+            if (jsonArray.length() == 0) {
+                result = noNewMessages;
+            } else {
+                publishProgress("נמצאו " + jsonArray.length() + " הודעות חשודות, שולח לשרת...");
+                if (!NetworkManager.sendJsonToServer(this.getContext(), jsonArray))
+                    result = failedWhileSendingToServer;
+            }
 
         }
 
-        return bStatus;
+        return result;
     }
 
     @Override
-    protected void onPostExecute(Boolean aBoolean) {
+    protected void onPostExecute(AsyncStatus status) {
 
-        if (!bHasInternet)
-            getCallback().noInternet();
-        else
-            getCallback().progressDone(aBoolean);
+        switch (status) {
+            case noInternet:
+                getCallback().error("כדי שנוכל לסרוק ולשלוח את הודעות הספאם שלך דרוש חיבור אינטרנט זמין ומהיר מספיק");
+                break;
+            case finished:
+                getCallback().finished();
+                break;
+            case smsReadingError:
+                getCallback().error("ארעה שגיאה בזמן קריאת ההודעות");
+                break;
+            case failedWhileSendingToServer:
+                getCallback().error("ארעה שגיאה בזמן שליחת הנתונים לשרת");
+                break;
+            case noNewMessages:
+                getCallback().noNewMessages();
+                break;
+            default:
+                getCallback().cancelled();
+                break;
+        }
 
-        super.onPostExecute(aBoolean);
+        //super.onPostExecute(aBoolean);
     }
 
     @Override
@@ -150,7 +161,7 @@ public class AsyncDataHandler extends AsyncTask<String, String, Boolean> {
                                 .openConnection());
                 urlc.setRequestProperty("User-Agent", "Android");
                 urlc.setRequestProperty("Connection", "close");
-                urlc.setConnectTimeout(100);
+                urlc.setConnectTimeout(1500);
                 urlc.connect();
 
                 return ((urlc.getResponseCode() == 204) && (urlc.getContentLength() == 0));

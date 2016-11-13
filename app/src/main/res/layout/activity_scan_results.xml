@@ -14,62 +14,143 @@
     android:padding="0dp">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="תאריך הסריקה האחרונה"
-        android:textSize="32dp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/white"
-        android:id="@+id/dateTitle"
-        android:layout_centerHorizontal="true" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DD/MM/YY"
-        android:textSize="32dp"
-        android:layout_below="@+id/dateTitle"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/white"
-        android:layout_centerHorizontal="true" />
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center|center_vertical|center_horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="תאריך הסריקה האחרונה"
+            android:textSize="28dp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:id="@+id/dateTitle"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DD/MM/YY"
+            android:textSize="24dp"
+            android:id="@+id/date"
+            android:layout_below="@+id/dateTitle"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/scrollInfoImage"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/sliderinfo"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60dp" />
+
+            <SeekBar
+                android:id="@+id/seekBarSpamOff"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:cropToPadding="false"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:max="200"
+                android:progressDrawable="@drawable/scrubber_control_progress"
+                android:layout_gravity="center"
+                android:thumb="@drawable/scrubber_control"
+                android:splitTrack="false"
+                android:layout_below="@+id/scrollInfoImage"
+                android:background="@android:color/transparent"
+                android:clickable="false"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/spam"
+                android:layout_centerVertical="true"
+                android:layout_alignTop="@+id/seekBarSpamOff"
+                android:layout_alignBottom="@+id/seekBarSpamOff"
+                android:layout_alignLeft="@+id/seekBarSpamOff"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="50dp"
+                android:id="@+id/spam" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ellipse_background"
+            android:text="8"
+            android:textAlignment="center"
+            android:elegantTextHeight="true"
+            android:layout_marginTop="50dp"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:minWidth="52dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textStyle="bold"
+            android:id="@+id/spamCount"
+            android:layout_below="@+id/seekBarSpamOff"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="הודעות פוטנציאליות לתביעה"
+            android:textSize="20dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/white"
+            android:id="@+id/textView18"
+            android:layout_below="@+id/spamCount"
+            android:layout_centerHorizontal="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/watch_results"
+            android:id="@+id/watchResultsButton"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/textView18"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/scrollInfoImage"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="10dp"
-            android:src="@mipmap/sliderinfo" />
+            android:id="@+id/imageView16"
+            android:src="@drawable/term"
+            android:layout_above="@+id/imgbtnMoreInfo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
-        <SeekBar
-            android:id="@+id/seekBarSpamOff"
-            android:layout_width="320dp"
+        <ImageButton
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:cropToPadding="false"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:layout_alignParentTop="false"
-            android:layout_centerVertical="true"
-            android:max="200"
-            android:progressDrawable="@drawable/scrubber_control_progress"
-            android:thumb="@drawable/scrubber_control"
-            android:splitTrack="false"
-            android:background="@android:color/transparent"
-            android:clickable="false"
-            android:layout_alignParentStart="true"
+            android:id="@+id/imgbtnMoreInfo"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/more_info_text"
+            android:background="#72ac4d"
+            android:layout_alignParentEnd="false"
             android:layout_centerHorizontal="true" />
-
     </LinearLayout>
+
 
 </RelativeLayout>
 

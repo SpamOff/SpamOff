@@ -1,64 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:fbutton="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="nldr.spamoff.MainActivity"
-        android:background="@color/colorPrimary"
-        android:padding="0dp">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="nldr.spamoff.MainActivity"
+    android:background="@color/colorPrimary"
+    android:padding="0dp">
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center|center_vertical|center_horizontal">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollInfoImage"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="10dp"
+        android:src="@mipmap/sliderinfo"
+        android:layout_above="@+id/seekBarSpamOff"
+        android:layout_centerHorizontal="true" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/scrollInfoImage"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="10dp"
-            android:src="@mipmap/sliderinfo" />
+    <SeekBar
+        android:id="@+id/seekBarSpamOff"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:cropToPadding="false"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:max="200"
+        android:progressDrawable="@drawable/scrubber_control_progress"
+        android:thumb="@drawable/scrubber_control"
+        android:splitTrack="false"
+        android:background="@android:color/transparent"
+        android:clickable="false"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
-        <SeekBar
-                android:id="@+id/seekBarSpamOff"
-                android:layout_width="320dp"
-                android:layout_height="wrap_content"
-                android:cropToPadding="false"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:layout_alignParentTop="false"
-                android:layout_centerVertical="true"
-                android:max="200"
-                android:progressDrawable="@drawable/scrubber_control_progress"
-                android:thumb="@drawable/scrubber_control"
-                android:splitTrack="false"
-                android:background="@android:color/transparent"
-                android:clickable="false"
-                android:layout_alignParentStart="true"
-                android:layout_centerHorizontal="true" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/spam"
+        android:layout_centerVertical="true"
+        android:layout_alignTop="@+id/seekBarSpamOff"
+        android:layout_alignBottom="@+id/seekBarSpamOff"
+        android:layout_alignLeft="@+id/seekBarSpamOff"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="50dp"
+        android:id="@+id/spam" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ליאור אפס"
-            android:id="@+id/btnReset"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/fbutton_color_transparent"
-            android:textColor="#ffffff"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_marginTop="30dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ליאור אפס"
+        android:id="@+id/btnReset"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/fbutton_color_transparent"
+        android:textColor="#ffffff"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginTop="51dp"
+        android:layout_below="@+id/spam"
+        android:layout_centerHorizontal="true" />
 
-    </LinearLayout>
+
 
 </RelativeLayout>
-
