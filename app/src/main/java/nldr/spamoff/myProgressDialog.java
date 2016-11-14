@@ -11,6 +11,12 @@ import com.gc.materialdesign.widgets.ProgressDialog;
  */
 public class myProgressDialog extends ProgressDialog {
 
+    public interface usingProgressDialog {
+        void progressMovedBackground();
+    }
+
+    private usingProgressDialog _callback;
+
     public myProgressDialog(Context context, String title) {
         super(context, title);
     }

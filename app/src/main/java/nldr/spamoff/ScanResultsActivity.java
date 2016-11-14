@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,7 @@ public class ScanResultsActivity
     };
 
     private myProgressDialog progressDialog = null;
+    private boolean isFetching = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +97,16 @@ public class ScanResultsActivity
             public void onStopTrackingTouch(SeekBar seekBar) {
                 if (seekBar.getProgress() > MIN_SLIDE_VALUE && seekBar.getProgress() <= MAX_SLIDE_VALUE) {
                     if (seekBar.getProgress() == MAX_SLIDE_VALUE) {
-                        fetchIfPermitted();
+                        if (seekBar.getProgress() == MAX_SLIDE_VALUE) {
+                            if (!isFetching)
+                                fetchIfPermitted();
+                            else {
+                                Snackbar snc = Snackbar.make(seekBar, "לאט לאט.. תהליך אחר רץ ברקע..", Snackbar.LENGTH_SHORT);
+                                snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+                                snc.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                                snc.show();
+                            }
+                        }
                     }
 
                     seekBar.setProgress(MIN_SLIDE_VALUE);
@@ -192,7 +203,6 @@ public class ScanResultsActivity
         }
 
         if (bAcceptedAll) {
-            progressDialog.show();
             AsyncDataHandler.performInBackground(this, this);
         } else {
             new MaterialDialog.Builder(this)
@@ -205,7 +215,6 @@ public class ScanResultsActivity
         }
     }
 
-
     @Override
     public void updateProgress(String prg) {
         progressDialog.setTitle(prg);
@@ -213,7 +222,6 @@ public class ScanResultsActivity
 
     @Override
     public void noNewMessages() {
-        progressDialog.cancel();
         new MaterialDialog.Builder(this)
                 .content("לא נמצאו הודעות חדשות מאז הסריקה האחרונה")
                 .title("הסריקה נגמרה")
@@ -225,15 +233,12 @@ public class ScanResultsActivity
 
     @Override
     public void finished() {
-        progressDialog.cancel();
-
         Intent intent = new Intent(this, ScanFinished.class);
         startActivity(intent);
     }
 
     @Override
     public void error(String errorMessage) {
-        this.progressDialog.cancel();
         new MaterialDialog.Builder(this)
                 .content(errorMessage)
                 .title("ארעה שגיאה בזמן ביצוע הסריקה")
@@ -244,8 +249,19 @@ public class ScanResultsActivity
     }
 
     @Override
-    public void cancelled() {
+    public void startedFetching() {
+        this.progressDialog.show();
+        this.isFetching = true;
+    }
+
+    @Override
+    public void stoppedFetching() {
         this.progressDialog.cancel();
+        this.isFetching = false;
+    }
+
+    @Override
+    public void cancelled() {
         new MaterialDialog.Builder(this)
                 .content("כדי שנוכל לסרוק ולשלוח את הודעות הספאם שלך דרוש חיבור אינטרנט זמין ומהיר מספיק")
                 .title("ארעה שגיאה בזמן ביצוע הסריקה")

@@ -35,6 +35,8 @@ public class AsyncDataHandler extends AsyncTask<String, String, AsyncStatus> {
         void updateProgress(String prg);
         void noNewMessages();
         void error(String errorMessage);
+        void startedFetching();
+        void stoppedFetching();
     }
 
     public static void performInBackground(Context context, usingAsyncFetcher callback) {
@@ -104,7 +106,15 @@ public class AsyncDataHandler extends AsyncTask<String, String, AsyncStatus> {
     }
 
     @Override
+    protected void onPreExecute() {
+        this.getCallback().startedFetching();
+        super.onPreExecute();
+    }
+
+    @Override
     protected void onPostExecute(AsyncStatus status) {
+
+        this.getCallback().stoppedFetching();
 
         switch (status) {
             case noInternet:
@@ -126,8 +136,6 @@ public class AsyncDataHandler extends AsyncTask<String, String, AsyncStatus> {
                 getCallback().cancelled();
                 break;
         }
-
-        //super.onPostExecute(aBoolean);
     }
 
     @Override
