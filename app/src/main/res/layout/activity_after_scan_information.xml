@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:fitsSystemWindows="true"
+    tools:context="nldr.spamoff.FloatingTerms"
+    android:background="@android:color/transparent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/container"
+        android:layout_width="wrap_content"
+        android:layout_height="320dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_alignParentEnd="false"
+        android:layout_marginBottom="-5dp"
+        android:layout_alignParentStart="false" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/exit"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="4dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/container"
+        android:id="@+id/exit"
+        android:background="@android:color/transparent"/>
+
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="false"
+        android:layout_below="@+id/container"
+        app:ci_drawable="@drawable/indicator_checked_green"
+        app:ci_drawable_unselected="@drawable/indicator_unchecked"/>
+
+
+</RelativeLayout>

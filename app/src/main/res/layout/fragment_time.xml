@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="nldr.spamoff.TimeFragment">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="כמה זמן?"
+        android:id="@+id/textView13"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textSize="18dp"
+        android:paddingTop="30dp"
+        android:layout_marginBottom="5dp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView13"
+        android:textColor="@color/black"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="זמן ההמתנה לדיון משתנה ותלוי בלוחות הזמנים של בתי המשפט ולוקח בממוצע כחצי שנה. \n מקרים רבים מסתיימים בפשרה לפני הדיון. בתקופת ההמתנה לדיון אנו נעקוב אחר תביעתך ונעדכן אותך בכל ההתפתחות."
+        android:id="@+id/textView15"
+        android:layout_gravity="center_horizontal"
+        android:textSize="15dp"
+        android:textAlignment="center" />
+
+</RelativeLayout>

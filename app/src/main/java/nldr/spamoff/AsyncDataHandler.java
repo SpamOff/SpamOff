@@ -74,6 +74,8 @@ public class AsyncDataHandler extends AsyncTask<String, String, AsyncStatus> {
         } else {
             Date lastScanDate = new Date(CookiesHandler.getLastScanDate(getContext()));
 
+
+
             JSONArray jsonArray = null;
 
             try {
@@ -88,7 +90,9 @@ public class AsyncDataHandler extends AsyncTask<String, String, AsyncStatus> {
 
             CookiesHandler.setLastScanMessagesCount(getContext(), jsonArray.length());
             CookiesHandler.setLastScanDate(getContext(), System.currentTimeMillis());
-            CookiesHandler.setIfAlreadyScannedBefore(getContext(), true);
+            if(!CookiesHandler.getIfAlreadyScannedBefore(getContext())){
+                CookiesHandler.setIfAlreadyScannedBefore(getContext(), true);
+            }
 
             if (jsonArray.length() == 0) {
                 result = noNewMessages;

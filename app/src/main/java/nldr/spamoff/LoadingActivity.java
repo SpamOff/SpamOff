@@ -10,6 +10,8 @@ import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 
 public class LoadingActivity extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +33,7 @@ public class LoadingActivity extends AppCompatActivity {
                     intent = new Intent(context, MainActivity.class);
                 }
 
-                startActivity(new Intent(context, MainActivity.class));
+                startActivity(intent);
                 // TODO : Remove
                 //startActivity(intent);
                 finish();
@@ -39,5 +41,14 @@ public class LoadingActivity extends AppCompatActivity {
         };
 
         handler.postDelayed(runnable, 2200);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("Exit application", true);
+        startActivity(intent);
+        finish();
     }
 }

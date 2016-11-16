@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.media.Image;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -63,8 +65,16 @@ public class ScanResultsActivity
         watchResultsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(CookiesHandler.getResultsURI(context)));
-                startActivity(browserIntent);
+                /*Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(CookiesHandler.getResultsURI(context)));
+                startActivity(browserIntent);*/
+                CookiesHandler.setIfAlreadyScannedBefore(context, false);
+                CookiesHandler.setIfWaitingForServer(context, false);
+                CookiesHandler.setIfTermsApproved(context, false);
+
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
+                finish();
+
             }
         });
 
@@ -112,6 +122,7 @@ public class ScanResultsActivity
                 startActivity(intent);
             }
         });
+
 
         progressDialog = new myProgressDialog(this, "", Color.RED);
         progressDialog.setCancelable(false);
@@ -229,6 +240,7 @@ public class ScanResultsActivity
 
         Intent intent = new Intent(this, ScanFinished.class);
         startActivity(intent);
+        finish();
     }
 
     @Override
@@ -253,5 +265,14 @@ public class ScanResultsActivity
                 .buttonsGravity(GravityEnum.END)
                 .contentGravity(GravityEnum.END)
                 .positiveText("אישור").show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("Exit application", true);
+        startActivity(intent);
+        finish();
     }
 }

@@ -47,64 +47,72 @@ public class MainActivity
         final int MIN_SLIDE_VALUE = 38;
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        if(!CookiesHandler.getIfTermsApproved(context)) {
-            Intent intent = new Intent(context, FloatingTerms.class);
-            startActivity(intent);
-        }
+        if(getIntent().getBooleanExtra("Exit application", false)){
+            finish();
 
-        final SeekBar slider = (SeekBar) findViewById(R.id.seekBarSpamOff);
-        slider.setProgress(MIN_SLIDE_VALUE);
+        } else {
 
-        final ImageView spamView = (ImageView)findViewById(R.id.spam);
-        spamView.setAlpha((float)0);
+            setContentView(R.layout.activity_main);
 
-        slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress > MAX_SLIDE_VALUE) {
-                    seekBar.setProgress(MAX_SLIDE_VALUE);
-                } if(progress <= MIN_SPAM_OPACITY_CHANGER_VALUE){
-                    spamView.setAlpha((float)0);
-                }
-                if(progress > MIN_SPAM_OPACITY_CHANGER_VALUE) {
-                    spamView.setAlpha((float)(progress - MIN_SPAM_OPACITY_CHANGER_VALUE) / (MAX_SLIDE_VALUE - MIN_SPAM_OPACITY_CHANGER_VALUE));
-                }
-                if (progress < MIN_SLIDE_VALUE) {
-                    seekBar.setProgress(MIN_SLIDE_VALUE);
-                }
+            if (!CookiesHandler.getIfTermsApproved(context)) {
+                Intent intent = new Intent(context, FloatingTerms.class);
+                startActivity(intent);
             }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
+            final SeekBar slider = (SeekBar) findViewById(R.id.seekBarSpamOff);
+            slider.setProgress(MIN_SLIDE_VALUE);
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                if (seekBar.getProgress() > MIN_SLIDE_VALUE && seekBar.getProgress() <= MAX_SLIDE_VALUE) {
-                    if (seekBar.getProgress() == MAX_SLIDE_VALUE) {
-                        fetchIfPermitted();
+            final ImageView spamView = (ImageView) findViewById(R.id.spam);
+            spamView.setAlpha((float) 0);
+
+            slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (progress > MAX_SLIDE_VALUE) {
+                        seekBar.setProgress(MAX_SLIDE_VALUE);
                     }
-
-                    seekBar.setProgress(MIN_SLIDE_VALUE);
+                    if (progress <= MIN_SPAM_OPACITY_CHANGER_VALUE) {
+                        spamView.setAlpha((float) 0);
+                    }
+                    if (progress > MIN_SPAM_OPACITY_CHANGER_VALUE) {
+                        spamView.setAlpha((float) (progress - MIN_SPAM_OPACITY_CHANGER_VALUE) / (MAX_SLIDE_VALUE - MIN_SPAM_OPACITY_CHANGER_VALUE));
+                    }
+                    if (progress < MIN_SLIDE_VALUE) {
+                        seekBar.setProgress(MIN_SLIDE_VALUE);
+                    }
                 }
-            }
-        });
 
-        Button btnReset = (Button)findViewById(R.id.btnReset);
-        btnReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CookiesHandler.setLastScanDate(context, 978300000000L);
-                Snackbar snc = Snackbar.make(v, "ידוע שנים...", Snackbar.LENGTH_SHORT);
-                snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-                snc.show();
-            }
-        });
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
 
-        progressDialog = new myProgressDialog(this, "", Color.RED);
-        progressDialog.setCancelable(false);
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    if (seekBar.getProgress() > MIN_SLIDE_VALUE && seekBar.getProgress() <= MAX_SLIDE_VALUE) {
+                        if (seekBar.getProgress() == MAX_SLIDE_VALUE) {
+                            fetchIfPermitted();
+                        }
+
+                        seekBar.setProgress(MIN_SLIDE_VALUE);
+                    }
+                }
+            });
+
+            Button btnReset = (Button) findViewById(R.id.btnReset);
+            btnReset.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CookiesHandler.setLastScanDate(context, 978300000000L);
+                    Snackbar snc = Snackbar.make(v, "ידוע שנים...", Snackbar.LENGTH_SHORT);
+                    snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+                    snc.show();
+                }
+            });
+
+            progressDialog = new myProgressDialog(this, "", Color.RED);
+            progressDialog.setCancelable(false);
+        }
     }
 
     private void fetchIfPermitted() {
@@ -186,6 +194,7 @@ public class MainActivity
 
         Intent intent = new Intent(this, ScanFinished.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

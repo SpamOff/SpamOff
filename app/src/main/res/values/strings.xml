@@ -61,4 +61,5 @@
     <string name="title_activity_intro">IntroActivity</string>
     <string name="title_activity_more_info">MoreInfo</string>
     <string name="title_activity_floating_terms">FloatingTerms</string>
+    <string name="title_activity_after_scan_information">AfterScanInformationActivity</string>
 </resources>
