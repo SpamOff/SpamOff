@@ -1,12 +1,20 @@
 package nldr.spamoff;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
+
+import com.facebook.FacebookSdk;
 
 
 /**
@@ -18,6 +26,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class moreInfo5Fragment extends Fragment {
+
+    View rootView;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -54,6 +65,7 @@ public class moreInfo5Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -64,7 +76,31 @@ public class moreInfo5Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_more_info_5, container, false);
+        rootView = inflater.inflate(R.layout.fragment_more_info_5, container, false);
+        ImageButton btn = (ImageButton)rootView.findViewById(R.id.btnShare);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share();
+            }
+        });
+
+        return rootView;
+    }
+
+    private void share() {
+        LayoutInflater layoutInflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View inflatedView = layoutInflater.inflate(R.layout.activity_share, null, false);
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+//        PopupWindow popupWindow = new PopupWindow(inflatedView, size.x, size.y, true);
+//        popupWindow.setFocusable(true);
+//        popupWindow.setBackgroundDrawable();
+//        popupWindow.showAtLocation(rootView, Gravity.CENTER, 0, 0);
+        Intent intent = new Intent(getContext(), ShareActivity.class);
+        startActivity(intent);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

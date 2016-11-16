@@ -41,8 +41,6 @@ public class ScanFinished extends AppCompatActivity {
             }
         });
 
-
-
         ImageButton imageButton = (ImageButton)findViewById(R.id.imageView10);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +52,14 @@ public class ScanFinished extends AppCompatActivity {
             }
         });
 
-
-
+        Button btnGotTheMessage = (Button)findViewById(R.id.btnGotTheMessage);
+        btnGotTheMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Random rand = new Random();
+                CookiesHandler.setSpamMessagesCount(context, rand.nextInt(100));
+                startActivity(new Intent(context, ScanResultsActivity.class));
+            }
+        });
     }
 }

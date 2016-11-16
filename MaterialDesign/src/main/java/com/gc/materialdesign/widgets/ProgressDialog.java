@@ -38,7 +38,7 @@ public class ProgressDialog extends android.app.Dialog{
 		this.progressColor = progressColor;
 		this.context = context;
 	}
-	
+
 	@Override
 	  protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
