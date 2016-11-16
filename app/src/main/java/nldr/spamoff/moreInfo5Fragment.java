@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.Display;
 import android.view.Gravity;
@@ -81,7 +82,8 @@ public class moreInfo5Fragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                share();
+                //share();
+                Snackbar.make(v, "בקרוב...", Snackbar.LENGTH_SHORT).show();
             }
         });
 

@@ -17,7 +17,6 @@ import nldr.spamoff.Networking.NetworkManager;
 import nldr.spamoff.SMSHandler.SMSMessage;
 import nldr.spamoff.SMSHandler.SMSReader;
 import nldr.spamoff.SMSHandler.SMSToJson;
-
 import static nldr.spamoff.AsyncStatus.*;
 
 /**
@@ -76,6 +75,8 @@ public class AsyncDataHandler extends AsyncTask<String, String, AsyncStatus> {
         } else {
             Date lastScanDate = new Date(CookiesHandler.getLastScanDate(getContext()));
 
+
+
             JSONArray jsonArray = null;
 
             try {
@@ -90,7 +91,9 @@ public class AsyncDataHandler extends AsyncTask<String, String, AsyncStatus> {
 
             CookiesHandler.setLastScanMessagesCount(getContext(), jsonArray.length());
             CookiesHandler.setLastScanDate(getContext(), System.currentTimeMillis());
-            CookiesHandler.setIfAlreadyScannedBefore(getContext(), true);
+            if(!CookiesHandler.getIfAlreadyScannedBefore(getContext())){
+                CookiesHandler.setIfAlreadyScannedBefore(getContext(), true);
+            }
 
             if (jsonArray.length() == 0) {
                 result = noNewMessages;
@@ -162,7 +165,6 @@ public class AsyncDataHandler extends AsyncTask<String, String, AsyncStatus> {
     public static boolean hasInternetAccess() {
 
         if (isNetworkAvailable()) {
-
             try {
                 HttpURLConnection urlc =
                         (HttpURLConnection) (new URL("http://clients3.google.com/generate_204")

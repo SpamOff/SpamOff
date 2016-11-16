@@ -52,20 +52,4 @@
         android:layout_marginLeft="50dp"
         android:id="@+id/spam" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ליאור אפס"
-        android:id="@+id/btnReset"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/fbutton_color_transparent"
-        android:textColor="#ffffff"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:layout_marginTop="51dp"
-        android:layout_below="@+id/spam"
-        android:layout_centerHorizontal="true" />
-
-
-
 </RelativeLayout>

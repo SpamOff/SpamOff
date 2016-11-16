@@ -1,17 +1,6 @@
 package nldr.spamoff;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,12 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import me.relex.circleindicator.CircleIndicator;
-import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 
-public class FloatingTerms extends FragmentActivity {
+public class AfterScanInformationActivity extends FragmentActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -41,8 +28,6 @@ public class FloatingTerms extends FragmentActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ImageButton skipButton;
-
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -52,11 +37,8 @@ public class FloatingTerms extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_floating_terms);
+        setContentView(R.layout.activity_after_scan_information);
 
-        this.setFinishOnTouchOutside(false);
-
-        final Context context = this;
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -65,60 +47,36 @@ public class FloatingTerms extends FragmentActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(2);
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            public void onPageScrollStateChanged(int state) {}
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-
-            public void onPageSelected(int position) {
-                if(position == 0) {
-                    skipButton.setVisibility(View.INVISIBLE);
-                } else {
-                    skipButton.setVisibility(View.VISIBLE);
-                }
-
-            }
-        });
-
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(mViewPager);
         indicator.setScaleX(2.5f);
         indicator.setScaleY(2.5f);
 
-       // this.setFinishOnTouchOutside(false);
-
-        skipButton = (ImageButton)findViewById(R.id.skipButton);
-        skipButton.setOnClickListener(new View.OnClickListener() {
+        ImageButton btnExit = (ImageButton)findViewById(R.id.exit);
+        btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mViewPager.getCurrentItem() != 0) {
-                    mViewPager.setCurrentItem(0, true);
-                }
-
+                finish();
             }
-
         });
+
     }
 
     @Override
     public void onBackPressed() {
         int currItem = mViewPager.getCurrentItem();
-
-        if(currItem == 2){
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("Exit application", true);
-            startActivity(intent);
+        if(currItem < 2) {
+            mViewPager.setCurrentItem(currItem + 1, true);
+        } else {
             finish();
         }
-        if(currItem < 2){
-            mViewPager.setCurrentItem(currItem + 1, true);
-        }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_floating_terms, menu);
+        getMenuInflater().inflate(R.menu.menu_after_scan_information, menu);
         return true;
     }
 
@@ -140,7 +98,7 @@ public class FloatingTerms extends FragmentActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends DialogFragment {
+    public static class PlaceholderFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -165,7 +123,7 @@ public class FloatingTerms extends FragmentActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_floating_terms, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_after_scan_information, container, false);
             return rootView;
         }
     }
@@ -186,18 +144,22 @@ public class FloatingTerms extends FragmentActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position){
                 case 2:
-                    return PlaceholderFragment.newInstance(position+1);
+                    return new TimeFragment();
                 case 1:
-                    return new MessageScanningFragment();
+                    return new CostFragment();
                 case 0:
-                    return new ApproveTermsFragment();
+                    return new ShareFragment();
                 default:
                     return null;
             }
+
         }
 
         @Override
-        public int getCount() { return 3; }
+        public int getCount() {
+            // Show 3 total pages.
+            return 3;
+        }
 
         @Override
         public CharSequence getPageTitle(int position) {

@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="SpamOff גובה דמי טיפול רק במקרה של זכייה. \n לא זכית - לא שילמת! \n דמי הטיפול הם בגובה של 20% + מע&quot;מ מסכום הפיצוי או מינימום של 100ש&quot;ח (הגבוה מביניהם). \n בית המשפט לתביעות קטנות גובה אגרה של 50 ש&quot;ח או 1% מסכום התביעה עבור הגשת התביעה. \n אגרת בית המשפט תוחזר ל - SpamOff מיד לאחר הגשת התביעה. דמי הטיפול ישולמו לאחר קבלת פסק הדין בבית המשפט או חתימת הסכם הפשרה."
+            android:text="SpamOff גובה דמי טיפול רק במקרה של זכייה. \n לא זכית - לא שילמת! \n דמי הטיפול הם בגובה של 20% + מע&quot;מ מסכום הפיצוי או מינימום של 100 ש&quot;ח (הגבוה מביניהם). \n בית המשפט לתביעות קטנות גובה אגרה של 50 ש&quot;ח או 1% מסכום התביעה עבור הגשת התביעה. \n אגרת בית המשפט תוחזר ל - SpamOff מיד לאחר הגשת התביעה. דמי הטיפול ישולמו לאחר קבלת פסק הדין בבית המשפט או חתימת הסכם הפשרה."
             android:id="@+id/textView19"
             android:layout_gravity="center_horizontal"
             android:textSize="16dp"
