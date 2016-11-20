@@ -30,10 +30,8 @@ import nldr.spamoff.AndroidStorageIO.CookiesHandler;
  */
 public class ApproveTermsFragment extends Fragment {
 
-
-
     private String[] permissionsArray =
-            new String[] {
+            new String[]{
                     android.Manifest.permission.READ_CONTACTS,
                     android.Manifest.permission.READ_SMS
             };
@@ -59,8 +57,6 @@ public class ApproveTermsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -70,7 +66,7 @@ public class ApproveTermsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_approve_terms, container, false);
         final Context context = inflater.getContext();
 
-        ImageButton approveButton = (ImageButton)view.findViewById(R.id.approveButton);
+        ImageButton approveButton = (ImageButton) view.findViewById(R.id.approveButton);
         approveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +77,6 @@ public class ApproveTermsFragment extends Fragment {
         });
 
         return view;
-
     }
 
     private void getNeededPermissions() {
@@ -104,5 +99,4 @@ public class ApproveTermsFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-
 }

@@ -90,10 +90,9 @@ public class FloatingTerms extends FragmentActivity {
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mViewPager.getCurrentItem() != 0) {
-                    mViewPager.setCurrentItem(0, true);
-                }
-
+            if(mViewPager.getCurrentItem() != 0) {
+                mViewPager.setCurrentItem(0, true);
+            }
             }
 
         });
@@ -104,11 +103,7 @@ public class FloatingTerms extends FragmentActivity {
         int currItem = mViewPager.getCurrentItem();
 
         if(currItem == 2){
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("Exit application", true);
-            startActivity(intent);
-            finish();
+            finishAffinity();
         }
         if(currItem < 2){
             mViewPager.setCurrentItem(currItem + 1, true);

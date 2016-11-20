@@ -1,5 +1,6 @@
 package nldr.spamoff;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,7 +36,7 @@ public class ScanResultsActivity
         android.Manifest.permission.READ_SMS
     };
 
-    private myProgressDialog progressDialog = null;
+    private ProgressDialog prgDialog = null;
     private boolean isFetching = false;
 
     @Override
@@ -69,9 +70,9 @@ public class ScanResultsActivity
             public void onClick(View v) {
                 /*Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(CookiesHandler.getResultsURI(context)));
                 startActivity(browserIntent);*/
-                CookiesHandler.setIfAlreadyScannedBefore(context, true);
+                CookiesHandler.setIfAlreadyScannedBefore(context, false);
                 CookiesHandler.setIfWaitingForServer(context, false);
-                CookiesHandler.setIfTermsApproved(context, true);
+                CookiesHandler.setIfTermsApproved(context, false);
                 CookiesHandler.setLastScanDate(context, 978300000000L);
 
                 Intent intent = new Intent(context, MainActivity.class);
@@ -125,19 +126,20 @@ public class ScanResultsActivity
             }
         });
 
-        ImageButton imgBtnMoreInfo = (ImageButton)findViewById(R.id.imgbtnMoreInfo);
-        imgBtnMoreInfo.setOnClickListener(new View.OnClickListener() {
+        Button btnMoreInfo = (Button)findViewById(R.id.btnMoreInfo);
+        btnMoreInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(context, MoreInfo.class);
                 startActivity(intent);
+
             }
         });
 
-
-        progressDialog = new myProgressDialog(this, "", Color.RED);
-        progressDialog.setCancelable(false);
+        prgDialog = new ProgressDialog(context);
+        prgDialog.setTitle("הסבלנות משתלמת!");
+        prgDialog.setMessage("טוען...");
+        prgDialog.setCancelable(false);
     }
 
     private String getLastScanDate() {
@@ -229,7 +231,7 @@ public class ScanResultsActivity
 
     @Override
     public void updateProgress(String prg) {
-        progressDialog.setTitle(prg);
+        prgDialog.setTitle(prg);
     }
 
     @Override
@@ -263,13 +265,13 @@ public class ScanResultsActivity
 
     @Override
     public void startedFetching() {
-        this.progressDialog.show();
+        this.prgDialog.show();
         this.isFetching = true;
     }
 
     @Override
     public void stoppedFetching() {
-        this.progressDialog.cancel();
+        this.prgDialog.cancel();
         this.isFetching = false;
     }
 
@@ -286,10 +288,6 @@ public class ScanResultsActivity
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("Exit application", true);
-        startActivity(intent);
-        finish();
+        finishAffinity();
     }
 }

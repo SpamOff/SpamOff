@@ -89,46 +89,52 @@
                 android:id="@+id/spam" />
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ellipse_background"
-            android:text="8"
-            android:textAlignment="center"
-            android:elegantTextHeight="true"
-            android:layout_marginTop="40dp"
-            android:textColor="@color/white"
-            android:textSize="30dp"
-            android:minWidth="52dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textStyle="bold"
-            android:id="@+id/spamCount"
-            android:layout_below="@+id/seekBarSpamOff"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="הודעות פוטנציאליות לתביעה"
-            android:textSize="20dp"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/white"
-            android:id="@+id/textView18"
-            android:layout_below="@+id/spamCount"
-            android:layout_centerHorizontal="true" />
+            android:layout_weight="0.2">
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/watch_results"
-            android:id="@+id/watchResultsButton"
-            android:background="@android:color/transparent"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/textView18"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="הודעות פוטנציאליות לתביעה"
+                android:textSize="20dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:id="@+id/textView18"
+                android:layout_below="@+id/spamCount"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ellipse_background"
+                android:text="8"
+                android:textAlignment="center"
+                android:elegantTextHeight="true"
+                android:layout_marginTop="40dp"
+                android:textColor="@color/white"
+                android:textSize="30dp"
+                android:minWidth="52dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textStyle="bold"
+                android:id="@+id/spamCount"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/watch_results"
+                android:id="@+id/watchResultsButton"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/textView18"
+                android:layout_gravity="center_horizontal"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -138,17 +144,19 @@
             android:layout_above="@+id/imgbtnMoreInfo"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin" />
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_gravity="center_horizontal" />
 
-        <ImageButton
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/imgbtnMoreInfo"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/more_info_text"
-            android:background="#72ac4d"
-            android:layout_alignParentEnd="false"
-            android:layout_centerHorizontal="true" />
+            android:text="מידע נוסף"
+            android:id="@+id/btnMoreInfo"
+            android:background="@color/greenPrimaryDark"
+            android:textColor="#ffffff"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:layout_alignParentBottom="true" />
     </LinearLayout>
 
 

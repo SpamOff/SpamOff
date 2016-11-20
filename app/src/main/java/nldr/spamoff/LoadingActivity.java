@@ -38,15 +38,10 @@ public class LoadingActivity extends AppCompatActivity {
             }
         };
 
-        handler.postDelayed(runnable, 2200);
+        handler.postDelayed(runnable, 1400);
     }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("Exit application", true);
-        startActivity(intent);
-        finish();
     }
 }

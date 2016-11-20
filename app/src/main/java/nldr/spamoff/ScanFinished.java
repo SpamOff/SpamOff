@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.SeekBar;
 
 import java.util.Date;
 import java.util.Random;
@@ -18,13 +20,13 @@ import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 
 public class ScanFinished extends AppCompatActivity {
 
+    final int MAX_SLIDE_VALUE = 162;
+    final int MIN_SPAM_OPACITY_CHANGER_VALUE = 140;
+    final int MIN_SLIDE_VALUE = 38;
+
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("Exit application", true);
-        startActivity(intent);
-        finish();
+        finishAffinity();
     }
 
     @Override
@@ -48,18 +50,47 @@ public class ScanFinished extends AppCompatActivity {
             }
         });
 
-        ImageButton imageButton = (ImageButton)findViewById(R.id.imageView10);
-        imageButton.setOnClickListener(new View.OnClickListener() {
+//        ImageButton imageButton = (ImageButton)findViewById(R.id.imageView10);
+//        imageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Random rand = new Random();
+//                CookiesHandler.setIfWaitingForServer(context, false);
+//                CookiesHandler.setIfAlreadyScannedBefore(context, true);
+//                CookiesHandler.setSpamMessagesCount(context, rand.nextInt(100));
+//                CookiesHandler.setIfTermsApproved(context, false);
+//
+//                Intent intent = new Intent(context, ScanResultsActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+
+        final SeekBar slider = (SeekBar) findViewById(R.id.seekBarSpamOff);
+        slider.setProgress(MAX_SLIDE_VALUE);
+
+        slider.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onClick(View v){
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 Random rand = new Random();
                 CookiesHandler.setIfWaitingForServer(context, false);
                 CookiesHandler.setIfAlreadyScannedBefore(context, true);
                 CookiesHandler.setSpamMessagesCount(context, rand.nextInt(100));
+                CookiesHandler.setIfTermsApproved(context, false);
 
                 Intent intent = new Intent(context, ScanResultsActivity.class);
                 startActivity(intent);
                 finish();
+                seekBar.setProgress(MAX_SLIDE_VALUE);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
     }

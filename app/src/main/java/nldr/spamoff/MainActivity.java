@@ -1,15 +1,19 @@
 package nldr.spamoff;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,7 +22,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.gc.materialdesign.widgets.ProgressDialog;
+
+import com.mingle.sweetpick.CustomDelegate;
+import com.mingle.sweetpick.SweetSheet;
+
 import java.util.ArrayList;
 import java.util.List;
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
@@ -32,12 +39,13 @@ public class MainActivity
             android.Manifest.permission.READ_SMS
     };
 
-    private myProgressDialog progressDialog = null;
+    private ProgressDialog prgDialog = null;
     private boolean isFetching = false;
+    //private SweetSheet mSweetSheet3;
 
     @Override
     public void onBackPressed() {
-        finish();
+        finishAffinity();
     }
 
     @Override
@@ -49,77 +57,64 @@ public class MainActivity
 
         super.onCreate(savedInstanceState);
 
-        if (getIntent().getBooleanExtra("Exit application", false)){
-            finish();
-        } else {
+        setContentView(R.layout.activity_main);
 
-            setContentView(R.layout.activity_main);
+        if (!CookiesHandler.getIfTermsApproved(context)) {
+            Intent intent = new Intent(context, FloatingTerms.class);
+            startActivity(intent);
+        }
 
-            if (!CookiesHandler.getIfTermsApproved(context)) {
-                Intent intent = new Intent(context, FloatingTerms.class);
-                startActivity(intent);
+        final SeekBar slider = (SeekBar) findViewById(R.id.seekBarSpamOff);
+        slider.setProgress(MIN_SLIDE_VALUE);
+
+        final ImageView spamView = (ImageView) findViewById(R.id.spam);
+        spamView.setAlpha((float) 0);
+
+        slider.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (progress > MAX_SLIDE_VALUE) {
+                    seekBar.setProgress(MAX_SLIDE_VALUE);
+                }
+                if (progress <= MIN_SPAM_OPACITY_CHANGER_VALUE) {
+                    spamView.setAlpha((float) 0);
+                }
+                if (progress > MIN_SPAM_OPACITY_CHANGER_VALUE) {
+                    spamView.setAlpha((float) (progress - MIN_SPAM_OPACITY_CHANGER_VALUE) / (MAX_SLIDE_VALUE - MIN_SPAM_OPACITY_CHANGER_VALUE));
+                }
+                if (progress < MIN_SLIDE_VALUE) {
+                    seekBar.setProgress(MIN_SLIDE_VALUE);
+                }
             }
 
-            final SeekBar slider = (SeekBar) findViewById(R.id.seekBarSpamOff);
-            slider.setProgress(MIN_SLIDE_VALUE);
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
-            final ImageView spamView = (ImageView) findViewById(R.id.spam);
-            spamView.setAlpha((float) 0);
-
-            slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    if (progress > MAX_SLIDE_VALUE) {
-                        seekBar.setProgress(MAX_SLIDE_VALUE);
-                    }
-                    if (progress <= MIN_SPAM_OPACITY_CHANGER_VALUE) {
-                        spamView.setAlpha((float) 0);
-                    }
-                    if (progress > MIN_SPAM_OPACITY_CHANGER_VALUE) {
-                        spamView.setAlpha((float) (progress - MIN_SPAM_OPACITY_CHANGER_VALUE) / (MAX_SLIDE_VALUE - MIN_SPAM_OPACITY_CHANGER_VALUE));
-                    }
-                    if (progress < MIN_SLIDE_VALUE) {
-                        seekBar.setProgress(MIN_SLIDE_VALUE);
-                    }
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                    if (seekBar.getProgress() > MIN_SLIDE_VALUE && seekBar.getProgress() <= MAX_SLIDE_VALUE) {
-                        if (seekBar.getProgress() == MAX_SLIDE_VALUE) {
-                            if (!isFetching)
-                                fetchIfPermitted();
-                            else {
-                                Snackbar snc = Snackbar.make(seekBar, "לאט לאט.. תהליך אחר רץ ברקע..", Snackbar.LENGTH_SHORT);
-                                snc.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                                snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-                                snc.show();
-                            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if (seekBar.getProgress() > MIN_SLIDE_VALUE && seekBar.getProgress() <= MAX_SLIDE_VALUE) {
+                    if (seekBar.getProgress() == MAX_SLIDE_VALUE) {
+                        if (!isFetching)
+                            fetchIfPermitted();
+                        else {
+                            Snackbar snc = Snackbar.make(seekBar, "לאט לאט.. תהליך אחר רץ ברקע..", Snackbar.LENGTH_SHORT);
+                            snc.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                            snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+                            snc.show();
                         }
-
-                        seekBar.setProgress(MIN_SLIDE_VALUE);
                     }
+
+                    seekBar.setProgress(MIN_SLIDE_VALUE);
                 }
-            });
+            }
+        });
 
-//            Button btnReset = (Button) findViewById(R.id.btnReset);
-//            btnReset.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    CookiesHandler.setLastScanDate(context, 978300000000L);
-//                    Snackbar snc = Snackbar.make(v, "", Snackbar.LENGTH_SHORT);
-//                    snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-//                    snc.show();
-//                }
-//            });
-
-            progressDialog = new myProgressDialog(this, "", Color.RED);
-            progressDialog.setCancelable(false);
-        }
+        prgDialog = new ProgressDialog(context);
+        prgDialog.setTitle("הסבלנות משתלמת!");
+        prgDialog.setMessage("טוען...");
+        prgDialog.setCancelable(false);
     }
 
     private void fetchIfPermitted() {
@@ -165,36 +160,45 @@ public class MainActivity
         }
 
         if (bAcceptedAll) {
+
+//            view.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    mSweetSheet3.dismiss();
+//                }
+//            });
+
+
+            //mSweetSheet3.show();
             AsyncDataHandler.performInBackground(this, this);
         } else {
             new MaterialDialog.Builder(this)
-                    .content("כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.")
-                    .title("לא נמצאו האישורים המתאימים לביצוע הסריקה")
-                    .titleGravity(GravityEnum.END)
-                    .buttonsGravity(GravityEnum.END)
-                    .contentGravity(GravityEnum.END)
-                    .positiveText("אישור").show();
+                .content("כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.")
+                .title("לא נמצאו האישורים המתאימים לביצוע הסריקה")
+                .titleGravity(GravityEnum.END)
+                .buttonsGravity(GravityEnum.END)
+                .contentGravity(GravityEnum.END)
+                .positiveText("אישור").show();
         }
     }
 
     @Override
     public void startedFetching() {
-        progressDialog.show();
+        prgDialog.show();
         this.isFetching = true;
     }
 
     @Override
     public void stoppedFetching() {
-        progressDialog.cancel();
+        prgDialog.cancel();
         this.isFetching = false;
     }
 
     @Override
     public void updateProgress(String prg) {
 
-        if (progressDialog.isShowing())
-            progressDialog.setTitle(prg);
-        // TODO : Optional - update the progress with toasts when the progressLoader has dismissed
+        if (prgDialog.isShowing())
+            prgDialog.setMessage(prg);
     }
 
     @Override
@@ -218,23 +222,23 @@ public class MainActivity
     @Override
     public void error(String errorMessage) {
         new MaterialDialog.Builder(this)
-                .content(errorMessage)
-                .title("ארעה שגיאה בזמן ביצוע הסריקה")
-                .titleGravity(GravityEnum.END)
-                .buttonsGravity(GravityEnum.END)
-                .contentGravity(GravityEnum.END)
-                .positiveText("אישור").show();
+            .content(errorMessage)
+            .title("ארעה שגיאה בזמן ביצוע הסריקה")
+            .titleGravity(GravityEnum.END)
+            .buttonsGravity(GravityEnum.END)
+            .contentGravity(GravityEnum.END)
+            .positiveText("אישור").show();
     }
 
     @Override
     public void cancelled() {
         new MaterialDialog.Builder(this)
-                .content("לא הצלחנו לבצע את הסריקה, אנא נסה מאוחר יותר")
-                .title("ארעה שגיאה בזמן ביצוע הסריקה")
-                .titleGravity(GravityEnum.END)
-                .buttonsGravity(GravityEnum.END)
-                .contentGravity(GravityEnum.END)
-                .positiveText("אישור").show();
+            .content("לא הצלחנו לבצע את הסריקה, אנא נסה מאוחר יותר")
+            .title("ארעה שגיאה בזמן ביצוע הסריקה")
+            .titleGravity(GravityEnum.END)
+            .buttonsGravity(GravityEnum.END)
+            .contentGravity(GravityEnum.END)
+            .positiveText("אישור").show();
     }
 
     @Override
