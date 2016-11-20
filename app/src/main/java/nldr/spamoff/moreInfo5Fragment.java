@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.Display;
@@ -13,7 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import com.facebook.FacebookSdk;
 
@@ -73,9 +77,14 @@ public class moreInfo5Fragment extends Fragment {
         }
     }
 
+    private BottomSheetBehavior bottomSheetBehavior;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        final BottomSheetDialogFragment myBottomSheet = MyBottomSheetDialogFragment.newInstance("Modal Bottom Sheet");
+
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_more_info_5, container, false);
         ImageButton btn = (ImageButton)rootView.findViewById(R.id.btnShare);
@@ -83,7 +92,8 @@ public class moreInfo5Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //share();
-                Snackbar.make(v, "בקרוב...", Snackbar.LENGTH_SHORT).show();
+                //Snackbar.make(v, "בקרוב...", Snackbar.LENGTH_SHORT).show();
+                myBottomSheet.show(getActivity().getSupportFragmentManager(), myBottomSheet.getTag());
             }
         });
 
@@ -97,12 +107,12 @@ public class moreInfo5Fragment extends Fragment {
         Point size = new Point();
         display.getSize(size);
 
-//        PopupWindow popupWindow = new PopupWindow(inflatedView, size.x, size.y, true);
-//        popupWindow.setFocusable(true);
-//        popupWindow.setBackgroundDrawable();
-//        popupWindow.showAtLocation(rootView, Gravity.CENTER, 0, 0);
-        Intent intent = new Intent(getContext(), ShareActivity.class);
-        startActivity(intent);
+
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+
+//        Intent intent = new Intent(getContext(), ShareActivity.class);
+//        startActivity(intent);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

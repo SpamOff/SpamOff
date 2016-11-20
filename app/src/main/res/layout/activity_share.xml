@@ -1,59 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:context="nldr.spamoff.ShareActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="תנו לייק בפייסבוק"
-            android:id="@+id/btnLikeOnFacebook"
-            android:background="#d7e2d0"
-            android:textSize="20dp"
-            android:layoutDirection="rtl"
-            android:textDirection="rtl"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="שתף בפייסבוק"
-            android:id="@+id/btnFacebookShare"
-            android:background="#d7e2d0"
-            android:textSize="20dp"
-            android:layoutDirection="rtl"
-            android:textDirection="rtl"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="דרג  בפייסבוק"
-            android:id="@+id/btnRateOnFacebool"
-            android:background="#d7e2d0"
-            android:textSize="20dp"
-            android:layoutDirection="rtl"
-            android:textDirection="rtl"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="דרג את האפליקציה"
-            android:id="@+id/btnRateOnPlay"
-            android:background="#d7e2d0"
-            android:textSize="20dp"
-            android:layoutDirection="rtl"
-            android:textDirection="rtl"
-            />
-        <com.facebook.share.widget.LikeView
-            android:id="@+id/like_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </com.facebook.share.widget.LikeView>
-    </LinearLayout>
 </RelativeLayout>

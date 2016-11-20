@@ -36,7 +36,7 @@ public class MoreInfo extends AppCompatActivity {
 
         ViewPager viewpager = (ViewPager) findViewById(R.id.container);
         viewpager.setAdapter(mSectionsPagerAdapter);
-        viewpager.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        //viewpager.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         viewpager.setCurrentItem(6);
 
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
@@ -55,7 +55,6 @@ public class MoreInfo extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
