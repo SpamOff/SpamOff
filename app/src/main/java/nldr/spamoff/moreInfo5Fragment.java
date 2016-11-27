@@ -70,7 +70,7 @@ public class moreInfo5Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -91,28 +91,11 @@ public class moreInfo5Fragment extends Fragment {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //share();
-                //Snackbar.make(v, "בקרוב...", Snackbar.LENGTH_SHORT).show();
-                myBottomSheet.show(getActivity().getSupportFragmentManager(), myBottomSheet.getTag());
+                Sharer.showShareMenu(getActivity().getSupportFragmentManager());
             }
         });
 
         return rootView;
-    }
-
-    private void share() {
-        LayoutInflater layoutInflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View inflatedView = layoutInflater.inflate(R.layout.activity_share, null, false);
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-
-
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-
-//        Intent intent = new Intent(getContext(), ShareActivity.class);
-//        startActivity(intent);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

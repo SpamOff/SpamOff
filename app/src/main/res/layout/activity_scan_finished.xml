@@ -57,7 +57,9 @@
         android:background="@android:color/transparent"
         android:clickable="false"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layoutDirection="ltr"
+        android:progress="160"/>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -70,22 +72,6 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="50dp"
         android:id="@+id/spam" />
-
-    <!--<ImageButton-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/imageView10"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:src="@drawable/slider"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:cropToPadding="true"-->
-        <!--android:focusable="false"-->
-        <!--android:background="@android:color/transparent"-->
-        <!--android:focusableInTouchMode="false"-->
-        <!--android:scaleType="fitStart"-->
-        <!--android:layout_marginLeft="30dp"-->
-        <!--android:layout_marginRight="30dp" />-->
 
     <TextView
         android:layout_width="wrap_content"
@@ -108,6 +94,7 @@
         android:id="@+id/textView10"
         android:textColor="#ffffff"
         android:textStyle="bold"
+        android:textSize="20dp"
         android:layout_below="@+id/seekBarSpamOff"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="31dp" />

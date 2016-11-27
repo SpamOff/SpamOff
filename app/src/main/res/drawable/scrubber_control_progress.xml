@@ -13,5 +13,4 @@
     <item android:id="@android:id/progress">
       <scale android:drawable="@mipmap/slidergrid"/>
     </item>
-
 </layer-list>

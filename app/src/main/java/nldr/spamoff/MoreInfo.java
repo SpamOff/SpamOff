@@ -13,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.augustopicciani.drawablepageindicator.widget.DrawablePagerIndicator;
+
 import me.relex.circleindicator.CircleIndicator;
 
 public class MoreInfo extends AppCompatActivity {
@@ -37,13 +40,12 @@ public class MoreInfo extends AppCompatActivity {
         ViewPager viewpager = (ViewPager) findViewById(R.id.container);
         viewpager.setAdapter(mSectionsPagerAdapter);
         //viewpager.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-        viewpager.setCurrentItem(6);
+        viewpager.setCurrentItem(mSectionsPagerAdapter.getCount() - 1);
 
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(viewpager);
         indicator.setScaleX(2.5f);
         indicator.setScaleY(2.5f);
-        indicator.setSoundEffectsEnabled(true);
 
         final AppCompatActivity currWindow = this;
 

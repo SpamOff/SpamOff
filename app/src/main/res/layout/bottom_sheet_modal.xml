@@ -1,54 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin">
+    android:orientation="vertical">
 
-    <Button
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="תנו לייק בפייסבוק"
-        android:id="@+id/btnLikeOnFacebook"
-        android:background="#d7e2d0"
-        android:textSize="20dp"
-        android:layoutDirection="rtl"
-        android:textDirection="rtl"
-        />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="שתף בפייסבוק"
-        android:id="@+id/btnFacebookShare"
-        android:background="#d7e2d0"
-        android:textSize="20dp"
-        android:layoutDirection="rtl"
-        android:textDirection="rtl"
-        />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="דרג  בפייסבוק"
-        android:id="@+id/btnRateOnFacebool"
-        android:background="#d7e2d0"
-        android:textSize="20dp"
-        android:layoutDirection="rtl"
-        android:textDirection="rtl"
-        />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="דרג את האפליקציה"
-        android:id="@+id/btnRateOnPlay"
-        android:background="#d7e2d0"
-        android:textSize="20dp"
-        android:layoutDirection="rtl"
-        android:textDirection="rtl"
-        />
-    <com.facebook.share.widget.LikeView
-        android:id="@+id/like_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </com.facebook.share.widget.LikeView>
+        android:layout_height="match_parent">
+
+        <com.facebook.share.widget.LikeView
+                android:id="@+id/like_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_columnWeight="0.5"
+                android:layout_weight="1">
+            </com.facebook.share.widget.LikeView>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="דרג  בפייסבוק"
+                android:id="@+id/btnRateOnFacebool"
+                android:background="#d7e2d0"
+                android:textSize="20dp"
+                android:layoutDirection="rtl"
+                android:textDirection="rtl"
+                android:layout_columnWeight="0.5"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/fbutton_color_transparent"
+                android:src="@mipmap/facebook"/>
+            </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="שתף בפייסבוק"
+            android:id="@+id/btnFacebookShare"
+            android:background="#d7e2d0"
+            android:textSize="20dp"
+            android:layoutDirection="rtl"
+            android:textDirection="rtl"
+            android:layout_columnWeight="0.5" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/fbutton_color_transparent"
+                android:src="@mipmap/like" />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="דרג את האפליקציה בחנות"
+            android:id="@+id/btnRateOnPlay"
+            android:background="#d7e2d0"
+            android:textSize="20dp"
+            android:layoutDirection="rtl"
+            android:textDirection="rtl"
+            android:layout_columnWeight="0.5"
+            android:layout_weight="1"/>
+    </LinearLayout>
 </LinearLayout>
