@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +19,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import java.util.ArrayList;
@@ -68,8 +71,6 @@ public class ScanResultsActivity
         watchResultsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(CookiesHandler.getResultsURI(context)));
-                startActivity(browserIntent);*/
                 CookiesHandler.setIfAlreadyScannedBefore(context, false);
                 CookiesHandler.setIfWaitingForServer(context, false);
                 CookiesHandler.setIfTermsApproved(context, false);
@@ -78,7 +79,6 @@ public class ScanResultsActivity
                 Intent intent = new Intent(context, MainActivity.class);
                 startActivity(intent);
                 finish();
-
             }
         });
 
@@ -113,10 +113,12 @@ public class ScanResultsActivity
                             if (!isFetching)
                                 fetchIfPermitted();
                             else {
-                                Snackbar snc = Snackbar.make(seekBar, "לאט לאט.. תהליך אחר רץ ברקע..", Snackbar.LENGTH_SHORT);
-                                snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-                                snc.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                                snc.show();
+//                                Snackbar snc = Snackbar.make(seekBar, "לאט לאט.. תהליך אחר רץ ברקע..", Snackbar.LENGTH_SHORT);
+//                                snc.getView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+//                                snc.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+//                                snc.show();
+                                if (!prgDialog.isShowing())
+                                    prgDialog.show();
                             }
                         }
                     }
@@ -132,7 +134,6 @@ public class ScanResultsActivity
             public void onClick(View v) {
                 Intent intent = new Intent(context, MoreInfo.class);
                 startActivity(intent);
-
             }
         });
 
@@ -217,7 +218,7 @@ public class ScanResultsActivity
         }
 
         if (bAcceptedAll) {
-            AsyncDataHandler.performInBackground(this, this);
+            AsyncDataHandler.performInBackground(this, this, false);
         } else {
             new MaterialDialog.Builder(this)
                     .content("כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.")
@@ -231,7 +232,7 @@ public class ScanResultsActivity
 
     @Override
     public void updateProgress(String prg) {
-        prgDialog.setTitle(prg);
+        prgDialog.setMessage(prg);
     }
 
     @Override
@@ -273,6 +274,27 @@ public class ScanResultsActivity
     public void stoppedFetching() {
         this.prgDialog.cancel();
         this.isFetching = false;
+    }
+
+    @Override
+    public void smsFieldsMistmatch() {
+        final Context context = this;
+        final AsyncDataHandler.usingAsyncFetcher inst = this;
+
+        new MaterialDialog.Builder(this)
+                .content("בגלל גרסאת המכשיר לא ניתן לסנן את ההודעות לפי הדרישות, האם לשלוח את ההודעות ללא סינון?")
+                .title("ארעה שגיאה בזמן ביצוע הסריקה")
+                .titleGravity(GravityEnum.END)
+                .buttonsGravity(GravityEnum.END)
+                .contentGravity(GravityEnum.END)
+                .positiveText("אישור")
+                .negativeText("ביטול")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        AsyncDataHandler.performInBackground(context, inst, true);
+                    }
+                }).show();
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,11 +21,10 @@ import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
-
-import com.mingle.sweetpick.CustomDelegate;
-import com.mingle.sweetpick.SweetSheet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,6 @@ public class MainActivity
 
     private ProgressDialog prgDialog = null;
     private boolean isFetching = false;
-    //private SweetSheet mSweetSheet3;
 
     @Override
     public void onBackPressed() {
@@ -70,7 +69,6 @@ public class MainActivity
         final ImageView spamView = (ImageView) findViewById(R.id.spam);
         spamView.setAlpha((float) 0);
 
-        slider.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -160,17 +158,7 @@ public class MainActivity
         }
 
         if (bAcceptedAll) {
-
-//            view.findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mSweetSheet3.dismiss();
-//                }
-//            });
-
-
-            //mSweetSheet3.show();
-            AsyncDataHandler.performInBackground(this, this);
+            AsyncDataHandler.performInBackground(this, this, false);
         } else {
             new MaterialDialog.Builder(this)
                 .content("כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.")
@@ -192,6 +180,27 @@ public class MainActivity
     public void stoppedFetching() {
         prgDialog.cancel();
         this.isFetching = false;
+    }
+
+    @Override
+    public void smsFieldsMistmatch() {
+        final Context context = this;
+        final AsyncDataHandler.usingAsyncFetcher inst = this;
+
+        new MaterialDialog.Builder(this)
+                .content("בגלל גרסאת המכשיר לא ניתן לסנן את ההודעות לפי הדרישות, האם לשלוח את ההודעות ללא סינון?")
+                .title("ארעה שגיאה בזמן ביצוע הסריקה")
+                .titleGravity(GravityEnum.END)
+                .buttonsGravity(GravityEnum.END)
+                .contentGravity(GravityEnum.END)
+                .positiveText("אישור")
+                .negativeText("ביטול")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        AsyncDataHandler.performInBackground(context, inst, true);
+                    }
+                }).show();
     }
 
     @Override

@@ -22,7 +22,7 @@ import static nldr.spamoff.AsyncStatus.*;
 /**
  * Created by Roee on 15/10/2016.
  */
-public class AsyncDataHandler extends AsyncTask<String, String, AsyncStatus> {
+public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
 
     public static AsyncDataHandler communicator;
     private static Context _context;
@@ -36,11 +36,12 @@ public class AsyncDataHandler extends AsyncTask<String, String, AsyncStatus> {
         void error(String errorMessage);
         void startedFetching();
         void stoppedFetching();
+        void smsFieldsMistmatch();
     }
 
-    public static void performInBackground(Context context, usingAsyncFetcher callback) {
+    public static void performInBackground(Context context, usingAsyncFetcher callback, Boolean keepWithoutFilter) {
         communicator = new AsyncDataHandler(context, callback);
-        communicator.execute();
+        communicator.execute(keepWithoutFilter);
     }
 
     public AsyncDataHandler(Context context, usingAsyncFetcher callback) {
@@ -64,7 +65,7 @@ public class AsyncDataHandler extends AsyncTask<String, String, AsyncStatus> {
         this._callback = callback;
     }
 
-    protected AsyncStatus doInBackground(String... params) {
+    protected AsyncStatus doInBackground(Boolean... params) {
 
         AsyncStatus result = finished;
 
@@ -75,34 +76,35 @@ public class AsyncDataHandler extends AsyncTask<String, String, AsyncStatus> {
         } else {
             Date lastScanDate = new Date(CookiesHandler.getLastScanDate(getContext()));
 
-
-
             JSONArray jsonArray = null;
 
             try {
                 publishProgress("קורא הודעות...");
-                ArrayList<SMSMessage> arr = SMSReader.read(getContext(), lastScanDate);
+                Boolean keepWithoutFilter = params[0];
+                jsonArray = SMSReader.readSms(getContext(), lastScanDate, keepWithoutFilter);
+                //ArrayList<SMSMessage> arr = SMSReader.read(getContext(), lastScanDate);
                 publishProgress("מחפש הודעות ספאם...");
-                jsonArray = SMSToJson.parseAllToArray(getContext(), arr);
+                //jsonArray = SMSToJson.parseAllToArray(getContext(), arr);
+
+                CookiesHandler.setLastScanMessagesCount(getContext(), jsonArray.length());
+                CookiesHandler.setLastScanDate(getContext(), System.currentTimeMillis());
+
+                if (!CookiesHandler.getIfAlreadyScannedBefore(getContext())){
+                    CookiesHandler.setIfAlreadyScannedBefore(getContext(), true);
+                }
+
+                if (jsonArray.length() == 0) {
+                    result = noNewMessages;
+                } else {
+                    publishProgress("נמצאו " + jsonArray.length() + " הודעות חשודות, שולח לשרת...");
+                    if (!NetworkManager.sendJsonToServer(this.getContext(), jsonArray))
+                        result = failedWhileSendingToServer;
+                }
             } catch (JSONException e) {
                 result = smsReadingError;
-                e.printStackTrace();
+            } catch (SMSReader.SmsMissingFieldException e) {
+                result = smsFieldsMistmatch;
             }
-
-            CookiesHandler.setLastScanMessagesCount(getContext(), jsonArray.length());
-            CookiesHandler.setLastScanDate(getContext(), System.currentTimeMillis());
-            if(!CookiesHandler.getIfAlreadyScannedBefore(getContext())){
-                CookiesHandler.setIfAlreadyScannedBefore(getContext(), true);
-            }
-
-            if (jsonArray.length() == 0) {
-                result = noNewMessages;
-            } else {
-                publishProgress("נמצאו " + jsonArray.length() + " הודעות חשודות, שולח לשרת...");
-                if (!NetworkManager.sendJsonToServer(this.getContext(), jsonArray))
-                    result = failedWhileSendingToServer;
-            }
-
         }
 
         return result;
@@ -134,6 +136,9 @@ public class AsyncDataHandler extends AsyncTask<String, String, AsyncStatus> {
                 break;
             case noNewMessages:
                 getCallback().noNewMessages();
+                break;
+            case smsFieldsMistmatch:
+                getCallback().smsFieldsMistmatch();
                 break;
             default:
                 getCallback().cancelled();

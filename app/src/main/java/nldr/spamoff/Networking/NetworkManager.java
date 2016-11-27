@@ -76,7 +76,6 @@ public class NetworkManager {
 
         // Get a RequestQueue
         RequestQueue queue = MyRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue();
-
         JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.POST, serverUrl, jsonToSend,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -107,7 +106,7 @@ public class NetworkManager {
             }
         };
 
-        queue.add(jsObjRequest);
+        //queue.add(jsObjRequest);
 
         return bWasSentSuccessfully[0];
     }

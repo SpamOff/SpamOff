@@ -10,5 +10,6 @@ public enum AsyncStatus {
     noNewMessages,
     slowInternet,
     failedWhileSendingToServer,
-    smsReadingError
+    smsReadingError,
+    smsFieldsMistmatch
 }
