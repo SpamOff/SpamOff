@@ -4,10 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorJoiner;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.provider.Telephony;
 import android.support.annotation.BoolRes;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
@@ -19,7 +21,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -34,7 +38,7 @@ public class SMSReader {
 
     // TODO : Consider Dual-Sim handling
     static String dateColumnName = "date";
-    static String personColumnName = "personn";
+    static String personColumnName = "personnn";
     static String dateFormat = "dd/MM/yyyy hh:mm";
 
     public static class SmsMissingFieldException extends Exception {
@@ -46,11 +50,11 @@ public class SMSReader {
         }
     }
 
-    public static String getArrayAsJson(String[] arr) {
+    public static String getArrayAsJson(Object[] arr) {
         String data = "{";
 
-        for (String curr: arr) {
-            data += curr + ", ";
+        for (Object curr: arr) {
+            data += curr.toString() + ", ";
         }
 
         data = data.substring(0, data.lastIndexOf(','));
@@ -66,7 +70,7 @@ public class SMSReader {
 
         if (!keepWithoutFilter) {
 
-            if (isClassifiedByAttr(cursor, dateColumnName)) {
+            if (!isClassifiedByAttr(cursor, dateColumnName)) {
                 Answers.getInstance().logCustom(
                         new CustomEvent("SmsAttributesMistmach")
                                 .putCustomAttribute("date", dateColumnName)
@@ -74,116 +78,24 @@ public class SMSReader {
                 throw new SmsMissingFieldException(dateColumnName);
             }
 
-            if (isClassifiedByAttr(cursor, personColumnName)) {
-                Answers.getInstance().logCustom(
-                        new CustomEvent("SmsAttributesMistmach")
-                                .putCustomAttribute("person", personColumnName)
-                                .putCustomAttribute("fields", getArrayAsJson(cursor.getColumnNames())));
-                throw new SmsMissingFieldException(personColumnName);
-            }
+//            if (!isClassifiedByAttr(cursor, personColumnName)) {
+//                Answers.getInstance().logCustom(
+//                        new CustomEvent("SmsAttributesMistmach")
+//                                .putCustomAttribute("person", personColumnName)
+//                                .putCustomAttribute("fields", getArrayAsJson(cursor.getColumnNames())));
+//                throw new SmsMissingFieldException(personColumnName);
+//            }
         }
 
         return getUnclassifiedData(context, cursor, minDate, keepWithoutFilter);
     }
-
-//    public static ArrayList<SMSMessage> read(Context context, Date date) {
-//        Cursor chosenCursor;
-//        ArrayList<SMSMessage> united = new ArrayList<>();
-//        Cursor phoneSMSCursor = readFromPhone(context);
-//        phoneSMSCursor.moveToFirst();
-//        Cursor simSMSCursor = readFromSim(context);
-//        String[] phoneTemplate = new String[] { "_id", "address", "person", "date", "body" };
-//        String[] simTemplate = new String[] { "_id", "address", "person", "date", "body" };
-//        SMSMessage temp;
-//        String[] phoneSMSCursorFields = phoneSMSCursor.getColumnNames();
-//        String[] simSMSCursorFields = simSMSCursor.getColumnNames();
-//
-//        Crashlytics.log("PHONE : " + phoneSMSCursorFields.toString()  + " SIM : " + simSMSCursorFields.toString());
-//
-//        try {
-//            if (phoneSMSCursor.getCount() == 0) {
-//                if (simSMSCursor.getCount() > 0) {
-//                    moveCursorToArrayList(context, simSMSCursor, united, date);
-//                }
-//
-//                return united;
-//            }
-//            else if(simSMSCursor.getCount() == 0){
-//                moveCursorToArrayList(context, phoneSMSCursor, united, date);
-//                return united;
-//            }
-//        }
-//        catch(Exception e) {
-//
-//        }
-//
-//        try {
-//
-//            CursorJoiner joiner = new CursorJoiner(phoneSMSCursor, phoneTemplate, simSMSCursor, simTemplate);
-//            Date SMSDate;
-//
-//            for (CursorJoiner.Result result : joiner) {
-//                switch (result) {
-//                    case RIGHT:
-//                        chosenCursor = phoneSMSCursor;
-//                        break;
-//                    case LEFT:
-//                        chosenCursor = simSMSCursor;
-//                        break;
-//                    default:
-//                        chosenCursor = phoneSMSCursor;
-//                        break;
-//                }
-//
-//                SMSDate = new Date(chosenCursor.getLong(4));
-//
-//                if (SMSDate.after(date) && contactExists(context, chosenCursor.getString(2))) {
-//                    united.add(new SMSMessage(chosenCursor.getString(2),
-//                            chosenCursor.getString(5),
-//                            getDate(chosenCursor.getLong(4), "dd/MM/yyyy hh:mm")));
-//                }
-//            }
-//        } catch (Exception ex) {
-//            Crashlytics.log("PHONE : " + phoneSMSCursorFields.toString()  + " SIM : " + simSMSCursorFields.toString());
-//        }
-//
-//        return united;
-//        return null;
-//    }
-
-//    private static void moveCursorToArrayList(Context context, Cursor cursor, ArrayList<SMSMessage> list, Date date) {
-//        cursor.moveToFirst();
-//        SMSMessage temp;
-//        Date SMSDate;
-//
-//        while (!cursor.isAfterLast()) {
-//
-//            SMSDate = new Date(cursor.getLong(4));
-//
-//            if (SMSDate.after(date) && !contactExists(context, cursor.getString(2))) {
-//                list.add(new SMSMessage(cursor.getString(2), cursor.getString(5), getDate(cursor.getLong(4), "dd/MM/yyyy hh:mm")));
-//            }
-//
-//            cursor.moveToNext();
-//        }
-//
-//        cursor.close();
-//    }
-
-//    private static JSONArray readFromSim(Context context, Date date) throws JSONException {
-//        return getUnclassifiedData(context, "content://sms/icc", date);
-//    }
-//
-//    private static JSONArray readFromPhone(Context context, Date date) throws JSONException {
-//       return getUnclassifiedData(context, "content://sms/inbox", date);
-//    }
 
     private static Boolean isClassifiedByAttr(Cursor cursor, String attribute) {
         boolean bFoundAttribute = false;
 
         for (String curr :cursor.getColumnNames()) {
             if (curr.equals(attribute)) {
-                 bFoundAttribute = true;
+                bFoundAttribute = true;
                 break;
             }
         }
@@ -191,32 +103,76 @@ public class SMSReader {
         return bFoundAttribute;
     }
 
-    private static JSONArray getUnclassifiedData(Context context, Cursor cursor, Date minDate, Boolean keepWithoutFilter) throws JSONException {
-        //Cursor cursor = context.getContentResolver().query(Uri.parse(path), null, null, null, "date DESC");
+    public static ArrayList<String> analizeNumeric(Cursor cursor) {
+        ArrayList<String> columnsNames = new ArrayList<String>();
 
+        if (cursor.moveToFirst()) {
+            // The loop adds every column that can be parsed to int to the arraylist
+            for (int i = 0; i < cursor.getColumnCount() - 1; i++) {
+                String data = cursor.getString(i);
+                try {
+                    int intData;
+                    if (data != null)
+                         intData = Integer.parseInt(data);
+                    columnsNames.add(cursor.getColumnName(i));
+                } catch (Exception ex) {
+                    Log.e("Error", "Error while parsing column name to int");
+                }
+            }
+        }
+
+        return columnsNames;
+    }
+
+    private static JSONArray getUnclassifiedData(Context context, Cursor cursor, Date minDate, Boolean keepWithoutFilter) throws JSONException, SmsMissingFieldException {
+        ArrayList<String> numberColumns = new ArrayList<>();
         JSONArray smsData = new JSONArray();
+
+        boolean bIsUpToDate = true;
+
+        int dateIndex;
+
+        if (cursor.moveToFirst()) {
+
+            dateIndex = cursor.getColumnIndex(dateColumnName);
+
+            if (dateIndex != -1) {
+                Date smsDate = new Date(cursor.getLong(dateIndex));
+                bIsUpToDate = smsDate.after(minDate);
+            }
+
+            if (isClassifiedByAttr(cursor, Telephony.TextBasedSmsColumns.PERSON)) {
+                numberColumns.add(Telephony.TextBasedSmsColumns.PERSON);
+                //numberColumns.add(personColumnName);
+            } else {
+                numberColumns = analizeNumeric(cursor);
+//                for (String curr: cursor.getColumnNames()) {
+//                    numberColumns.add(curr);
+//                }
+                //) = analizeNumeric(cursor);
+            }
+        }
 
         if (cursor.moveToFirst()) {
             do {
+                boolean bIsInContacts = false;
                 JSONObject currSms = new JSONObject();
-                String contactNumber;
-                boolean bIsUpToDate = true;
-                boolean bIsInContacts = true;
 
-                if (isClassifiedByAttr(cursor, dateColumnName)) {
-                    Date smsDate = new Date(cursor.getLong(cursor.getColumnIndex(dateColumnName)));
-                    bIsUpToDate = smsDate.after(minDate);
-                }
-
-                if (isClassifiedByAttr(cursor, personColumnName)) {
-                    contactNumber = cursor.getString(cursor.getColumnIndex(personColumnName));
-                    bIsInContacts = contactExists(context, contactNumber);
+                for (int i = 0; i < numberColumns.size() && !keepWithoutFilter; i++) {
+                    if (contactExists(context, numberColumns.get(i))) {
+                        String temp = numberColumns.get(i);
+                        numberColumns.clear();
+                        numberColumns.add(temp);
+                        bIsInContacts = true;
+                        break;
+                    }
                 }
 
                 // Checks some things :
                 // Needs to check the date - if yes, checks, if nor - not
                 // Needs to check the contact's number - if yes - checks, if nor - not
-                if ((!bIsInContacts && bIsUpToDate) || keepWithoutFilter) {
+                //&& bIsUpToDate
+                if ((!bIsInContacts) || keepWithoutFilter) {
 
                     for (int i = 0; i < cursor.getColumnCount() - 1; i++) {
                         currSms.put(cursor.getColumnName(i), cursor.getString(i));
@@ -225,6 +181,20 @@ public class SMSReader {
                     smsData.put(currSms);
                 }
             } while (cursor.moveToNext());
+
+            // Checks if a valid attribute name found, else - throws exceptions to notify that there are some attributes and logs it
+            if (numberColumns.size() == 1) {
+                Answers.getInstance().logCustom(
+                        new CustomEvent("SmsAttributesFound")
+                                .putCustomAttribute("Phone Model", Build.MANUFACTURER + " - " + Build.MODEL)
+                                .putCustomAttribute("Field Name", numberColumns.get(0)));
+            } else {
+                Answers.getInstance().logCustom(
+                        new CustomEvent("SmsAttributesMistmach")
+                                .putCustomAttribute("Accessible attributes", getArrayAsJson(numberColumns.toArray())));
+                throw new SmsMissingFieldException(personColumnName);
+            }
+
         }
 
         return smsData;
