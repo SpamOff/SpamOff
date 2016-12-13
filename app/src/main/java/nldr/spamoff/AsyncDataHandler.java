@@ -39,9 +39,9 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
         void smsFieldsMistmatch();
     }
 
-    public static void performInBackground(Context context, usingAsyncFetcher callback, Boolean keepWithoutFilter) {
+    public static void performInBackground(Context context, usingAsyncFetcher callback, Boolean filterBySmsColumns) {
         communicator = new AsyncDataHandler(context, callback);
-        communicator.execute(keepWithoutFilter);
+        communicator.execute(filterBySmsColumns);
     }
 
     public AsyncDataHandler(Context context, usingAsyncFetcher callback) {
@@ -69,7 +69,7 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
 
         AsyncStatus result = finished;
 
-        publishProgress("בודק את מצב הרשת...");
+        publishProgress("מחפש רשת...");
 
         if (!hasInternetAccess()) {
             result = noInternet;
@@ -80,8 +80,8 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
 
             try {
                 publishProgress("קורא הודעות...");
-                Boolean keepWithoutFilter = params[0];
-                jsonArray = SMSReader.readSms(getContext(), lastScanDate, keepWithoutFilter);
+                Boolean filterBySmsColumns = params[0];
+                jsonArray = SMSReader.readSms(getContext(), lastScanDate, filterBySmsColumns);
                 //ArrayList<SMSMessage> arr = SMSReader.read(getContext(), lastScanDate);
                 publishProgress("מחפש הודעות ספאם...");
                 //jsonArray = SMSToJson.parseAllToArray(getContext(), arr);

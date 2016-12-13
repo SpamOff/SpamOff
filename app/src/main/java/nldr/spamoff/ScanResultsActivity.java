@@ -217,7 +217,7 @@ public class ScanResultsActivity
         }
 
         if (bAcceptedAll) {
-            AsyncDataHandler.performInBackground(this, this, false);
+            AsyncDataHandler.performInBackground(this, this, true);
         } else {
             new MaterialDialog.Builder(this)
                     .content("כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.")
@@ -291,7 +291,7 @@ public class ScanResultsActivity
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        AsyncDataHandler.performInBackground(context, inst, true);
+                        AsyncDataHandler.performInBackground(context, inst, false);
                     }
                 }).show();
     }

@@ -19,6 +19,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
@@ -32,8 +33,8 @@ public class MainActivity
         implements AsyncDataHandler.usingAsyncFetcher {
 
     private String[] permissionsArray = new String[] {
-            android.Manifest.permission.READ_CONTACTS,
-            android.Manifest.permission.READ_SMS
+        android.Manifest.permission.READ_CONTACTS,
+        android.Manifest.permission.READ_SMS
     };
 
     private ProgressDialog prgDialog = null;
@@ -155,7 +156,7 @@ public class MainActivity
         }
 
         if (bAcceptedAll) {
-            AsyncDataHandler.performInBackground(this, this, false);
+            AsyncDataHandler.performInBackground(this, this, true);
         } else {
             new MaterialDialog.Builder(this)
                 .content("כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.")
@@ -202,7 +203,7 @@ public class MainActivity
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        AsyncDataHandler.performInBackground(context, inst, true);
+                        AsyncDataHandler.performInBackground(context, inst, false);
                     }
                 }).show();
     }
@@ -210,7 +211,7 @@ public class MainActivity
     @Override
     public void updateProgress(String prg) {
 
-        if (prgDialog.isShowing())
+        if (prgDialog.isShowing()
             prgDialog.setMessage(prg);
     }
 
