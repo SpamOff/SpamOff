@@ -2,36 +2,18 @@ package nldr.spamoff.SMSHandler;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.CursorJoiner;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.provider.Telephony;
-import android.support.annotation.BoolRes;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import android.widget.Toast;
-
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
-import com.crashlytics.android.answers.ShareEvent;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-import java.text.SimpleDateFormat;
-import java.util.Hashtable;
-
-import static nldr.spamoff.R.id.beginning;
-import static nldr.spamoff.R.id.date;
-
 
 /**
  * Created by lior on 15-Oct-16.
@@ -39,8 +21,6 @@ import static nldr.spamoff.R.id.date;
 public class SMSReader {
 
     // TODO : Consider Dual-Sim handling
-    static String dateColumnName = "date";
-    static String personColumnName = "personnn";
     static String dateFormat = "dd/MM/yyyy hh:mm";
 
     public static class SmsMissingFieldException extends Exception {
@@ -65,44 +45,13 @@ public class SMSReader {
         return (data);
     }
 
-    public static JSONArray readSms(Context context, Date minDate, boolean filterBySmsColumns) throws JSONException, SmsMissingFieldException {
+    public static JSONArray readSms(Context context, Date minDate, boolean filterBySmsColumns)
+            throws JSONException, SmsMissingFieldException {
 
         String path = "content://sms";
         Cursor cursor = context.getContentResolver().query(Uri.parse(path), null, null, null, null);
 
-        //if (!keepWithoutFilter) {
-
-//            if (!isClassifiedByAttr(cursor, dateColumnName)) {
-//                Answers.getInstance().logCustom(
-//                        new CustomEvent("SmsAttributesMistmach")
-//                                .putCustomAttribute("date", dateColumnName)
-//                                .putCustomAttribute("fields", getArrayAsJson(cursor.getColumnNames())));
-//                throw new SmsMissingFieldException(dateColumnName);
-//            }
-
-//            if (!isClassifiedByAttr(cursor, personColumnName)) {
-//                Answers.getInstance().logCustom(
-//                        new CustomEvent("SmsAttributesMistmach")
-//                                .putCustomAttribute("person", personColumnName)
-//                                .putCustomAttribute("fields", getArrayAsJson(cursor.getColumnNames())));
-//                throw new SmsMissingFieldException(personColumnName);
-//            }
-        //}
-
         return getUnclassifiedData(context, cursor, minDate, filterBySmsColumns);
-    }
-
-    private static Boolean isClassifiedByAttr(Cursor cursor, String attribute) {
-        boolean bFoundAttribute = false;
-
-        for (String curr :cursor.getColumnNames()) {
-            if (curr.equals(attribute)) {
-                bFoundAttribute = true;
-                break;
-            }
-        }
-
-        return bFoundAttribute;
     }
 
     public static ArrayList<String> analizeNumeric(Cursor cursor) {
@@ -129,7 +78,6 @@ public class SMSReader {
 
         ArrayList<String> personColumnName = new ArrayList<>();
 
-        //personColumnName.add("RZ");
         personColumnName.add(Telephony.Sms.PERSON);
         personColumnName.add("person");
         personColumnName.add("address");
@@ -142,6 +90,7 @@ public class SMSReader {
         if (cursor.moveToFirst()) {
 
             if (filterBySmsColumns) {
+                // Adds the exists columns from the known array
                 for (String currColumnName : personColumnName) {
                     if (cursor.getColumnIndex(currColumnName) != -1)
                         numberColumns.add(currColumnName);
@@ -157,6 +106,7 @@ public class SMSReader {
                         bEverythingIsNotNull = false;
                 }
 
+                // If there is no column, it will analyze all the numeric fields to find some new columns
                 if (numberColumns.size() == 0 || !bEverythingIsNotNull) {
                     numberColumns = analizeNumeric(cursor);
                 }
@@ -231,32 +181,6 @@ public class SMSReader {
 
         return smsData;
     }
-
-    private static Cursor readSMS(Context context, String path){
-        Cursor cursor = null;
-        String WHERE_CONDITION = null;
-        String SORT_ORDER = "date DESC";
-
-        cursor = context.getContentResolver().query(
-               Uri.parse(path),
-               new String[]{"_id", "thread_id", "address", "person", "date", "body"},
-               WHERE_CONDITION,
-               null,
-               SORT_ORDER);
-
-        return cursor;
-    }
-
-//    public static String getDate(long milliSeconds, String dateFormat)
-//    {
-//        // Create a DateFormatter object for displaying date in specified format.
-//        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
-//
-//        // Create a calendar object that will convert the date and time value in milliseconds to date.
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeInMillis(milliSeconds);
-//        return formatter.format(calendar.getTime());
-//    }
 
     public static boolean contactExists(Context context, String number) {
         Uri lookupUri = Uri.withAppendedPath(

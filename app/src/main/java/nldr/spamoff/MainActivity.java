@@ -211,7 +211,7 @@ public class MainActivity
     @Override
     public void updateProgress(String prg) {
 
-        if (prgDialog.isShowing()
+        if (prgDialog.isShowing())
             prgDialog.setMessage(prg);
     }
 
