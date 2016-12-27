@@ -5,6 +5,10 @@
     tools:context=".moreInfo1Fragment"
     android:background="@color/greenPrimary">
 
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -36,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="סורקים את ההודעות"
+            android:text="האפליקציה סורקת את ההודעות"
             android:id="@+id/textView14"
             android:layout_gravity="center_horizontal"
             android:textSize="22dp" />
@@ -66,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="מגיעים למשפט או לפשרה"
+            android:text="מגיעים לפשרה או למשפט"
             android:id="@+id/textView16"
             android:layout_gravity="center_horizontal"
             android:textSize="22dp" />
@@ -84,4 +88,5 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp" />
     </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

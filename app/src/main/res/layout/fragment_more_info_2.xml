@@ -5,6 +5,10 @@
     tools:context=".moreInfo2Fragment"
     android:background="@color/greenPrimary">
 
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -14,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="מה SpamOff עושים עבורך?"
+            android:text="מה SpamOff עושה עבורך?"
             android:id="@+id/textView13"
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
@@ -45,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="פעמים רבות קשה לאתר את החברה העומדת מאחורי ההודעות, אנו עושים זאת עבורך בעזרת מערכת חכמה וחכמת ההמונים."
+            android:text="פעמים רבות קשה לאתר את החברה העומדת מאחורי ההודעות, אנו עושים זאת עבורך בעזרת מערכת טכנולוגית וחכמת ההמונים."
             android:id="@+id/textView15"
             android:layout_gravity="center_horizontal"
             android:textSize="15dp"
@@ -75,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="אנחנו נמלא את הפרטים הטכניים הדרושים בתבנית כתב התביעה לכתב התביעה מצורפים הטענות והנימוקים הדרושים כדי לגבות את תביעתך."
+            android:text="המערכת תמלא את הפרטים הטכניים הדרושים בתבנית כתב התביעה. לכתב התביעה מצורפים הטענות והנימוקים הדרושים המבססים את תביעתך."
             android:id="@+id/textView17"
             android:layout_gravity="center_horizontal"
             android:textSize="15dp"
@@ -84,4 +88,5 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp" />
     </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

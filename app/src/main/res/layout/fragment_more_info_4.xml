@@ -5,6 +5,10 @@
     tools:context=".moreInfo4Fragment"
     android:background="@color/greenPrimary">
 
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -46,11 +50,11 @@
             android:textAlignment="center" />
 
         <TextView
+            android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="אנחנו רוצים לעצור את תופעת הספאם הלא חוקי על ידי סיוע טכני בהגשת תביעות לפיצוי כספי, במטרה להקל על תהליך הגשת &quot;תביעות ספאם&quot;. ככל שיוגשו יותר תביעות, הספאמרים יחוייבו לשלם יותר פיצויים. רק לחץ כלכלי יגרום להם להפסיק להטריד אותנו."
-            android:id="@+id/textView15"
+            android:text="ספאם אוף הוקמה במטרה להילחם בתופעת הספאם. \nאנחנו רוצים לעצור את תופעת הספאם הלא חוקי על ידי סיוע טכני בהגשת תביעות לפיצוי כספי, במטרה להקל על תהליך הגשת &quot;תביעות ספאם&quot;. ככל שיוגשו יותר תביעות, הספאמרים יחוייבו לשלם יותר פיצויים. רק לחץ כלכלי יגרום להם להפסיק להטריד אותנו."
             android:layout_gravity="center_horizontal"
             android:textSize="15dp"
             android:textAlignment="center"
@@ -60,4 +64,5 @@
             android:layout_marginTop="20dp" />
 
     </LinearLayout>
+    </ScrollView>
 </RelativeLayout>
