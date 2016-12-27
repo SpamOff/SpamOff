@@ -9,13 +9,26 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.IMediaControllerCallback;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.util.Linkify;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 
@@ -65,6 +78,31 @@ public class ApproveTermsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_approve_terms, container, false);
         final Context context = inflater.getContext();
+
+        TextView textView = (TextView)view.findViewById(R.id.txtTerms);
+
+//        Linkify.addLinks(txtView, Pattern.compile("תנאי השימוש"), "http://www.spamoff.co.il/uploads/2016/07/Terms-of-use.pdf");
+
+//        SpannableString ss = new SpannableString("This is a cool text cool text cool text tcoooccococ");
+////        SpannableString ss = new SpannableString("מאשר את הסכמתי לתנאי השימוש ומדיניות הפרטיות");
+//        ClickableSpan terms = new ClickableSpan() {
+//            @Override
+//            public void onClick(View textView) {
+//                Toast.makeText(textView.getContext(), "LOL", Toast.LENGTH_LONG).show();
+//            }
+//        };
+//        ClickableSpan privacy = new ClickableSpan() {
+//            @Override
+//            public void onClick(View widget) {
+//                Toast.makeText(textView.getContext(), "LOL1", Toast.LENGTH_LONG).show();
+//            }
+//        };
+//        ss.setSpan(terms, 15, 27, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        ss.setSpan(privacy, 28, 44, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//
+//        textView.setText(ss);
+//        textView.setMovementMethod(LinkMovementMethod.getInstance());
+//        textView.setHighlightColor(Color.TRANSPARENT);
 
         ImageButton approveButton = (ImageButton) view.findViewById(R.id.approveButton);
         approveButton.setOnClickListener(new View.OnClickListener() {

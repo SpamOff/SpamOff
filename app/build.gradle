@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.0"
 
     aaptOptions {
         cruncherEnabled = false
@@ -16,15 +16,15 @@ android {
         versionCode 1
         versionName "1.0"
 
-        jackOptions {
-            enabled true
-        }
+//        jackOptions {
+//            enabled true
+//        }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
 
     buildTypes {
         release {
@@ -45,13 +45,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':MaterialDesign')
     compile files('libS/org.apache.http.legacy.jar')
-    //compile 'com.github.ppamorim:dragger:1.2'
     compile 'me.relex:circleindicator:1.2.2@aar'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.0.0'
+    compile 'com.android.support:design:24.0.0'
+    compile 'com.android.support:support-v4:24.0.0'
     compile 'com.github.chenupt.android:springindicator:1.0.2@aar'
     compile 'com.github.chenupt.android:multiplemodel:1.1.0@aar'
-    compile 'com.android.support:support-v4:23.4.0'
     compile 'pro.alexzaitsev:freepager:1.0.1'
     compile 'com.jude:rollviewpager:1.4.5@aar'
     compile 'info.hoang8f:fbutton:1.0.5'

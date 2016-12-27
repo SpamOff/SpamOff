@@ -33,8 +33,8 @@ public class MainActivity
         implements AsyncDataHandler.usingAsyncFetcher {
 
     private String[] permissionsArray = new String[] {
-        android.Manifest.permission.READ_CONTACTS,
-        android.Manifest.permission.READ_SMS
+            android.Manifest.permission.READ_CONTACTS,
+            android.Manifest.permission.READ_SMS
     };
 
     private ProgressDialog prgDialog = null;
@@ -159,12 +159,12 @@ public class MainActivity
             AsyncDataHandler.performInBackground(this, this, true);
         } else {
             new MaterialDialog.Builder(this)
-                .content("כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.")
-                .title("לא נמצאו האישורים המתאימים לביצוע הסריקה")
-                .titleGravity(GravityEnum.END)
-                .buttonsGravity(GravityEnum.END)
-                .contentGravity(GravityEnum.END)
-                .positiveText("אישור").show();
+                    .content("כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.")
+                    .title("לא נמצאו האישורים המתאימים לביצוע הסריקה")
+                    .titleGravity(GravityEnum.START)
+                    .buttonsGravity(GravityEnum.START)
+                    .contentGravity(GravityEnum.START)
+                    .positiveText("אישור").show();
         }
     }
 
@@ -195,9 +195,9 @@ public class MainActivity
         new MaterialDialog.Builder(this)
                 .content("בגלל גרסאת המכשיר לא ניתן לסנן את ההודעות לפי הדרישות, האם לשלוח את ההודעות ללא סינון?")
                 .title("ארעה שגיאה בזמן ביצוע הסריקה")
-                .titleGravity(GravityEnum.END)
-                .buttonsGravity(GravityEnum.END)
-                .contentGravity(GravityEnum.END)
+                .titleGravity(GravityEnum.START)
+                .buttonsGravity(GravityEnum.START)
+                .contentGravity(GravityEnum.START)
                 .positiveText("אישור")
                 .negativeText("ביטול")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -212,7 +212,7 @@ public class MainActivity
     public void updateProgress(String prg) {
 
         if (prgDialog.isShowing())
-            prgDialog.setMessage(prg);
+        prgDialog.setMessage(prg);
     }
 
     @Override
@@ -220,9 +220,9 @@ public class MainActivity
         new MaterialDialog.Builder(this)
                 .content("לא נמצאו הודעות חדשות מאז הסריקה האחרונה")
                 .title("הסריקה נגמרה")
-                .titleGravity(GravityEnum.END)
-                .buttonsGravity(GravityEnum.END)
-                .contentGravity(GravityEnum.END)
+                .titleGravity(GravityEnum.START)
+                .buttonsGravity(GravityEnum.START)
+                .contentGravity(GravityEnum.START)
                 .positiveText("אישור").show();
     }
 
@@ -236,23 +236,23 @@ public class MainActivity
     @Override
     public void error(String errorMessage) {
         new MaterialDialog.Builder(this)
-            .content(errorMessage)
-            .title("ארעה שגיאה בזמן ביצוע הסריקה")
-            .titleGravity(GravityEnum.END)
-            .buttonsGravity(GravityEnum.END)
-            .contentGravity(GravityEnum.END)
-            .positiveText("אישור").show();
+                .content(errorMessage)
+                .title("ארעה שגיאה בזמן ביצוע הסריקה")
+                .titleGravity(GravityEnum.START)
+                .buttonsGravity(GravityEnum.START)
+                .contentGravity(GravityEnum.START)
+                .positiveText("אישור").show();
     }
 
     @Override
     public void cancelled() {
         new MaterialDialog.Builder(this)
-            .content("לא הצלחנו לבצע את הסריקה, אנא נסה מאוחר יותר")
-            .title("ארעה שגיאה בזמן ביצוע הסריקה")
-            .titleGravity(GravityEnum.END)
-            .buttonsGravity(GravityEnum.END)
-            .contentGravity(GravityEnum.END)
-            .positiveText("אישור").show();
+                .content("לא הצלחנו לבצע את הסריקה, אנא נסה מאוחר יותר")
+                .title("ארעה שגיאה בזמן ביצוע הסריקה")
+                .titleGravity(GravityEnum.START)
+                .buttonsGravity(GravityEnum.START)
+                .contentGravity(GravityEnum.START)
+                .positiveText("אישור").show();
     }
 
     @Override

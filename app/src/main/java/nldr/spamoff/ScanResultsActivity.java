@@ -4,11 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.media.Image;
-import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -239,9 +235,9 @@ public class ScanResultsActivity
         new MaterialDialog.Builder(this)
                 .content("לא נמצאו הודעות חדשות מאז הסריקה האחרונה")
                 .title("הסריקה נגמרה")
-                .titleGravity(GravityEnum.END)
-                .buttonsGravity(GravityEnum.END)
-                .contentGravity(GravityEnum.END)
+                .titleGravity(GravityEnum.START)
+                .buttonsGravity(GravityEnum.START)
+                .contentGravity(GravityEnum.START)
                 .positiveText("אישור").show();
     }
 
@@ -257,9 +253,9 @@ public class ScanResultsActivity
         new MaterialDialog.Builder(this)
                 .content(errorMessage)
                 .title("ארעה שגיאה בזמן ביצוע הסריקה")
-                .titleGravity(GravityEnum.END)
-                .buttonsGravity(GravityEnum.END)
-                .contentGravity(GravityEnum.END)
+                .titleGravity(GravityEnum.START)
+                .buttonsGravity(GravityEnum.START)
+                .contentGravity(GravityEnum.START)
                 .positiveText("אישור").show();
     }
 
@@ -283,9 +279,9 @@ public class ScanResultsActivity
         new MaterialDialog.Builder(this)
                 .content("בגלל גרסאת המכשיר לא ניתן לסנן את ההודעות לפי הדרישות, האם לשלוח את ההודעות ללא סינון?")
                 .title("ארעה שגיאה בזמן ביצוע הסריקה")
-                .titleGravity(GravityEnum.END)
-                .buttonsGravity(GravityEnum.END)
-                .contentGravity(GravityEnum.END)
+                .titleGravity(GravityEnum.START)
+                .buttonsGravity(GravityEnum.START)
+                .contentGravity(GravityEnum.START)
                 .positiveText("אישור")
                 .negativeText("ביטול")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -301,9 +297,9 @@ public class ScanResultsActivity
         new MaterialDialog.Builder(this)
                 .content("כדי שנוכל לסרוק ולשלוח את הודעות הספאם שלך דרוש חיבור אינטרנט זמין ומהיר מספיק")
                 .title("ארעה שגיאה בזמן ביצוע הסריקה")
-                .titleGravity(GravityEnum.END)
-                .buttonsGravity(GravityEnum.END)
-                .contentGravity(GravityEnum.END)
+                .titleGravity(GravityEnum.START)
+                .buttonsGravity(GravityEnum.START)
+                .contentGravity(GravityEnum.START)
                 .positiveText("אישור").show();
     }
 

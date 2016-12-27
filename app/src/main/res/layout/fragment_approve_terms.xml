@@ -19,7 +19,7 @@
             android:textAlignment="center"
             android:textDirection="rtl"
             android:textStyle="bold"
-            android:text="עוצרים את הספאם"
+            android:text="תנאי השירות"
             android:id="@+id/title"
             android:layout_marginBottom="10dp"/>
         <TextView
@@ -36,7 +36,7 @@
             android:textDirection="rtl"
             android:layout_below="@+id/title"
             android:id="@+id/text_1"
-            android:text="השירות אינו משפטי | קבלת הפיצוי תלויה בנסיבות ומסורה לשיקול דעתבית המשפט\nהשימוש בשירות בכפוף לתנאי השימוש ומדיניות הפטריות ומהווה הסכמה לתנאים."
+            android:text="השירות אינו משפטי | קבלת הפיצוי תלויה בנסיבות ומסורה לשיקול דעת בית המשפט\nהשימוש בשירות בכפוף לתנאי השימוש ומדיניות הפרטיות ומהווה הסכמה לתנאים."
             />
         <ImageButton
             android:layout_width="wrap_content"
@@ -48,20 +48,25 @@
             android:layout_below="@+id/text_1"
             android:background="@android:color/transparent"
             android:id="@+id/approveButton"/>
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
+            android:paddingTop="15dp"
             android:textColor="@color/black"
             android:textSize="10dp"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textDirection="rtl"
             android:layout_below="@+id/approveButton"
-            android:id="@+id/text_2"
-            android:text="מאשר את הסכמתי לתנאי השימוש ומדיניות הפרטיות"
-            />
+            android:id="@+id/txtTerms"
+            android:autoLink="web"
+            android:text="@string/acceptTerms"/>
+            <!--android:text=" מאשר את הסכמתי לתנאי השימוש ומדיניות הפרטיות "-->
+            <!--/>-->
 
     </RelativeLayout>
 

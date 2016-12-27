@@ -13,9 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.augustopicciani.drawablepageindicator.widget.DrawablePagerIndicator;
-
 import me.relex.circleindicator.CircleIndicator;
 
 public class MoreInfo extends AppCompatActivity {

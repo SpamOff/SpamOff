@@ -33,10 +33,10 @@
         android:layout_centerVertical="true"
         android:layout_centerInParent="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="זמן ההמתנה לדיון משתנה ותלוי בלוחות הזמנים של בתי המשפט ולוקח בממוצע כחצי שנה. \n מקרים רבים מסתיימים בפשרה לפני הדיון. בתקופת ההמתנה לדיון אנו נעקוב אחר תביעתך ונעדכן אותך בכל ההתפתחות."
+        android:text="זמן ההמתנה לדיון לאחר הגשת התביעה, משתנה ותלוי בלוחות הזמנים של בתי המשפט ולוקח בממוצע כחצי שנה. \n מקרים רבים מסתיימים בפשרה לפני הדיון. בתקופת ההמתנה לדיון אנו נעקוב אחר תביעתך ונעדכן אותך בכל התפתחות."
         android:id="@+id/textView15"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="right"
         android:textSize="15dp"
-        android:textAlignment="center" />
+        android:textAlignment="center"/>
 
 </RelativeLayout>

@@ -2,18 +2,11 @@ package nldr.spamoff;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
-import android.provider.ContactsContract;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SeekBar;
-
-import java.util.Date;
 import java.util.Random;
 
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
@@ -21,8 +14,6 @@ import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 public class ScanFinished extends AppCompatActivity {
 
     final int MAX_SLIDE_VALUE = 162;
-    final int MIN_SPAM_OPACITY_CHANGER_VALUE = 140;
-    final int MIN_SLIDE_VALUE = 38;
 
     @Override
     public void onBackPressed() {

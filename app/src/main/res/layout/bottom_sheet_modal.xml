@@ -57,7 +57,8 @@
             android:textSize="20dp"
             android:layoutDirection="rtl"
             android:textDirection="rtl"
-            android:layout_columnWeight="0.5" />
+            android:layout_columnWeight="0.5"
+                android:elevation="1dp" />
 
             <ImageView
                 android:layout_width="wrap_content"

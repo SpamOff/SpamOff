@@ -42,7 +42,7 @@
                 android:text="סגור"
                 android:id="@+id/btnClose"
                 android:layout_alignParentStart="false"
-                android:background="@color/fbutton_color_transparent"
+                android:background="@drawable/md_transparent"
                 android:textColor="#ffffff"
                 android:textStyle="bold"
                 android:layout_alignParentTop="false"
@@ -61,7 +61,8 @@
                 app:ci_drawable="@drawable/indicator_checked_green"
                 app:ci_drawable_unselected="@drawable/indicator_unchecked"
                 android:background="@color/greenPrimary"
-                android:clickable="true" />
+                android:clickable="true"
+                android:layoutDirection="ltr"/>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/container"
@@ -71,7 +72,8 @@
                 android:layout_below="@+id/textView11"
                 android:layout_above="@+id/indicator"
                 android:layout_alignParentEnd="false"
-                android:layout_alignParentStart="false" />
+                android:layout_alignParentStart="false"
+                android:layoutDirection="ltr"/>
 
         </RelativeLayout>
 

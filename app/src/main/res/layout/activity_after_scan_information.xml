@@ -37,7 +37,6 @@
         android:layout_alignParentStart="false"
         android:layout_below="@+id/container"
         app:ci_drawable="@drawable/indicator_checked_green"
-        app:ci_drawable_unselected="@drawable/indicator_unchecked"/>
-
-
+        app:ci_drawable_unselected="@drawable/indicator_unchecked"
+        android:layoutDirection="ltr"/>
 </RelativeLayout>

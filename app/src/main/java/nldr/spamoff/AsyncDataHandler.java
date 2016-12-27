@@ -69,7 +69,7 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
 
         AsyncStatus result = finished;
 
-        publishProgress("מחפש רשת...");
+        publishProgress(getContext().getString(R.string.progress_checking_network));
 
         if (!hasInternetAccess()) {
             result = noInternet;
@@ -79,7 +79,7 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
             JSONArray jsonArray = null;
 
             try {
-                publishProgress("קורא הודעות...");
+                publishProgress(getContext().getString(R.string.progress_reading_messages));
                 Boolean filterBySmsColumns = params[0];
                 jsonArray = SMSReader.readSms(getContext(), lastScanDate, filterBySmsColumns);
                 //ArrayList<SMSMessage> arr = SMSReader.read(getContext(), lastScanDate);

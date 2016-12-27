@@ -10,8 +10,6 @@ import android.support.v4.app.FragmentManager;
 
 public class Sharer {
 
-    private BottomSheetBehavior bottomSheetBehavior;
-
     public static void showShareMenu(FragmentManager manager) {
         BottomSheetDialogFragment myBottomSheet = MyBottomSheetDialogFragment.newInstance("Modal Bottom Sheet");
         myBottomSheet.show(manager, myBottomSheet.getTag());

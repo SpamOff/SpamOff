@@ -49,7 +49,6 @@
             android:textSize="22dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:autoText="false"
             android:textAlignment="center"
             android:layout_marginBottom="20dp" />
 
@@ -59,42 +58,43 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center">
 
-            <ImageView
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView17"
-                android:src="@mipmap/moreinfo8" />
+                android:id="@+id/btnSite"
+                android:src="@mipmap/moreinfo8"
+                android:padding="8dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/transparent"/>
 
-            <ImageView
+            <View
+                android:layout_width="1dp"
+                android:layout_height="60dp"
+                android:background="@color/seperator"/>
+
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView18"
+                android:id="@+id/btnMail"
                 android:src="@mipmap/moreinfo9"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:padding="8dp"
+                android:background="@android:color/transparent"/>
 
-            <ImageView
+            <View
+                android:layout_width="1dp"
+                android:layout_height="60dp"
+                android:background="@color/seperator"/>
+
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView19"
-                android:src="@mipmap/moreinfo10" />
+                android:id="@+id/btnFaq"
+                android:src="@mipmap/moreinfo10"
+                android:padding="8dp"
+                android:layout_marginLeft="10dp"
+                android:background="@android:color/transparent"/>
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="sms@spamoff.co \n spamoff.co.il \n spamoff.co.il/faq"
-            android:id="@+id/textView15"
-            android:layout_gravity="center_horizontal"
-            android:textSize="20dp"
-            android:textAlignment="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp" />
-
-        <!--<include layout="@layout/activity_share"/>-->
-
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -122,4 +122,14 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+
+    <string name="acceptTerms">
+        <a href="http://www.google.com">מאשר מאשר מאשר</a>
+    </string>
+    <string name="no_permissions_error">כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.</string>
+    <string name="no_permissions_error_title">לא נמצאו האישורים המתאימים לביצוע הסריקה</string>
+    <string name="confirm_modal">אישור</string>
+    <string name="progress_reading_messages">קורא הודעות...</string>
+    <string name="progress_checking_network">מחפש רשת...</string>
+
 </resources>
