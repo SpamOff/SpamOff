@@ -23,19 +23,14 @@
             android:id="@+id/title"
             android:layout_marginBottom="10dp"/>
 
-        <TextView
+        <com.uncopt.android.widget.text.justify.JustifiedTextView
+            android:id="@+id/txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:lineSpacingExtra="1dp"
-            android:textColor="#000000"
             android:textSize="14dp"
-            android:textAlignment="center"
-            android:textDirection="rtl"
-            android:text="חברת SpamOff מציעה סיוע טכני המאפשר למקבלי ספאם לתבוע פיצוי כספי בהתאם להוראות החוק. לפי “חוק הספאם” אדם שקיבל הודעה המעודדת רכישת מוצר או הוצאת כספים בדרך אחרת, מבלי שאישר זאת באופן מפורש מראש, רשאי לתבוע בבית משפט לתביעות קטנות פיצוי כספי ללא הוכחת נזק של עד 1,000 ש״ח עבור כל הודעה שקיבל.\nSpamOff עוזרת לכם לתבוע פיצוי משולח הספאם, עם מינימום מאמץ מצדכם. ככל שיותר אנשים יממשו את זכותם לתבוע, כך יורתעו שולחי הספאם, עד שייאלצו להפסיק להטריד אותנו."
-            android:id="@+id/info"/>
-
+            android:textColor="#000000"
+            android:text="חברת SpamOff מציעה סיוע טכני המאפשר למקבלי ספאם לתבוע פיצוי כספי בהתאם להוראות החוק. לפי “חוק הספאם” אדם שקיבל הודעה המעודדת רכישת מוצר או הוצאת כספים בדרך אחרת, מבלי שאישר זאת באופן מפורש מראש, רשאי לתבוע בבית משפט לתביעות קטנות פיצוי כספי ללא הוכחת נזק של עד 1,000 ש״ח עבור כל הודעה שקיבל.\nחברת SpamOff עוזרת לכם לתבוע פיצוי משולח הספאם, עם מינימום מאמץ מצדכם. ככל שיותר אנשים יממשו את זכותם לתבוע, כך יורתעו שולחי הספאם, עד שייאלצו להפסיק להטריד אותנו."
+            />
     </LinearLayout>
 
 </RelativeLayout>

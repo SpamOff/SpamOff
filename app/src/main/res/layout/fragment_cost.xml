@@ -17,10 +17,9 @@
       android:textSize="18dp"
       android:paddingLeft="15dp"
       android:paddingRight="15dp"
-      android:layout_marginBottom="5dp"
-      android:textAlignment="center" />
+      android:layout_marginBottom="5dp"/>
 
-  <TextView
+  <com.uncopt.android.widget.text.justify.JustifiedTextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:textAppearance="?android:attr/textAppearanceMedium"
@@ -32,6 +31,5 @@
       android:layout_gravity="center_horizontal|center"
       android:textSize="15dp"
       android:paddingTop="10dp"
-      android:textAlignment="gravity"
-  android:textDirection="rtl"/>
+      android:textDirection="rtl"/>
 </RelativeLayout>

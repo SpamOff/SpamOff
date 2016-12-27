@@ -22,7 +22,8 @@
             android:text="תנאי השירות"
             android:id="@+id/title"
             android:layout_marginBottom="10dp"/>
-        <TextView
+
+        <com.uncopt.android.widget.text.justify.JustifiedTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -48,7 +49,6 @@
             android:layout_below="@+id/text_1"
             android:background="@android:color/transparent"
             android:id="@+id/approveButton"/>
-
 
         <TextView
             android:layout_width="wrap_content"
