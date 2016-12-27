@@ -28,16 +28,16 @@
             android:layout_marginRight="20dp" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnShare"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/share"
-            android:scaleType="centerInside"
-            android:background="@drawable/md_transparent"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            android:layout_marginBottom="15dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnShare"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/share"
+                android:scaleType="centerInside"
+                android:background="?attr/selectableItemBackground"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+                android:layout_marginBottom="15dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                 android:src="@mipmap/moreinfo8"
                 android:padding="8dp"
                 android:layout_marginRight="10dp"
-                android:background="@android:color/transparent"/>
+                android:background="?attr/selectableItemBackgroundBorderless"/>
 
             <View
                 android:layout_width="1dp"
@@ -80,7 +80,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:padding="8dp"
-                android:background="@android:color/transparent"/>
+                android:background="?attr/selectableItemBackgroundBorderless"/>
 
             <View
                 android:layout_width="1dp"
@@ -94,7 +94,7 @@
                 android:src="@mipmap/moreinfo10"
                 android:padding="8dp"
                 android:layout_marginLeft="10dp"
-                android:background="@android:color/transparent"/>
+                android:background="?attr/selectableItemBackgroundBorderless"/>
         </LinearLayout>
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -42,7 +42,7 @@
                 android:text="סגור"
                 android:id="@+id/btnClose"
                 android:layout_alignParentStart="false"
-                android:background="@drawable/md_transparent"
+                android:background="?attr/selectableItemBackground"
                 android:textColor="#ffffff"
                 android:textStyle="bold"
                 android:layout_alignParentTop="false"

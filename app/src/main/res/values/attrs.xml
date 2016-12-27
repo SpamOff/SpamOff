@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SpringIndicator">
-
         <!--tab text color -->
         <attr name="siTextColor" format="reference"/>
 
@@ -25,6 +24,5 @@
 
         <!--min indicator radius when moving-->
         <attr name="siRadiusMin" format="dimension"/>
-
     </declare-styleable>
 </resources>

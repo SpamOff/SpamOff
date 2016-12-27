@@ -2,7 +2,6 @@ package nldr.spamoff;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,6 +77,7 @@ public class moreInfo5Fragment extends Fragment {
 
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_more_info_5, container, false);
+
         ImageButton btnShare = (ImageButton)rootView.findViewById(R.id.btnShare);
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,12 +91,8 @@ public class moreInfo5Fragment extends Fragment {
                @Override
                public void onClick(View v) {
                    Intent email = new Intent(Intent.ACTION_SENDTO);
-                   //email.putExtra(Intent.EXTRA_EMAIL, new String[]{ "sms@spamoff.co" });
-                   //need this to prompts email client only
-                   //email.setType("message/rfc822");
                    email.setData(Uri.parse("mailto:sms@spamoff.co"));
                    startActivity(email);
-                   //startActivity(Intent.createChooser(email, "Choose an Email client :"));
                }
            }
         );
