@@ -1,5 +1,7 @@
 package nldr.spamoff;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -13,5 +15,12 @@ public class Sharer {
     public static void showShareMenu(FragmentManager manager) {
         BottomSheetDialogFragment myBottomSheet = MyBottomSheetDialogFragment.newInstance("Modal Bottom Sheet");
         myBottomSheet.show(manager, myBottomSheet.getTag());
+    }
+
+    public static void showShareMenu(Context context) {
+
+        Intent intent = new Intent();
+        intent = new Intent(context, share.class);
+        context.startActivity(intent);
     }
 }

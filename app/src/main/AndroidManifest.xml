@@ -21,8 +21,7 @@
             android:value="@string/facebook_app_id" />
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="ed09487a126206d060ab7d7f30ab4edaeebc90df"
-            />
+            android:value="ed09487a126206d060ab7d7f30ab4edaeebc90df" />
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
@@ -66,6 +65,7 @@
             android:label="@string/title_activity_after_scan_information"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Holo.Dialog.NoActionBar.Rounded" />
+        <activity android:name=".share"></activity>
     </application>
 
 </manifest>

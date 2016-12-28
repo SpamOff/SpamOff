@@ -67,5 +67,6 @@ dependencies {
         transitive = true;
     }
     compile 'com.uncopt:android.justified:1.0'
-    
+    compile 'com.github.dmytrodanylyk.shadow-layout:library:1.0.3'
+
 }

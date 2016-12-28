@@ -26,4 +26,5 @@
     <color name="material_red_500">#F44336</color>
 
     <color name="seperator">#b6030303</color>
+    <color name="share_background">#cc98bcda</color>
 </resources>
