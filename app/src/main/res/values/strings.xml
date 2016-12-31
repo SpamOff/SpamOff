@@ -124,8 +124,12 @@
     <string name="pref_title_vibrate">Vibrate</string>
 
     <string name="acceptTerms">
-        <a href="http://www.google.com">מאשר מאשר מאשר</a>
+        מאשר את הסכמתי ל
+        <a href="http://www.spamoff.co.il/uploads/2016/07/Terms-of-use.pdf">תנאי השימוש</a>
+        ו
+        <a href="http://www.spamoff.co.il/uploads/2016/07/Privacy-Policy.pdf">מדיניות הפרטיות</a>
     </string>
+
     <string name="no_permissions_error">כדי שנוכל לבצע את הסריקה יש לאשר את הגישה של האפליקציה לאנשי הקשר וההודעות.</string>
     <string name="no_permissions_error_title">לא נמצאו האישורים המתאימים לביצוע הסריקה</string>
     <string name="confirm_modal">אישור</string>

@@ -56,17 +56,14 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:paddingTop="15dp"
-            android:textColor="@color/black"
             android:textSize="10dp"
-            android:textStyle="bold"
             android:textAlignment="center"
             android:textDirection="rtl"
             android:layout_below="@+id/approveButton"
             android:id="@+id/txtTerms"
-            android:autoLink="web"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:text="@string/acceptTerms"/>
-            <!--android:text=" מאשר את הסכמתי לתנאי השימוש ומדיניות הפרטיות "-->
-            <!--/>-->
 
     </RelativeLayout>
 

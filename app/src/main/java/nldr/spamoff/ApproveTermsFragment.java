@@ -8,27 +8,14 @@ import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.media.session.IMediaControllerCallback;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
-import android.text.method.MovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.util.Linkify;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 
@@ -80,6 +67,7 @@ public class ApproveTermsFragment extends Fragment {
         final Context context = inflater.getContext();
 
         TextView textView = (TextView)view.findViewById(R.id.txtTerms);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
 
 //        Linkify.addLinks(txtView, Pattern.compile("תנאי השימוש"), "http://www.spamoff.co.il/uploads/2016/07/Terms-of-use.pdf");
 
@@ -135,6 +123,4 @@ public class ApproveTermsFragment extends Fragment {
             onRequestPermissionsResult(0, null, null);
         }
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
 }
