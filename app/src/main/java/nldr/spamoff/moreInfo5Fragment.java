@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,19 +66,14 @@ public class moreInfo5Fragment extends Fragment {
         }
     }
 
-    private BottomSheetBehavior bottomSheetBehavior;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        final BottomSheetDialogFragment myBottomSheet = MyBottomSheetDialogFragment.newInstance("Modal Bottom Sheet");
-
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_more_info_5, container, false);
 
-        ImageButton btnShare = (ImageButton)rootView.findViewById(R.id.btnShare);
-        btnShare.setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.btnShare).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Sharer.showShareMenu(getContext());
@@ -87,32 +81,28 @@ public class moreInfo5Fragment extends Fragment {
             }
         });
 
-        ImageButton btnMail = (ImageButton) rootView.findViewById(R.id.btnMail);
-        btnMail.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   Intent email = new Intent(Intent.ACTION_SENDTO);
-                   email.setData(Uri.parse("mailto:sms@spamoff.co"));
-                   startActivity(email);
-               }
-           }
-        );
-        ImageButton btnFaq = (ImageButton) rootView.findViewById(R.id.btnFaq);
-        btnFaq.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://spamoff.co.il/faq")));
-              }
-          }
-        );
-        ImageButton btnSite = (ImageButton) rootView.findViewById(R.id.btnSite);
-        btnSite.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://spamoff.co.il/")));
-               }
-           }
-        );
+        rootView.findViewById(R.id.btnFaq).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://spamoff.co.il/faq")));
+            }
+        });
+
+        rootView.findViewById(R.id.btnSite).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://spamoff.co.il/")));
+            }
+        });
+
+        rootView.findViewById(R.id.btnMail).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent email = new Intent(Intent.ACTION_SENDTO);
+                email.setData(Uri.parse("mailto:sms@spamoff.co"));
+                startActivity(email);
+            }
+        });
 
         return rootView;
     }

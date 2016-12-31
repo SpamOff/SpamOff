@@ -35,6 +35,17 @@ android {
     sourceSets { main { resources.srcDirs = ['src/main/resources', 'lib'] } }
 }
 
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.0'
+    }
+}
+
 repositories {
     jcenter()
     maven { url 'https://maven.fabric.io/public' }
