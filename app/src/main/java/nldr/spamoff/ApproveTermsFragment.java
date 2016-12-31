@@ -2,9 +2,7 @@ package nldr.spamoff;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -16,9 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
-
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,29 +64,6 @@ public class ApproveTermsFragment extends Fragment {
 
         TextView textView = (TextView)view.findViewById(R.id.txtTerms);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
-
-//        Linkify.addLinks(txtView, Pattern.compile("תנאי השימוש"), "http://www.spamoff.co.il/uploads/2016/07/Terms-of-use.pdf");
-
-//        SpannableString ss = new SpannableString("This is a cool text cool text cool text tcoooccococ");
-////        SpannableString ss = new SpannableString("מאשר את הסכמתי לתנאי השימוש ומדיניות הפרטיות");
-//        ClickableSpan terms = new ClickableSpan() {
-//            @Override
-//            public void onClick(View textView) {
-//                Toast.makeText(textView.getContext(), "LOL", Toast.LENGTH_LONG).show();
-//            }
-//        };
-//        ClickableSpan privacy = new ClickableSpan() {
-//            @Override
-//            public void onClick(View widget) {
-//                Toast.makeText(textView.getContext(), "LOL1", Toast.LENGTH_LONG).show();
-//            }
-//        };
-//        ss.setSpan(terms, 15, 27, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        ss.setSpan(privacy, 28, 44, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//
-//        textView.setText(ss);
-//        textView.setMovementMethod(LinkMovementMethod.getInstance());
-//        textView.setHighlightColor(Color.TRANSPARENT);
 
         ImageButton approveButton = (ImageButton) view.findViewById(R.id.approveButton);
         approveButton.setOnClickListener(new View.OnClickListener() {
