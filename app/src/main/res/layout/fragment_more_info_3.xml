@@ -45,7 +45,7 @@
             android:layout_gravity="center_horizontal"
             android:textSize="22dp" />
 
-        <TextView
+        <com.uncopt.android.widget.text.justify.JustifiedTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -53,7 +53,6 @@
             android:id="@+id/textView15"
             android:layout_gravity="center_horizontal"
             android:textSize="15dp"
-            android:textAlignment="center"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp" />
@@ -75,7 +74,7 @@
             android:layout_gravity="center_horizontal"
             android:textSize="22dp" />
 
-        <TextView
+        <com.uncopt.android.widget.text.justify.JustifiedTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -83,7 +82,6 @@
             android:id="@+id/textView17"
             android:layout_gravity="center_horizontal"
             android:textSize="15dp"
-            android:textAlignment="center"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp" />

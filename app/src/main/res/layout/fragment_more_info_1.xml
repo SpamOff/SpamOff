@@ -45,15 +45,14 @@
             android:layout_gravity="center_horizontal"
             android:textSize="22dp" />
 
-        <TextView
+        <com.uncopt.android.widget.text.justify.JustifiedTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:text="ניתן להעביר לבדיקה את כל ההודעות בטלפון בלחיצת כפתור אחת! אל דאגה, אנחנו מקפידים לשמור על הפרטיות ולכן אנחנו לא סורקים את ההודעות שנשלחו מאנשי הקשר שלך אלא רק הודעות ממקור לא מוכר."
-            android:id="@+id/textView15"
-            android:layout_gravity="center_horizontal"
-            android:textSize="15dp"
-            android:textAlignment="center"
+            android:textDirection="rtl"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp" />
@@ -75,15 +74,14 @@
             android:layout_gravity="center_horizontal"
             android:textSize="22dp" />
 
-        <TextView
+        <com.uncopt.android.widget.text.justify.JustifiedTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:text="עליך יהיה להגיע לדיון בבית המשפט לתביעות קטנות במועד עתידי שייקבע עבורך, אלא אם הושגה פשרה בין הצדדים לפני כן."
-            android:id="@+id/textView17"
-            android:layout_gravity="center_horizontal"
-            android:textSize="15dp"
-            android:textAlignment="center"
+            android:textDirection="rtl"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp" />

@@ -36,7 +36,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp" />
 
-        <TextView
+        <com.uncopt.android.widget.text.justify.JustifiedTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -45,11 +45,9 @@
             android:layout_gravity="center_horizontal"
             android:textSize="22dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:autoText="false"
-            android:textAlignment="center" />
+            android:layout_marginRight="30dp"/>
 
-        <TextView
+        <com.uncopt.android.widget.text.justify.JustifiedTextView
             android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,7 +55,6 @@
             android:text="ספאם אוף הוקמה במטרה להילחם בתופעת הספאם. \nאנחנו רוצים לעצור את תופעת הספאם הלא חוקי על ידי סיוע טכני בהגשת תביעות לפיצוי כספי, במטרה להקל על תהליך הגשת &quot;תביעות ספאם&quot;. ככל שיוגשו יותר תביעות, הספאמרים יחוייבו לשלם יותר פיצויים. רק לחץ כלכלי יגרום להם להפסיק להטריד אותנו."
             android:layout_gravity="center_horizontal"
             android:textSize="15dp"
-            android:textAlignment="center"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"

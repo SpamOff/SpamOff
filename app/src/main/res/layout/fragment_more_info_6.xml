@@ -9,66 +9,63 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="כמה זמן?"
-            android:id="@+id/textView13"
-            android:layout_gravity="center_horizontal"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            android:textSize="25dp"
-            android:layout_marginBottom="10dp"
-            android:textAlignment="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="זמן ההמתנה לדיון לאחר הגשת התביעה, משתנה ותלוי בלוחות הזמנים של בתי המשפט ולוקח בממוצע כחצי שנה. \n מקרים רבים מסתיימים בפשרה לפני הדיון. בתקופת ההמתנה לדיון אנו נעקוב אחר תביעתך ונעדכן אותך בכל התפתחות."
-            android:id="@+id/textView15"
-            android:layout_gravity="center_horizontal"
-            android:textSize="16dp"
-            android:textAlignment="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="כמה זמן?"
+                android:id="@+id/textView13"
+                android:layout_gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:textSize="25dp"
+                android:layout_marginBottom="10dp"
+                android:textAlignment="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="כמה עולה?"
-            android:id="@+id/textView18"
-            android:layout_gravity="center_horizontal"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            android:textSize="25dp"
-            android:layout_marginBottom="10dp"
-            android:textAlignment="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp" />
+            <com.uncopt.android.widget.text.justify.JustifiedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="זמן ההמתנה לדיון לאחר הגשת התביעה, משתנה ותלוי בלוחות הזמנים של בתי המשפט ולוקח בממוצע כחצי שנה. \n מקרים רבים מסתיימים בפשרה לפני הדיון. בתקופת ההמתנה לדיון אנו נעקוב אחר תביעתך ונעדכן אותך בכל התפתחות."
+                android:id="@+id/textView15"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="SpamOff גובה דמי טיפול רק במקרה של זכייה.\n לא זכית - לא שילמת! \n דמי הטיפול הם בגובה של 20% + מע&quot;מ מסכום הפיצוי או מינימום של 100 ש&quot;ח (הגבוה מביניהם). \n בית המשפט לתביעות קטנות גובה אגרה של 50 ש&quot;ח או 1% מסכום התביעה עבור הגשת התביעה. \n אגרת בית המשפט משולמת ע''י SpamOff ותוחזר לה מיד לאחר הגשת התביעה. דמי הטיפול ישולמו לאחר קבלת פסק הדין בבית המשפט או חתימת הסכם הפשרה."
-            android:id="@+id/textView19"
-            android:layout_gravity="center_horizontal"
-            android:textSize="16dp"
-            android:textAlignment="center"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:textDirection="rtl" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="כמה עולה?"
+                android:id="@+id/textView18"
+                android:layout_gravity="center_horizontal"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:textSize="25dp"
+                android:layout_marginBottom="10dp"
+                android:textAlignment="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" />
 
+            <com.uncopt.android.widget.text.justify.JustifiedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="SpamOff גובה דמי טיפול רק במקרה של זכייה.\n לא זכית - לא שילמת! \n דמי הטיפול הם בגובה של 20% + מע&quot;מ מסכום הפיצוי או מינימום של 100 ש&quot;ח (הגבוה מביניהם). \n בית המשפט לתביעות קטנות גובה אגרה של 50 ש&quot;ח או 1% מסכום התביעה עבור הגשת התביעה. \n אגרת בית המשפט משולמת ע''י SpamOff ותוחזר לה מיד לאחר הגשת התביעה. דמי הטיפול ישולמו לאחר קבלת פסק הדין בבית המשפט או חתימת הסכם הפשרה."
+                android:id="@+id/textView19"
+                android:layout_gravity="center_horizontal"
+                android:textSize="16dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textDirection="rtl" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
