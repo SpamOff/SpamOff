@@ -38,7 +38,7 @@ public class ShareFragment extends Fragment {
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Sharer.showShareMenu(getActivity().getSupportFragmentManager());
+                Sharer.showSharePage(getContext());
             }
         });
 

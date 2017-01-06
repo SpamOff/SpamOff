@@ -17,7 +17,7 @@ public class Sharer {
         myBottomSheet.show(manager, myBottomSheet.getTag());
     }
 
-    public static void showShareMenu(Context context) {
+    public static void showSharePage(Context context) {
 
         Intent intent = new Intent();
         intent = new Intent(context, share.class);

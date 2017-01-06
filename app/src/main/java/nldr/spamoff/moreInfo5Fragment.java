@@ -76,7 +76,7 @@ public class moreInfo5Fragment extends Fragment {
         rootView.findViewById(R.id.btnShare).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Sharer.showShareMenu(getContext());
+                Sharer.showSharePage(getContext());
                 //Sharer.showShareMenu(getActivity().getSupportFragmentManager());
             }
         });
