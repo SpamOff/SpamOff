@@ -28,10 +28,12 @@ public class fbsMessagingService extends FirebaseMessagingService {
         // message, here is where that should be initiated. See sendNotification method below.
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
-        this.showNotification();
+        this.showNotification(
+                Integer.parseInt(remoteMessage.getData().get("spam-count")),
+                remoteMessage.getData().get("spam-link"));
     }
 
-    private void showNotification() {
+    private void showNotification(int numberOfSpamMessages, String linkToSite) {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.spamoff)
@@ -40,6 +42,8 @@ public class fbsMessagingService extends FirebaseMessagingService {
 
         // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, ScanResultsActivity.class);
+        resultIntent.putExtra("spam-count", numberOfSpamMessages);
+        resultIntent.putExtra("spam-link", linkToSite);
 
         // The stack builder object will contain an artificial back stack for the
         // started Activity.

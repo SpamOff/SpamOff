@@ -55,9 +55,6 @@ public class ScanResultsActivity
         final ImageView spamView = (ImageView)findViewById(R.id.spam);
         spamView.setAlpha((float)0);
 
-        // TODO : WTF?
-        CookiesHandler.setResultsUri(context, "http://spamoff.co.il");
-
         final TextView spamCount = (TextView)findViewById(R.id.spamCount);
         spamCount.setText("" +
                 CookiesHandler.getSpamMessagesCount(context));

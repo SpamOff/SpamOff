@@ -23,6 +23,20 @@ public class LoadingActivity extends AppCompatActivity {
         final Context context = this;
         Handler handler = new Handler();
 
+        // Trying to get the intent that called the app to wake up, neccessary to the fcm notifications
+        try {
+            Intent intent = getIntent();
+            if (intent.getExtras().containsKey("arrived-with-news-from-server") &&
+                intent.getExtras().containsKey("spam-count") &&
+                intent.getExtras().containsKey("spam-link")) {
+                    CookiesHandler.setIfWaitingForServer(context, false);
+                    CookiesHandler.setIfAlreadyScannedBefore(context, true);
+                    CookiesHandler.setLastScanMessagesCount(context, Integer.parseInt(getIntent().getExtras().get("spam-count").toString()));
+                    CookiesHandler.setResultsUri(context, getIntent().getExtras().get("spam-link").toString());
+            }
+        } catch (Exception ex) {
+        }
+
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
