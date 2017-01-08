@@ -10,6 +10,8 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.facebook.FacebookSdk;
 
+import org.apache.http.cookie.Cookie;
+
 import io.fabric.sdk.android.Fabric;
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 
@@ -31,7 +33,7 @@ public class LoadingActivity extends AppCompatActivity {
                 intent.getExtras().containsKey("spam-link")) {
                     CookiesHandler.setIfWaitingForServer(context, false);
                     CookiesHandler.setIfAlreadyScannedBefore(context, true);
-                    CookiesHandler.setLastScanMessagesCount(context, Integer.parseInt(getIntent().getExtras().get("spam-count").toString()));
+                    CookiesHandler.setSpamMessagesCount(context, Integer.parseInt(getIntent().getExtras().get("spam-count").toString()));
                     CookiesHandler.setResultsUri(context, getIntent().getExtras().get("spam-link").toString());
             }
         } catch (Exception ex) {

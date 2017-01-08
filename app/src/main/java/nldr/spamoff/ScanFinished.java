@@ -41,22 +41,6 @@ public class ScanFinished extends AppCompatActivity {
             }
         });
 
-//        ImageButton imageButton = (ImageButton)findViewById(R.id.imageView10);
-//        imageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Random rand = new Random();
-//                CookiesHandler.setIfWaitingForServer(context, false);
-//                CookiesHandler.setIfAlreadyScannedBefore(context, true);
-//                CookiesHandler.setSpamMessagesCount(context, rand.nextInt(100));
-//                CookiesHandler.setIfTermsApproved(context, false);
-//
-//                Intent intent = new Intent(context, ScanResultsActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
-
         final SeekBar slider = (SeekBar) findViewById(R.id.seekBarSpamOff);
         slider.setProgress(MAX_SLIDE_VALUE);
 
