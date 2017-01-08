@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "908812596343",
+    "firebase_url": "https://spamoff-d0d3e.firebaseio.com",
+    "project_id": "spamoff-d0d3e",
+    "storage_bucket": "spamoff-d0d3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908812596343:android:bdb039b5b9f3587a",
+        "android_client_info": {
+          "package_name": "nldr.spamoff"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908812596343-qsajehgrbichvtfs071de5dhjc8pf9vm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nldr.spamoff",
+            "certificate_hash": "D9872CCC6F0C9775DC55B6E170AF3DA5923864E7"
+          }
+        },
+        {
+          "client_id": "908812596343-594nriktbbbrgoakepi5iirv82ghvqtf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANktR1YugXxNmYwP8PHptA-UqQ0SbWWM4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908812596343-594nriktbbbrgoakepi5iirv82ghvqtf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
