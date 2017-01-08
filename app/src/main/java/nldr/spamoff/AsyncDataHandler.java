@@ -1,6 +1,7 @@
 package nldr.spamoff;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -127,6 +128,8 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
                 break;
             case finished:
                 getCallback().finished();
+                Intent intent = new Intent(this.getContext(), fbsInstanceIdService.class);
+                this.getContext().startService(intent);
                 break;
             case smsReadingError:
                 getCallback().error("ארעה שגיאה בזמן קריאת ההודעות");
