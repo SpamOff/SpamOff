@@ -15,6 +15,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 
+import nldr.spamoff.Logger;
+
 /**
  * Created by lior on 15-Oct-16.
  */
@@ -67,6 +69,7 @@ public class SMSReader {
                     columnsNames.add(cursor.getColumnName(i));
                 }
             } catch (Exception ex) {
+                Logger.writeToLog(ex);
             }
         }
 
@@ -194,7 +197,7 @@ public class SMSReader {
             cur = context.getContentResolver().query(lookupUri, mPhoneNumberProjection, null, null, null);
             return cur.moveToFirst();
         } catch (Exception ex) {
-            Crashlytics.getInstance().logException(ex);
+            Logger.writeToLog(ex);
             return false;
         } finally {
             if (cur != null)

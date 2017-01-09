@@ -170,20 +170,18 @@ public class MainActivity
 
     @Override
     public void startedFetching() {
-        prgDialog.show();
         try {
-            TextView tvMessage = (TextView) prgDialog.findViewById(android.R.id.message);
-            tvMessage.setGravity(Gravity.RIGHT);
+            prgDialog.show();
         } catch (Exception ex) {
-            Log.e("Error", "Tried to change the gravity of prgDialog");
-            ex.printStackTrace();
+            Logger.writeToLog(ex);
         }
         this.isFetching = true;
     }
 
     @Override
     public void stoppedFetching() {
-        prgDialog.cancel();
+        if (prgDialog.isShowing())
+            prgDialog.cancel();
         this.isFetching = false;
     }
 
@@ -212,7 +210,7 @@ public class MainActivity
     public void updateProgress(String prg) {
 
         if (prgDialog.isShowing())
-        prgDialog.setMessage(prg);
+            prgDialog.setMessage(prg);
     }
 
     @Override

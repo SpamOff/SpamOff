@@ -37,6 +37,7 @@ public class LoadingActivity extends AppCompatActivity {
                     CookiesHandler.setResultsUri(context, getIntent().getExtras().get("spam-link").toString());
             }
         } catch (Exception ex) {
+            Logger.writeToLog(ex);
         }
 
         Runnable runnable = new Runnable() {

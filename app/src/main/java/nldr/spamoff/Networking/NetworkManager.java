@@ -27,6 +27,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import nldr.spamoff.Logger;
+
 
 /**
  * Created by Roee on 10/11/2016.
@@ -61,10 +63,8 @@ public class NetworkManager {
 
                 return ((urlc.getResponseCode() == 204) && (urlc.getContentLength() == 0));
             } catch (IOException e) {
-                Log.e("Internet_Checking_Tak", "Error checking internet connection", e);
+                Logger.writeToLog(e);
             }
-        } else {
-            Log.d("Internet_Checking_Tak", "No network available!");
         }
 
         return false;
@@ -99,8 +99,10 @@ public class NetworkManager {
                             HttpHeaderParser.parseCacheHeaders(response));
 
                 } catch (UnsupportedEncodingException e) {
+                    Logger.writeToLog(e);
                     return Response.error(new ParseError(e));
                 } catch (JSONException je) {
+                    Logger.writeToLog(je);
                     return Response.error(new ParseError(je));
                 }
             }

@@ -224,7 +224,8 @@ public class ScanResultsActivity
 
     @Override
     public void updateProgress(String prg) {
-        prgDialog.setMessage(prg);
+        if(prgDialog.isShowing())
+            prgDialog.setMessage(prg);
     }
 
     @Override
@@ -258,7 +259,11 @@ public class ScanResultsActivity
 
     @Override
     public void startedFetching() {
-        this.prgDialog.show();
+        try {
+            this.prgDialog.show();
+        } catch (Exception ex) {
+            Logger.writeToLog(ex);
+        }
         this.isFetching = true;
     }
 

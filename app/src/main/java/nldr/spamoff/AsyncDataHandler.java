@@ -6,6 +6,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.crashlytics.android.answers.Answers;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import java.io.IOException;
@@ -102,8 +105,10 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
                         result = failedWhileSendingToServer;
                 }
             } catch (JSONException e) {
+                Logger.writeToLog(e);
                 result = smsReadingError;
             } catch (SMSReader.SmsMissingFieldException e) {
+                Logger.writeToLog(e);
                 result = smsFieldsMistmatch;
             }
         }
@@ -184,10 +189,9 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
 
                 return ((urlc.getResponseCode() == 204) && (urlc.getContentLength() == 0));
             } catch (IOException e) {
-                Log.e("Internet_Checking_Tak", "Error checking internet connection", e);
+                Logger.writeToLog(e);
             }
         } else {
-            Log.d("Internet_Checking_Tak", "No network available!");
         }
 
         return false;
