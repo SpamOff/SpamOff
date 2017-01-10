@@ -22,13 +22,18 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
+        Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Answers());
+
         final Context context = this;
         Handler handler = new Handler();
 
         // Trying to get the intent that called the app to wake up, neccessary to the fcm notifications
         try {
             Intent intent = getIntent();
-            if (intent.getExtras().containsKey("arrived-with-news-from-server") &&
+            if (intent.getExtras() != null &&
+                intent.getExtras().containsKey("arrived-with-news-from-server") &&
                 intent.getExtras().containsKey("spam-count") &&
                 intent.getExtras().containsKey("spam-link")) {
                     CookiesHandler.setIfWaitingForServer(context, false);
@@ -59,10 +64,6 @@ public class LoadingActivity extends AppCompatActivity {
         };
 
         handler.postDelayed(runnable, 1400);
-
-        FacebookSdk.sdkInitialize(this.getApplicationContext());
-        Fabric.with(this, new Crashlytics());
-        Fabric.with(this, new Answers());
     }
 
     @Override

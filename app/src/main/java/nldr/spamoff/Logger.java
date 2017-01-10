@@ -10,11 +10,12 @@ import com.crashlytics.android.answers.CustomEvent;
 
 public class Logger {
     public static Boolean writeToLog(Exception ex) {
-        if (Answers.getInstance() != null) {
+        if (Crashlytics.getInstance() != null) {
             Crashlytics.logException(ex);
-            //Answers.getInstance().logCustom(new CustomEvent("Exception").putCustomAttribute("message", ex.getMessage()));
             return true;
         }
+//        if (Answers.getInstance() != null) {
+//            Answers.getInstance().logCustom(new CustomEvent("Exception").putCustomAttribute("message", ex.getMessage()));
         else return false;
     }
 }
