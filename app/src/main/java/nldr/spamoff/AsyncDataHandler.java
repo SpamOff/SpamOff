@@ -11,6 +11,8 @@ import com.crashlytics.android.answers.Answers;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -73,6 +75,8 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
 
         AsyncStatus result = finished;
 
+// TODO :        have to send the token to the server from the cookies handler
+
         publishProgress(getContext().getString(R.string.progress_checking_network));
 
         if (!hasInternetAccess()) {
@@ -86,21 +90,28 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
                 publishProgress(getContext().getString(R.string.progress_reading_messages));
                 Boolean filterBySmsColumns = params[0];
                 jsonArray = SMSReader.readSms(getContext(), lastScanDate, filterBySmsColumns);
+
+                int amountOfSmsFound = jsonArray.length();
+
+                // Adds the firebase token id to the json to help the server identify the sender
+                jsonArray.put(new JSONObject().put("token", CookiesHandler.getFirebaseTokenId(getContext())));
+
                 //ArrayList<SMSMessage> arr = SMSReader.read(getContext(), lastScanDate);
                 publishProgress("מחפש הודעות ספאם...");
                 //jsonArray = SMSToJson.parseAllToArray(getContext(), arr);
 
-                CookiesHandler.setLastScanMessagesCount(getContext(), jsonArray.length());
+                CookiesHandler.setLastScanMessagesCount(getContext(), amountOfSmsFound);
                 CookiesHandler.setLastScanDate(getContext(), System.currentTimeMillis());
 
                 if (!CookiesHandler.getIfAlreadyScannedBefore(getContext())){
                     CookiesHandler.setIfAlreadyScannedBefore(getContext(), true);
                 }
 
-                if (jsonArray.length() == 0) {
+                if (amountOfSmsFound == 0) {
                     result = noNewMessages;
                 } else {
-                    publishProgress("נמצאו " + jsonArray.length() + " הודעות חשודות, שולח לשרת...");
+                    publishProgress("נמצאו " + amountOfSmsFound + " הודעות חשודות, שולח לשרת...");
+
                     if (!NetworkManager.sendJsonToServer(this.getContext(), jsonArray))
                         result = failedWhileSendingToServer;
                 }
