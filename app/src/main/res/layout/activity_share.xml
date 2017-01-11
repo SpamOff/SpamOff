@@ -40,6 +40,7 @@
                 android:background="@color/white">
 
                 <LinearLayout
+                    android:id="@+id/facebook_share"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -82,6 +83,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/facebook_like"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -132,6 +134,7 @@
                 android:background="@color/white">
 
                 <LinearLayout
+                    android:id="@+id/facebook_rate"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -175,6 +178,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/rate_the_app"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
