@@ -136,4 +136,6 @@
     <string name="progress_reading_messages">קורא הודעות...</string>
     <string name="progress_checking_network">מחפש רשת...</string>
 
+    <string name="firebase_messages_count_identifier">spam-count</string>
+    <string name="firebase_link_to_view_answer_in_site_identifier">spam-link</string>
 </resources>

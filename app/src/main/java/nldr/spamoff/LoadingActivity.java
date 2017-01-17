@@ -37,12 +37,14 @@ public class LoadingActivity extends AppCompatActivity {
                 CookiesHandler.getIfWaitingForServer(context) &&
                     intent.getExtras() != null &&
                     intent.getExtras().containsKey("arrived-with-news-from-server") &&
-                    intent.getExtras().containsKey("spam-count") &&
-                    intent.getExtras().containsKey("spam-link")) {
+                    intent.getExtras().containsKey(getResources().getString(R.string.firebase_messages_count_identifier)) &&
+                    intent.getExtras().containsKey(getResources().getString(R.string.firebase_link_to_view_answer_in_site_identifier))) {
                 CookiesHandler.setIfWaitingForServer(context, false);
                 CookiesHandler.setIfAlreadyScannedBefore(context, true);
-                CookiesHandler.setSpamMessagesCount(context, Integer.parseInt(getIntent().getExtras().get("spam-count").toString()));
-                CookiesHandler.setResultsUri(context, getIntent().getExtras().get("spam-link").toString());
+                CookiesHandler.setSpamMessagesCount(context,
+                        Integer.parseInt(getIntent().getExtras().get(getResources().getString(R.string.firebase_messages_count_identifier)).toString()));
+                CookiesHandler.setResultsUri(context,
+                        getIntent().getExtras().get(getResources().getString(R.string.firebase_link_to_view_answer_in_site_identifier)).toString());
             }
         } catch (Exception ex) {
             Logger.writeToLog(ex);
