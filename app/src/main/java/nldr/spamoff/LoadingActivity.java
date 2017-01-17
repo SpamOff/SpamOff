@@ -32,14 +32,17 @@ public class LoadingActivity extends AppCompatActivity {
         // Trying to get the intent that called the app to wake up, neccessary to the fcm notifications
         try {
             Intent intent = getIntent();
-            if (intent.getExtras() != null &&
-                intent.getExtras().containsKey("arrived-with-news-from-server") &&
-                intent.getExtras().containsKey("spam-count") &&
-                intent.getExtras().containsKey("spam-link")) {
-                    CookiesHandler.setIfWaitingForServer(context, false);
-                    CookiesHandler.setIfAlreadyScannedBefore(context, true);
-                    CookiesHandler.setSpamMessagesCount(context, Integer.parseInt(getIntent().getExtras().get("spam-count").toString()));
-                    CookiesHandler.setResultsUri(context, getIntent().getExtras().get("spam-link").toString());
+
+            if (CookiesHandler.getIfTermsApproved(context) &&
+                CookiesHandler.getIfWaitingForServer(context) &&
+                    intent.getExtras() != null &&
+                    intent.getExtras().containsKey("arrived-with-news-from-server") &&
+                    intent.getExtras().containsKey("spam-count") &&
+                    intent.getExtras().containsKey("spam-link")) {
+                CookiesHandler.setIfWaitingForServer(context, false);
+                CookiesHandler.setIfAlreadyScannedBefore(context, true);
+                CookiesHandler.setSpamMessagesCount(context, Integer.parseInt(getIntent().getExtras().get("spam-count").toString()));
+                CookiesHandler.setResultsUri(context, getIntent().getExtras().get("spam-link").toString());
             }
         } catch (Exception ex) {
             Logger.writeToLog(ex);
