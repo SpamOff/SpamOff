@@ -64,7 +64,9 @@ public class SMSReader {
             try {
                 // Tries to parse the column to int
                 if (!cursor.getColumnName(i).contains("id") &&
+                    cursor.getString(i) != null &&
                     Integer.parseInt(cursor.getString(i)) > 99) {
+
                     // If the parse worked and didnt throw an exception, it adds it to the array
                     columnsNames.add(cursor.getColumnName(i));
                 }
