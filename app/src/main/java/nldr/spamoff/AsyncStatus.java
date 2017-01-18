@@ -11,5 +11,13 @@ public enum AsyncStatus {
     slowInternet,
     failedWhileSendingToServer,
     smsReadingError,
-    smsFieldsMistmatch
+    smsFieldsMistmatch;
+
+    private static Long time = null;
+
+    public static void setTime(Long value) {
+        time = value;
+    }
+
+    public static Long getTime() { return time; }
 }

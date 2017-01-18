@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.crashlytics.android.answers.Answers;
 
@@ -43,6 +44,7 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
         void startedFetching();
         void stoppedFetching();
         void smsFieldsMistmatch();
+        void toast(String message);
     }
 
     public static void performInBackground(Context context, usingAsyncFetcher callback, Boolean filterBySmsColumns) {
@@ -89,7 +91,10 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
             try {
                 publishProgress(getContext().getString(R.string.progress_reading_messages));
                 Boolean filterBySmsColumns = params[0];
+
+                Date dateBefore = new Date();
                 jsonArray = SMSReader.readSms(getContext(), lastScanDate, filterBySmsColumns);
+                Date dateAfter = new Date();
 
                 int amountOfSmsFound = jsonArray.length();
 
@@ -111,6 +116,8 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
                     result = noNewMessages;
                 } else {
                     publishProgress("נמצאו " + amountOfSmsFound + " הודעות חשודות, שולח לשרת...");
+
+                    AsyncStatus.setTime(dateAfter.getTime() - dateBefore.getTime());
 
                     if (!NetworkManager.sendJsonToServer(this.getContext(), jsonArray))
                         result = failedWhileSendingToServer;
@@ -137,6 +144,11 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
     protected void onPostExecute(AsyncStatus status) {
 
         this.getCallback().stoppedFetching();
+
+        if (AsyncStatus.getTime() != null) {
+            getCallback().toast(AsyncStatus.getTime().toString());
+            AsyncStatus.setTime(null);
+        }
 
         switch (status) {
             case noInternet:

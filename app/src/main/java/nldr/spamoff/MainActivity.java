@@ -267,4 +267,9 @@ public class MainActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void toast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
 }
