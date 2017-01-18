@@ -1,16 +1,17 @@
 package nldr.spamoff;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
-import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 
 public class fbsMessagingService extends FirebaseMessagingService {
 
@@ -26,24 +27,18 @@ public class fbsMessagingService extends FirebaseMessagingService {
         // If the application is in the foreground handle both data and notification messages here.
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
-        Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
         this.showNotification(
-                Integer.parseInt(remoteMessage.getData().get("spam-count")),
-                remoteMessage.getData().get("spam-link"));
+                Integer.parseInt(remoteMessage.getData().get(R.string.firebase_messages_count_identifier)),
+                remoteMessage.getData().get(R.string.firebase_link_to_view_answer_in_site_identifier));
     }
 
     private void showNotification(int numberOfSpamMessages, String linkToSite) {
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.spamoff)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
 
         // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(this, ScanResultsActivity.class);
-        resultIntent.putExtra("spam-count", numberOfSpamMessages);
-        resultIntent.putExtra("spam-link", linkToSite);
+        resultIntent.putExtra(getResources().getString(R.string.firebase_messages_count_identifier), numberOfSpamMessages);
+        resultIntent.putExtra(getResources().getString(R.string.firebase_link_to_view_answer_in_site_identifier), linkToSite);
+        resultIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         // The stack builder object will contain an artificial back stack for the
         // started Activity.
@@ -59,10 +54,27 @@ public class fbsMessagingService extends FirebaseMessagingService {
                         0,
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
-        mBuilder.setContentIntent(resultPendingIntent);
+
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.logo)
+                        .setContentTitle("My notification")
+                        .setContentText("Hello World!")
+                        .setSound(defaultSoundUri)
+                        .setContentIntent(resultPendingIntent);
+
         NotificationManager mNotificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         // mId allows you to update the notification later on.
         mNotificationManager.notify(mId, mBuilder.build());
+
+        // Pops up the results scan sctivity when the reciving message from the server and the app is running
+//        Intent intent = new Intent(this, ScanResultsActivity.class);
+//        CookiesHandler.setSpamMessagesCount(this, numberOfSpamMessages);
+//        CookiesHandler.setIfWaitingForServer(this, false);
+//        CookiesHandler.setResultsUri(this, linkToSite);
+//        startActivity(intent);
     }
 }
