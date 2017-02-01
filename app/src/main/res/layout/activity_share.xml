@@ -142,7 +142,7 @@
                     android:background="?attr/selectableItemBackground">
 
                     <ImageView
-                        android:src="@mipmap/facebook"
+                        android:src="@drawable/com_facebook_favicon_blue"
                         android:scaleType="fitXY"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
