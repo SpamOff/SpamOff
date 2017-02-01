@@ -1,6 +1,7 @@
 package nldr.spamoff.SMSHandler;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -14,6 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import nldr.spamoff.Logger;
 
@@ -59,13 +62,21 @@ public class SMSReader {
     public static ArrayList<String> analizeNumeric(Cursor cursor) {
         ArrayList<String> columnsNames = new ArrayList<String>();
 
+        String curr;
+
         // The loop adds every column that can be parsed to int to the arraylist
         for (int i = 0; i < cursor.getColumnCount() - 1; i++) {
             try {
+
+                curr = cursor.getString(i);
+                if (curr != null)
+                    curr = curr.replace("+972", "0");
+
                 // Tries to parse the column to int
                 if (!cursor.getColumnName(i).contains("id") &&
-                    cursor.getString(i) != null &&
-                    Integer.parseInt(cursor.getString(i)) > 99) {
+                    curr != null &&
+                    curr.length() < 13 &&
+                    curr.length() > 2) {
 
                     // If the parse worked and didnt throw an exception, it adds it to the array
                     columnsNames.add(cursor.getColumnName(i));
@@ -87,7 +98,7 @@ public class SMSReader {
         personColumnName.add("person");
         personColumnName.add("address");
 
-        ArrayList<String> numberColumns = new ArrayList<>();
+        final ArrayList<String> numberColumns = new ArrayList<>();
         JSONArray smsData = new JSONArray();
 
         int dateIndex = cursor.getColumnIndex(Telephony.Sms.DATE);
@@ -102,19 +113,45 @@ public class SMSReader {
                 }
             }
 
+            final ArrayList<String> numericFieldsFoundInSmss = new ArrayList<>();
+
             do {
-                boolean bEverythingIsNotNull = true;
+                boolean preKnownFieldsExists = false;
+                boolean foundFieldsInFoundsList = false;
 
                 // Checks if the columns are relevant to this sms, else - starts the columns scan again with the boolean
-                for (int i = 0; i < numberColumns.size(); i++) {
-                    if (cursor.getString(cursor.getColumnIndex(numberColumns.get(i))) == null)
-                        bEverythingIsNotNull = false;
+                // stops the loop if 1 field found
+                for (int i = 0; i < numberColumns.size() && !preKnownFieldsExists; i++) {
+                    if (cursor.getColumnIndex(numberColumns.get(i)) != -1)
+                        preKnownFieldsExists = true;
+                }
+
+                // If none of the known fields fitted, it checks all the other numeric field that already found
+                for (int i = 0; i < numericFieldsFoundInSmss.size() && !preKnownFieldsExists && !foundFieldsInFoundsList; i++) {
+                    if (cursor.getColumnIndex(numericFieldsFoundInSmss.get(i)) != -1)
+                        foundFieldsInFoundsList = true;
                 }
 
                 // If there is no column, it will analyze all the numeric fields to find some new columns
-                if (numberColumns.size() == 0 || !bEverythingIsNotNull) {
-                    numberColumns = analizeNumeric(cursor);
+                if (!preKnownFieldsExists && !foundFieldsInFoundsList) {
+                    numericFieldsFoundInSmss.addAll(analizeNumeric(cursor));
                 }
+
+                final ArrayList<Integer> arrToDelete = new ArrayList<>();
+//
+//                // finds all the duplicates
+//                for (String s:numericFieldsFoundInSmss) {
+//                    if (numericFieldsFoundInSmss.indexOf(s) != numericFieldsFoundInSmss.lastIndexOf(s) &&
+//                            (arrToDelete.contains(numericFieldsFoundInSmss.indexOf(s)) ||
+//                                    arrToDelete.contains(numericFieldsFoundInSmss.lastIndexOf(s)))) {
+//                        arrToDelete.add(numericFieldsFoundInSmss.indexOf(s));
+//                    }
+//                }
+//
+//                // Removes all the duplicates
+//                for (Integer a:arrToDelete) {
+//                    numericFieldsFoundInSmss.remove(a);
+//                }
 
                 boolean bIsInContacts = false;
                 boolean bIsNewSms = true;

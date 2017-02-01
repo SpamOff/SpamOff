@@ -77,8 +77,6 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
 
         AsyncStatus result = finished;
 
-// TODO :        have to send the token to the server from the cookies handler
-
         publishProgress(getContext().getString(R.string.progress_checking_network));
 
         if (!hasInternetAccess()) {
@@ -101,9 +99,7 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
                 // Adds the firebase token id to the json to help the server identify the sender
                 jsonArray.put(new JSONObject().put("token", CookiesHandler.getFirebaseTokenId(getContext())));
 
-                //ArrayList<SMSMessage> arr = SMSReader.read(getContext(), lastScanDate);
                 publishProgress("מחפש הודעות ספאם...");
-                //jsonArray = SMSToJson.parseAllToArray(getContext(), arr);
 
                 CookiesHandler.setLastScanMessagesCount(getContext(), amountOfSmsFound);
                 CookiesHandler.setLastScanDate(getContext(), System.currentTimeMillis());
@@ -117,7 +113,7 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
                 } else {
                     publishProgress("נמצאו " + amountOfSmsFound + " הודעות חשודות, שולח לשרת...");
 
-                    AsyncStatus.setTime(dateAfter.getTime() - dateBefore.getTime());
+//                    AsyncStatus.setTime(dateAfter.getTime() - dateBefore.getTime());
 
                     if (!NetworkManager.sendJsonToServer(this.getContext(), jsonArray))
                         result = failedWhileSendingToServer;
@@ -145,10 +141,10 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
 
         this.getCallback().stoppedFetching();
 
-        if (AsyncStatus.getTime() != null) {
-            getCallback().toast(AsyncStatus.getTime().toString());
-            AsyncStatus.setTime(null);
-        }
+//        if (AsyncStatus.getTime() != null) {
+//            getCallback().toast(AsyncStatus.getTime().toString());
+//            AsyncStatus.setTime(null);
+//        }
 
         switch (status) {
             case noInternet:
