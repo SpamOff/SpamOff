@@ -138,4 +138,5 @@
 
     <string name="firebase_messages_count_identifier">spam-count</string>
     <string name="firebase_link_to_view_answer_in_site_identifier">spam-link</string>
+    <string name="update_from_service">update-from-service</string>
 </resources>
