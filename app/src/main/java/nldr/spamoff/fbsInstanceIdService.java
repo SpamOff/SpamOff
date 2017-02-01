@@ -25,7 +25,9 @@ public class fbsInstanceIdService extends FirebaseInstanceIdService {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         CookiesHandler.setFirebaseTokenId(this, refreshedToken);
 
-        // TODO: Implement this method to send any registration to your app's servers.
+        // TODO : If the user deletes the app, he gets a new token and than we have to send it to the server,
+        // TODO : but because we do not save anything about the user, we cant update its token.
+        // TODO : If we want to handle this, we have to save any uniq key about the user and than send it with the new token
         //sendRegistrationToServer(refreshedToken);
     }
 }
