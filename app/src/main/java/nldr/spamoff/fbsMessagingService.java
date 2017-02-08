@@ -1,43 +1,40 @@
 package nldr.spamoff;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
-import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
-
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
-
 import static android.app.Notification.PRIORITY_MAX;
 
 public class fbsMessagingService extends FirebaseMessagingService {
 
-    static final public String COPA_RESULT = "com.controlj.copame.backend.COPAService.REQUEST_PROCESSED";
+    static final public String UPDATE_INTENT = "nldr.spamoff.fcmMessagingService.NewMessage.Arrived";
 
-    static final public String COPA_MESSAGE = "com.controlj.copame.backend.COPAService.COPA_MSG";
+    static final public String UPDATE_MESSAGE = "nldr.spamoff.fcmMessagingService.NewMessage.Message";
 
     private final String TAG = "fbsMessagingService";
     private final int mId = 165;
 
     public fbsMessagingService() {
     }
+    // TODO :
+//    לבדוק את הSTATE של SCAN;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(this);
 
-        Intent intent = new Intent(COPA_RESULT);
-        intent.putExtra(COPA_MESSAGE, "true");
+        Intent intent = new Intent(UPDATE_INTENT);
+        intent.putExtra(UPDATE_MESSAGE, "true");
         broadcaster.sendBroadcast(intent);
 
         // Checks if the user is really waiting for this notification or its a mistake

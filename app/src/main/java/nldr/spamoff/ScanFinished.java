@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 
 public class ScanFinished extends AppCompatActivity {
 
+    private static final String ACTIVITY_STATUS = "state";
     final int MAX_SLIDE_VALUE = 162;
     BroadcastReceiver receiver;
 
@@ -76,7 +78,7 @@ public class ScanFinished extends AppCompatActivity {
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getStringExtra(fbsMessagingService.COPA_MESSAGE) != null) {
+                if (intent.getStringExtra(fbsMessagingService.UPDATE_MESSAGE) != null) {
                     openResultActivity();
                 }
             }
@@ -97,13 +99,23 @@ public class ScanFinished extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         LocalBroadcastManager.getInstance(this).registerReceiver((receiver),
-                new IntentFilter(fbsMessagingService.COPA_RESULT)
+                new IntentFilter(fbsMessagingService.UPDATE_INTENT)
         );
+        // Store our shared preference
+        SharedPreferences sp = getSharedPreferences(ACTIVITY_STATUS, MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putBoolean("active", true);
+        ed.commit();
     }
 
     @Override
     protected void onStop() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        // Store our shared preference
+        SharedPreferences sp = getSharedPreferences("OURINFO", MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.putBoolean("active", false);
+        ed.commit();
         super.onStop();
     }
 }
