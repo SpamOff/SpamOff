@@ -5,25 +5,16 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.crashlytics.android.answers.Answers;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 import nldr.spamoff.Networking.NetworkManager;
-import nldr.spamoff.SMSHandler.SMSMessage;
 import nldr.spamoff.SMSHandler.SMSReader;
-import nldr.spamoff.SMSHandler.SMSToJson;
 import static nldr.spamoff.AsyncStatus.*;
 
 /**
@@ -102,18 +93,12 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
                 publishProgress("מחפש הודעות ספאם...");
 
                 CookiesHandler.setLastScanMessagesCount(getContext(), amountOfSmsFound);
-                CookiesHandler.setLastScanDate(getContext(), System.currentTimeMillis());
-
-                if (!CookiesHandler.getIfAlreadyScannedBefore(getContext())){
-                    CookiesHandler.setIfAlreadyScannedBefore(getContext(), true);
-                }
 
                 if (amountOfSmsFound == 0) {
                     result = noNewMessages;
                 } else {
                     publishProgress("נמצאו " + amountOfSmsFound + " הודעות חשודות, שולח לשרת...");
 
-//                    AsyncStatus.setTime(dateAfter.getTime() - dateBefore.getTime());
 
                     if (!NetworkManager.sendJsonToServer(this.getContext(), jsonArray))
                         result = failedWhileSendingToServer;
@@ -137,43 +122,6 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
     }
 
     @Override
-    protected void onPostExecute(AsyncStatus status) {
-
-        this.getCallback().stoppedFetching();
-
-//        if (AsyncStatus.getTime() != null) {
-//            getCallback().toast(AsyncStatus.getTime().toString());
-//            AsyncStatus.setTime(null);
-//        }
-
-        switch (status) {
-            case noInternet:
-                getCallback().error("כדי שנוכל לסרוק ולשלוח את הודעות הספאם שלך דרוש חיבור אינטרנט זמין ומהיר מספיק");
-                break;
-            case finished:
-                getCallback().finished();
-                Intent intent = new Intent(this.getContext(), fbsInstanceIdService.class);
-                this.getContext().startService(intent);
-                break;
-            case smsReadingError:
-                getCallback().error("ארעה שגיאה בזמן קריאת ההודעות");
-                break;
-            case failedWhileSendingToServer:
-                getCallback().error("ארעה שגיאה בזמן שליחת הנתונים לשרת");
-                break;
-            case noNewMessages:
-                getCallback().noNewMessages();
-                break;
-            case smsFieldsMistmatch:
-                getCallback().smsFieldsMistmatch();
-                break;
-            default:
-                getCallback().cancelled();
-                break;
-        }
-    }
-
-    @Override
     protected void onProgressUpdate(String... values) {
         getCallback().updateProgress(values[0]);
         super.onProgressUpdate(values);
@@ -192,6 +140,51 @@ public class AsyncDataHandler extends AsyncTask<Boolean, String, AsyncStatus> {
         //boolean isWifi = activityNetwork.getType() == ConnectivityManager.TYPE_WIFI;
         return ((activityNetwork != null) &&
                 (activityNetwork.isConnected()));
+    }
+
+    @Override
+    protected void onPostExecute(AsyncStatus status) {
+
+        this.getCallback().stoppedFetching();
+
+//        if (AsyncStatus.getTime() != null) {
+//            getCallback().toast(AsyncStatus.getTime().toString());
+//            AsyncStatus.setTime(null);
+//        }
+
+        switch (status) {
+            case noInternet:
+                getCallback().error("כדי שנוכל לסרוק ולשלוח את הודעות הספאם שלך דרוש חיבור אינטרנט זמין ומהיר מספיק");
+                break;
+            case finished:
+                getCallback().finished();
+                Intent intent = new Intent(this.getContext(), fbsInstanceIdService.class);
+                this.getContext().startService(intent);
+
+                // Updates the new LastScanDate in the cookies
+                CookiesHandler.setLastScanDate(getContext(), System.currentTimeMillis());
+
+                if (!CookiesHandler.getIfAlreadyScannedBefore(getContext())){
+                    CookiesHandler.setIfAlreadyScannedBefore(getContext(), true);
+                }
+
+                break;
+            case smsReadingError:
+                getCallback().error("ארעה שגיאה בזמן קריאת ההודעות");
+                break;
+            case failedWhileSendingToServer:
+                getCallback().error("ארעה שגיאה בזמן שליחת הנתונים לשרת");
+                break;
+            case noNewMessages:
+                getCallback().noNewMessages();
+                break;
+            case smsFieldsMistmatch:
+                getCallback().smsFieldsMistmatch();
+                break;
+            default:
+                getCallback().cancelled();
+                break;
+        }
     }
 
     public static boolean hasInternetAccess() {
