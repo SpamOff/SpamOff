@@ -8,10 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
-
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.ShareEvent;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -30,10 +26,10 @@ public class MyBottomSheetDialogFragment extends BottomSheetDialogFragment {
     String mString;
     private CallbackManager callbackManager;
 
-    static MyBottomSheetDialogFragment newInstance(String string) {
-        MyBottomSheetDialogFragment f = new MyBottomSheetDialogFragment();
-        return f;
-    }
+//    static MyBottomSheetDialogFragment newInstance(String string) {
+//        MyBottomSheetDialogFragment f = new MyBottomSheetDialogFragment();
+//        return f;
+//    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,7 +89,7 @@ public class MyBottomSheetDialogFragment extends BottomSheetDialogFragment {
                     .build();
 
             shareDialog.show(linkContent);
-            Answers.getInstance().logShare(new ShareEvent().putMethod("Facebook Share"));
+//            Answers.getInstance().logShare(new ShareEvent().putMethod("Facebook Share"));
         }
     }
 
@@ -101,6 +97,6 @@ public class MyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         LikeDialog likeDialog = new LikeDialog(this);
         LikeContent likeContent = LikeContent.CREATOR.newArray(1)[0];
         likeDialog.show(likeContent);
-        Answers.getInstance().logShare(new ShareEvent().putMethod("Facebook Like"));
+//        Answers.getInstance().logShare(new ShareEvent().putMethod("Facebook Like"));
     }
 }
