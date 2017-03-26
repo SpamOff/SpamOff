@@ -19,6 +19,33 @@ public class CookiesHandler {
     private static final String RESULTS_URI = "SOResultsURI";
     private static final String TERMS_APPROVE_STORAGE_NAME = "SOTermsApproved";
     private static final String FIREBASE_TOKEN_ID = "SOFCMTokenId";
+    private static boolean HAS_CRASHLYTICS_INITIALIZED = false;
+    private static boolean HAS_ANSWERS_INITIALIZED = false;
+    private static boolean HAS_FACEBOOK_INITIALIZED = false;
+
+    public static boolean getFacebookState() {
+        return HAS_FACEBOOK_INITIALIZED;
+    }
+
+    public static boolean getAnswersStatus() {
+        return HAS_ANSWERS_INITIALIZED;
+    }
+
+    public static boolean getCrashlyticsStatus() {
+        return HAS_CRASHLYTICS_INITIALIZED;
+    }
+
+    public static void setIfCrashlyticsInitialized(boolean hasCrashlyticsInitialized) {
+        HAS_CRASHLYTICS_INITIALIZED = hasCrashlyticsInitialized;
+    }
+
+    public static void setIfAnswersInitialized(boolean hasAnswersInitialized) {
+        HAS_ANSWERS_INITIALIZED = hasAnswersInitialized;
+    }
+
+    public static void setIfFacebookInitialized(boolean hasFacebookInitialized) {
+        HAS_FACEBOOK_INITIALIZED = hasFacebookInitialized;
+    }
 
     public static boolean getIfAlreadyScannedBefore(Context context){
         SharedPreferences SOPrefs = context.getSharedPreferences(SPAM_OFF_PREFS, Context.MODE_PRIVATE);
