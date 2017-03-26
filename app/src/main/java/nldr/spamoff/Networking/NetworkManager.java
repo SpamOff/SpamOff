@@ -35,8 +35,9 @@ import nldr.spamoff.Logger;
  */
 public class NetworkManager {
 
-    public static String serverUrl = "https://spamofftestserver.herokuapp.com/lol";
-    // "http://spamoff.co.il/uploadClient/uploadTxts"
+    public static String serverUrl =
+            "http://spamoff.co.il/uploadClient/uploadTxts";
+    //"https://spamofftestserver.herokuapp.com/lol";
 
 
     public static boolean isNetworkAvailable(Context context) {
@@ -108,7 +109,7 @@ public class NetworkManager {
             }
         };
 
-        //queue.add(jsObjRequest);
+        queue.add(jsObjRequest);
 
         return bWasSentSuccessfully[0];
     }
