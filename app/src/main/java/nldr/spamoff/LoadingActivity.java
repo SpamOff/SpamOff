@@ -10,8 +10,6 @@ import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.facebook.FacebookSdk;
 
-import org.apache.http.cookie.Cookie;
-
 import io.fabric.sdk.android.Fabric;
 import nldr.spamoff.AndroidStorageIO.CookiesHandler;
 
@@ -22,9 +20,26 @@ public class LoadingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-        FacebookSdk.sdkInitialize(this.getApplicationContext());
-        Fabric.with(this, new Crashlytics());
-        Fabric.with(this, new Answers());
+        try {
+            FacebookSdk.sdkInitialize(this.getApplicationContext());
+            CookiesHandler.setIfFacebookInitialized(true);
+        } catch (Exception ex) {
+            Logger.writeToLog(ex);
+        }
+
+        try {
+            Fabric.with(this, new Crashlytics());
+            CookiesHandler.setIfCrashlyticsInitialized(true);
+        } catch (Exception ex) {
+            Logger.writeToLog(ex);
+        }
+
+        try {
+            Fabric.with(this, new Answers());
+            CookiesHandler.setIfAnswersInitialized(true);
+        } catch (Exception ex) {
+            Logger.writeToLog(ex);
+        }
 
         final Context context = this;
         Handler handler = new Handler();
