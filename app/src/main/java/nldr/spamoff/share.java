@@ -8,19 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.ShareEvent;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.share.*;
-import com.facebook.share.internal.LikeContent;
-import com.facebook.share.internal.LikeDialog;
 import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.LikeView;
 import com.facebook.share.widget.ShareDialog;
 
 public class share extends AppCompatActivity {

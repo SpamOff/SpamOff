@@ -16,7 +16,7 @@ public class Logger {
             Crashlytics.logException(ex);
             return true;
         }
-        
+
         return false;
     }
 }
